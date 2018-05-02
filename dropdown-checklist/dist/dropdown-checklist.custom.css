@@ -1,0 +1,31 @@
+.ddci__text {
+  font-weight: normal; }
+
+.fdcl {
+  border: 1px solid #bdc7d8;
+  padding: 1px 5px;
+  height: 22px;
+  box-sizing: border-box; }
+  .fdcl.laForm__field {
+    height: 24px; }
+  .fdcl.field {
+    line-height: 18px; }
+  .fdcl:hover {
+    box-shadow: 0 0 2px 2px #3b5998; }
+  .fdcl:after {
+    top: 8px; }
+  .fdcl.opened:after {
+    top: 3px; }
+  .fdcl.laForm__field-error {
+    border-color: #FCC; }
+    .fdcl.laForm__field-error:hover {
+      box-shadow: 0 0 2px 2px #f66;
+      -webkit-box-shadow: 0 0 2px 2px #f66; }
+
+.mobile-filter .fdcl {
+  font-weight: bold; }
+
+.highlight-mobile .level-1 > .ddci .ddci__text {
+  font-weight: bold; }
+
+/*# sourceMappingURL=dropdown-checklist.custom.css.map*/
