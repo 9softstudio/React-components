@@ -10375,7 +10375,7 @@ var DropdownCheckList = function (_Component) {
                 singleSelect = _this$props2.singleSelect,
                 dataKeyName = _this$props2.dataKeyName,
                 listItemClassName = _this$props2.listItemClassName,
-                attributeKeyName = _this$props2.attributeKeyName;
+                dropdownName = _this$props2.dropdownName;
 
 
             var levelClassName = " level-" + item.level;
@@ -10394,7 +10394,9 @@ var DropdownCheckList = function (_Component) {
 
             return _react2.default.createElement(
                 'li',
-                { key: item[dataKeyName], className: listItemClassName + expandedClassName + singleClassName + rootClassName + levelClassName, id: attributeKeyName + "-" + item[dataKeyName] },
+                { ref: function ref(itemElement) {
+                        return _this[dropdownName + 'itemElement-' + item[dataKeyName]] = itemElement;
+                    }, key: item[dataKeyName], className: listItemClassName + expandedClassName + singleClassName + rootClassName + levelClassName },
                 _this.createCheckItemElement(item),
                 expandElement,
                 childElements
@@ -10406,7 +10408,6 @@ var DropdownCheckList = function (_Component) {
                 singleSelect = _this$props3.singleSelect,
                 selectableLevel = _this$props3.selectableLevel,
                 itemCheckClassName = _this$props3.itemCheckClassName,
-                attributeKeyName = _this$props3.attributeKeyName,
                 dataKeyName = _this$props3.dataKeyName;
 
 
@@ -10740,7 +10741,7 @@ var DropdownCheckList = function (_Component) {
         };
 
         _this.getElementByKey = function (dataKeyValue) {
-            return document.getElementById(_this.props.attributeKeyName + "-" + dataKeyValue);
+            return _reactDom2.default.findDOMNode(_this[_this.props.dropdownName + 'itemElement-' + dataKeyValue]);
         };
 
         _this.showElementParents = function (element, filter) {

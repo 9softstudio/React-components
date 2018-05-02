@@ -175,7 +175,7 @@ export default class DropdownCheckList extends Component {
     }
 
     createListItemElement = (item) => {
-        var { singleSelect, dataKeyName, listItemClassName, attributeKeyName } = this.props;
+        var { singleSelect, dataKeyName, listItemClassName, dropdownName } = this.props;
 
         var levelClassName = " level-" + item.level;
         var singleClassName = singleSelect === item.level ? " single " : "";
@@ -191,7 +191,7 @@ export default class DropdownCheckList extends Component {
             childElements = this.createListElement(item.items);
         }
 
-        return <li key={item[dataKeyName]} className={listItemClassName + expandedClassName + singleClassName + rootClassName + levelClassName} id={attributeKeyName + "-" + item[dataKeyName]}>
+        return <li ref={itemElement => this[dropdownName + 'itemElement-' + item[dataKeyName]] = itemElement} key={item[dataKeyName]} className={listItemClassName + expandedClassName + singleClassName + rootClassName + levelClassName}>
             {this.createCheckItemElement(item)}
             {expandElement}
             {childElements}
@@ -199,7 +199,7 @@ export default class DropdownCheckList extends Component {
     }
 
     createCheckItemElement = (item) => {
-        var { singleSelect, selectableLevel, itemCheckClassName, attributeKeyName, dataKeyName } = this.props;
+        var { singleSelect, selectableLevel, itemCheckClassName, dataKeyName } = this.props;
 
         var inputChild = "";
         if ((!singleSelect || singleSelect <= item.level) &&
@@ -499,7 +499,7 @@ export default class DropdownCheckList extends Component {
     }
 
     getElementByKey = (dataKeyValue) => {
-        return document.getElementById(this.props.attributeKeyName + "-" + dataKeyValue);
+        return ReactDOM.findDOMNode(this[this.props.dropdownName + 'itemElement-' + dataKeyValue]);
     }
 
     showElementParents = (element, filter) => {
