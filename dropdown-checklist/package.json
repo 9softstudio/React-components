@@ -1,7 +1,7 @@
 {
     "name": "@9softstudio/simple-react-tab",
     "version": "1.0.0",
-    "description": "Simple React Tab Component",
+    "description": "Simple React Dropdown-Checklist Component",
     "main": "dist/index.js",
     "scripts": {
         "start": "webpack-dev-server --config webpack.example.config.js --hot --inline --progress --watch-content-base --open",
@@ -17,7 +17,7 @@
         "url": "https://github.com/9softstudio/React-components.git"
     },
     "homepage": "https://github.com/9softstudio/React-components",
-    "author": "walter",
+    "author": "parsons",
     "license": "MIT",
     "devDependencies": {
         "babel-core": "^6.26.0",
