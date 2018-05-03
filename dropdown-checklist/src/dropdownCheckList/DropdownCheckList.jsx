@@ -66,11 +66,10 @@ export default class DropdownCheckList extends Component {
             return;
         }
 
-        this.setState((prevState) => (
-            {
-                listVisible: !prevState.listVisible,
-                opened: !prevState.opened
-            }));
+        this.setState({
+            listVisible: false,
+            opened: false
+        });
         document.removeEventListener("click", this.handleOutsideClick);
     }
 
