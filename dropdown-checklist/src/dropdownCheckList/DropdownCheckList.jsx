@@ -249,17 +249,17 @@ export default class DropdownCheckList extends Component {
 
     onExpandClick = (e) => {
         var { dataKeyName } = this.props;
-        var { normalizedData } = this.state;
+        var { flatItems } = this.state;
 
         var key = e.target.getAttribute("data-key")
 
-        this.updateExpanded(normalizedData, key);
+        for (var i = 0; i < flatItems.length; i++)
+            if (flatItems[i] && flatItems[i].$$key$$ == key){
+                flatItems[i].expanded = !flatItems[i].expanded;
+                break;
+            }
 
-        // update state
-        this.setState(
-            {
-                normalizedData: normalizedData
-            });
+        this.setState({ flatItems: flatItems});
     }
 
     onFilterChange = (value) => {
@@ -455,18 +455,6 @@ export default class DropdownCheckList extends Component {
             item.level = level;
             this.resolveItemLevel(item.items, level + 1);
         });
-    }
-
-    updateExpanded = (normalizedData, key) => {
-        for (var i = 0; i < normalizedData.length; i++) {
-            if (normalizedData[i].$$key$$ == key) {
-                normalizedData[i].expanded = !normalizedData[i].expanded;
-                break;
-            }
-            if (normalizedData[i].items && normalizedData[i].items.length > 0) {
-                this.updateExpanded(normalizedData[i].items, key);
-            }
-        }
     }
 
     filter = (value) => {
