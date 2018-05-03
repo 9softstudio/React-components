@@ -10325,6 +10325,22 @@ var DropdownCheckList = function (_Component) {
                     opened: !prevState.opened
                 };
             });
+            document.addEventListener("click", _this.handleOutsideClick);
+        };
+
+        _this.handleOutsideClick = function (e) {
+            // ignore clicks on the component itself
+            if (_this.dropdownCheckList.contains(e.target)) {
+                return;
+            }
+
+            _this.setState(function (prevState) {
+                return {
+                    listVisible: !prevState.listVisible,
+                    opened: !prevState.opened
+                };
+            });
+            document.removeEventListener("click", _this.handleOutsideClick);
         };
 
         _this.showDropdown = function () {
@@ -10834,7 +10850,9 @@ var DropdownCheckList = function (_Component) {
 
             return _react2.default.createElement(
                 'div',
-                null,
+                { ref: function ref(dropdownCheckList) {
+                        _this2.dropdownCheckList = dropdownCheckList;
+                    } },
                 _react2.default.createElement(
                     'div',
                     { id: dropdownName, className: "laForm__field fdcl " + (opened ? "opened" : ""), ref: function ref(dropdownElement) {

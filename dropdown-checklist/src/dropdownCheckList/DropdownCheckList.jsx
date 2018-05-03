@@ -53,11 +53,27 @@ export default class DropdownCheckList extends Component {
 
     onClickDropDownHandler = () => {
         this.setState((prevState) => (
-            { 
+            {
                 listVisible: !prevState.listVisible,
                 opened: !prevState.opened
             }));
+        document.addEventListener("click", this.handleOutsideClick);
     }
+
+    handleOutsideClick = (e) => {
+        // ignore clicks on the component itself
+        if (this.dropdownCheckList.contains(e.target)){ 
+            return;
+        }
+
+        this.setState((prevState) => (
+            {
+                listVisible: !prevState.listVisible,
+                opened: !prevState.opened
+            }));
+        document.removeEventListener("click", this.handleOutsideClick);
+    }
+
 
     showDropdown = () => {
         var { showFilter, height, cssClass, width, mode, dropdownName, filterDelay } = this.props;
@@ -226,7 +242,7 @@ export default class DropdownCheckList extends Component {
         console.log(target.checked);
 
         this.setState(
-            { 
+            {
                 listVisible: false,
                 opened: false
             });
@@ -518,8 +534,8 @@ export default class DropdownCheckList extends Component {
         var { listVisible, selectedTextElement, opened } = this.state;
 
         return (
-            <div>
-                <div id={dropdownName} className={"laForm__field fdcl " + (opened ? "opened" : "") } ref={dropdownElement => { this.dropdownElement = dropdownElement }} onClick={this.onClickDropDownHandler}>
+            <div ref={dropdownCheckList => { this.dropdownCheckList = dropdownCheckList }}>
+                <div id={dropdownName} className={"laForm__field fdcl " + (opened ? "opened" : "")} ref={dropdownElement => { this.dropdownElement = dropdownElement }} onClick={this.onClickDropDownHandler}>
                     <span className="fdcl__text">{selectedTextElement}</span>
                 </div>
                 {listVisible ? this.showDropdown() : ""}
