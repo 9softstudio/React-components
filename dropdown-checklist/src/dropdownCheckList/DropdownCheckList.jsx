@@ -81,7 +81,7 @@ export default class DropdownCheckList extends Component {
 
 
         width = width ? width : this.dropdownElement.offsetWidth;
-        var scrollerElement = <div className={height ? "fdcl__scroller" : ""} style={{ height: height, width: width }} ref={dropdownScroller => { this.dropdownScroller = dropdownScroller }}>
+        var scrollerElement = <div className={height ? "fdcl__scroller" : ""} style={{ height: height, width: width }}>
             {this.createListElement(normalizedData)}
         </div>;
 
@@ -207,7 +207,7 @@ export default class DropdownCheckList extends Component {
             childElements = this.createListElement(item.items);
         }
 
-        return <li ref={itemElement => this[dropdownName + 'itemElement-' + item[dataKeyName]] = itemElement} key={item[dataKeyName]} className={listItemClassName + expandedClassName + singleClassName + rootClassName + levelClassName}>
+        return <li key={item[dataKeyName]} className={listItemClassName + expandedClassName + singleClassName + rootClassName + levelClassName}>
             {this.createCheckItemElement(item)}
             {expandElement}
             {childElements}
@@ -486,46 +486,17 @@ export default class DropdownCheckList extends Component {
             console.log(filters);
 
             // Step2: Hide all tag li
-            this.showHideAllItems(false);
 
             // Step3: revise all filters and show tag li( curr && parent)
-            for (var j = 0; j < filters.length; j++) {
-                item = filters[j];
-                itemElement = this.getElementByKey(item[dataKeyName]);
-                this.showElements(itemElement);
 
-                this.showElementParents(itemElement, listItemClassName);
-            }
         } else {
             // Show all tag li
-            this.showHideAllItems(true);
         }
-    }
-
-    showHideAllItems = (isShow) => {
-        var items = ReactDOM.findDOMNode(this.dropdownScroller).getElementsByClassName(this.props.listItemClassName);
-        for (var i = 0; i < items.length; i++) {
-            items[i].style.display = isShow ? 'block' : 'none';
-        }
-    }
-
-    getElementByKey = (dataKeyValue) => {
-        return ReactDOM.findDOMNode(this[this.props.dropdownName + 'itemElement-' + dataKeyValue]);
     }
 
     getItemByKey = (dataKeyValue) => {
         return this.state.flatItems.find((item) => item && item[this.props.dataKeyName] == dataKeyValue);
     } 
-
-    showElementParents = (element, filter) => {
-        while ((element = element.parentElement))
-            if (element.classList.contains(filter))
-                this.showElements(element);
-    }
-
-    showElements = (element) => {
-        element.style.display = 'block';
-    }
 
     //#region change status for radio button (single select)
     toggleSingleChangeStatus = (itemData, checkedStatus) => {
