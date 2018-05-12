@@ -495,15 +495,15 @@ export default class DropdownCheckList extends Component {
                     onClickHandler={this.onClickDropDownHandler}
                     selectedTextElement={selectedTextElement}
                     headerRef={el => { this.dropdownElement = el }} />
-                {listVisible ? <Body
-                    headerRef={el => { this.dropdownElement = el }}
-                    options={this.props}
-                    dropdownElement={this.dropdownElement}
-                    normalizedData={normalizedData} 
-                    onCheckChanged = {this.onCheckChanged}
-                    onExpandClick = {this.onExpandClick}
-                    onFilterChange = {this.onFilterChange}/>
-                    : ""}
+
+                {listVisible ? <Body dropdownElement={el => { this.dropdownElement = el }}
+                                     options={this.props}
+                                     dropdownElement={this.dropdownElement}
+                                     normalizedData={normalizedData} 
+                                     onCheckChanged = {this.onCheckChanged}
+                                     onExpandClick = {this.onExpandClick}
+                                     onFilterChange = {this.onFilterChange}/>
+                                     : ""}
 
             </div>
         );
