@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import Header from './Header';
 import Filter from './Filter';
 
 export default class DropdownCheckList extends Component {
@@ -585,10 +586,13 @@ export default class DropdownCheckList extends Component {
         var { listVisible, selectedTextElement, opened } = this.state;
 
         return (
-            <div ref={dropdownCheckList => { this.dropdownCheckList = dropdownCheckList }}>
-                <div id={dropdownName} className={"laForm__field fdcl " + (opened ? "opened" : "")} ref={dropdownElement => { this.dropdownElement = dropdownElement }} onClick={this.onClickDropDownHandler}>
-                    <span className="fdcl__text">{selectedTextElement}</span>
-                </div>
+            <div ref={el => { this.dropdownCheckList = el }}>
+                <Header 
+                    dropdownName={dropdownName} 
+                    opened={opened} 
+                    onClickHandler={this.onClickDropDownHandler} 
+                    selectedTextElement={selectedTextElement} 
+                    headerRef={el => { this.dropdownElement = el}}/>
                 {listVisible ? this.showDropdown() : ""}
             </div>
         );
