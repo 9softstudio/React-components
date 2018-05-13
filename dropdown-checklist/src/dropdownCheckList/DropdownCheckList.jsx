@@ -119,9 +119,8 @@ export default class DropdownCheckList extends Component {
     // #endregion
 
     //#region Utilities
-    normalizeData = (data, flatItems, level = 1) => {
+    normalizeData = (data, flatItems, level = 1, parentADNCode = "0") => {
         var { displayName, checkedName, selectAll, expandedName, expandAll, childName, dataKeyName } = this.props;
-        var { flatItems } = this.state;
 
         var collection = [];
 
@@ -133,7 +132,9 @@ export default class DropdownCheckList extends Component {
                 level: level,
                 text: itemData[displayName],
                 checked: (itemData[checkedName] || selectAll),
-                expanded: (itemData[expandedName] || expandAll)
+                expanded: (itemData[expandedName] || expandAll),
+                isHasChildrens: false,
+                ADNCode: parentADNCode + "." + flatItems.length
             };
 
             // generate key
@@ -143,7 +144,8 @@ export default class DropdownCheckList extends Component {
             collection.push(newItemData);
 
             if (itemData[childName]) {
-                newItemData.items = this.normalizeData(itemData[childName], flatItems, level + 1);
+                newItemData.items = this.normalizeData(itemData[childName], flatItems, level + 1, newItemData.ADNCode);
+                newItemData.isHasChildrens = true;
             }
         }
 
@@ -352,7 +354,8 @@ export default class DropdownCheckList extends Component {
 
         //Step 1: uncheck prev checked item (force value false)
         var prevCheckedItem = this.getCheckInfo().selectedItems[0];
-        if (checkedStatus && prevCheckedItem) {
+        var currItemIschildrenOfPrevItem = prevCheckedItem && itemData.ADNCode.indexOf(prevCheckedItem.ADNCode + ".") != -1; 
+        if (checkedStatus && prevCheckedItem && !currItemIschildrenOfPrevItem) {
             this.setSingleCheck(prevCheckedItem, false);
         }
 
@@ -375,21 +378,53 @@ export default class DropdownCheckList extends Component {
     setChildrenCheckedStatus = (itemData, checkedStatus) => {
         var { dataKeyName } = this.props;
 
-        var rootItem = this.state.normalizedData.find((item) => item && item[dataKeyName] == itemData[dataKeyName]);
-        var childItems = rootItem ? rootItem.items : [];
-
-        for (var i = 0; i < childItems.length; i++) {
-            childItems[i].checked = checkedStatus;
+        var parent = this.state.flatItems.find((item) => item && item[dataKeyName] == itemData[dataKeyName]);
+        if(parent && parent.isHasChildrens){
+            var childItems = parent.items;
+            for (var i = 0; i < childItems.length; i++) {
+                childItems[i].checked = checkedStatus;
+            }
         }
     }
 
     setParentSingleCheckedStatus = (itemData) => {
         var { dataKeyName } = this.props;
+        var { flatItems } = this.state;
 
+        var childItem = flatItems.find((item) => item && item[dataKeyName] == itemData[dataKeyName]);
+        var lastDotPosition = childItem.ADNCode.lastIndexOf(".");
+        var ADNCodeToFind = childItem.ADNCode.substring(0, lastDotPosition);
+        var existsAtLeastOneParent = true;
+
+        var parentListItems = [];
         //Step 1: get all parents
-
+        while(existsAtLeastOneParent){
+            var parent = flatItems.find((item) => item && item.ADNCode == ADNCodeToFind);
+            if(parent){
+                parentListItems.push(parent);
+                lastDotPosition = parent.ADNCode.lastIndexOf(".");
+                ADNCodeToFind = parent.ADNCode.substring(0, lastDotPosition);
+            }else{
+                existsAtLeastOneParent = false;
+            }
+        }
         //Step 2: loop, (every parent, check exists at least one item checked => toggle checked status)
+        while (parentListItems.length > 0) {
+            var parentElement = parentListItems.shift();
+            var checkedItem = flatItems.find((item) => item && item.ADNCode.indexOf(parentElement.ADNCode + ".") != -1 && item.checked);
+
+            parentElement.checked = !!checkedItem;
+
+            if (checkedItem) {
+                break;
+            }
+        }
+
+        for (var i = 0; i < parentListItems.length; i++) {
+            parentListItems[i].checked = true;
+        }
     }
+    
     //#endregion change status for radio button (single select)
 
     //#region change status for check box (multiple select)
