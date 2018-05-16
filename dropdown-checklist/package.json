@@ -1,5 +1,5 @@
 {
-    "name": "@9softstudio/simple-react-tab",
+    "name": "@9softstudio/simple-react-dropdown-checklist-tree-style",
     "version": "1.0.0",
     "description": "Simple React Dropdown-Checklist Component",
     "main": "dist/index.js",
@@ -10,7 +10,7 @@
         "build:example": "npm run build:dev && npm run start"
     },
     "keywords": [
-        "react-tab"
+        "react-dropdown-checklist-tree-style"
     ],
     "repository": {
         "type": "git",
