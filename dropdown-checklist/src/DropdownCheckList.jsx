@@ -90,11 +90,6 @@ export default class DropdownCheckList extends Component {
         toggle(itemData, checked);
 
         this.updateSelectedText();
-        this.setState(
-            {
-                listVisible: false,
-                opened: false
-            });
     }
 
     onExpandClick = (e) => {
