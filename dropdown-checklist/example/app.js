@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
-import DropdownCheckList1 from './components/dropDowndCheckList/DropdownCheckList1'
-import DropdownCheckList2 from './components/dropDowndCheckList/DropdownCheckList2'
-import DropdownCheckList3 from './components/dropDowndCheckList/DropdownCheckList3'
-import DropdownCheckList4 from './components/dropDowndCheckList/DropdownCheckList4'
+import DropdownCheckList1 from './components//DropdownCheckList1'
+import DropdownCheckList2 from './components//DropdownCheckList2'
+import DropdownCheckList3 from './components//DropdownCheckList3'
+import DropdownCheckList4 from './components//DropdownCheckList4'
 
 export default class App extends Component {
     render() {

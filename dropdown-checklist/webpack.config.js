@@ -10,9 +10,9 @@ const extractSass = new ExtractTextPlugin({
 
 var webpackConfig = {
     entry: {
-        'dist/index': './src/dropdownCheckList/index.jsx',
-        'dist/dropdown-checklist': './src/dropdownCheckList/_dropdown-checklist.scss',
-        'dist/dropdown-checklist.custom': './src/dropdownCheckList/_dropdown-checklist.custom.scss'
+        'dist/index': './src/index.jsx',
+        'dist/dropdown-checklist': './src/_dropdown-checklist.scss',
+        'dist/dropdown-checklist.custom': './src/_dropdown-checklist.custom.scss'
     },
     output: {
         filename: '[name].js',
