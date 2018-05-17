@@ -185,3 +185,109 @@ function resolveItemLevel(items, level) {
         resolveItemLevel(item.items, level + 1);
     });
 }
+
+//#region change status for radio button (single select)
+export function toggleSingleChangeStatus(itemData, checkedStatus, flatItems, singleSelect){
+    //Step 1: uncheck prev checked item (force value false)
+    var prevCheckedItem = getCheckInfo(singleSelect, flatItems).selectedItems[0];
+    var currItemIschildrenOfPrevItem = prevCheckedItem && itemData.ADNCode.indexOf(prevCheckedItem.ADNCode + ".") != -1;
+    if (checkedStatus && prevCheckedItem && !currItemIschildrenOfPrevItem) {
+        setSingleCheck(prevCheckedItem, false, flatItems);
+    }
+
+    /* Step 2.1: Equals level ->  setSingleCheck (force value true) */
+    if (itemData.level === singleSelect) {
+        setSingleCheck(itemData, true, flatItems);
+    } /* Step 2.2: Is not Equals level -> itself, its childrens, its parents */
+    else {
+        itemData.checked = checkedStatus;
+        setChildrenCheckedStatus(itemData, checkedStatus, flatItems);
+        setParentSingleCheckedStatus(itemData, flatItems);
+    }
+}
+
+function setSingleCheck(itemData, checkedStatus, flatItems){
+    itemData.checked = checkedStatus;
+    setChildrenCheckedStatus(itemData, checkedStatus, flatItems);
+}
+
+function setChildrenCheckedStatus(itemData, checkedStatus, flatItems){
+    var parent = flatItems.find((item) => item && item[Constants.DATA_KEYNAME] == itemData[Constants.DATA_KEYNAME]);
+    var childItems = flatItems.filter((item) => item && item.ADNCode.indexOf(parent.ADNCode + ".") != -1);
+
+    for (var i = 0; i < childItems.length; i++) {
+        childItems[i].checked = checkedStatus;
+    }
+}
+    
+function setParentSingleCheckedStatus(itemData, flatItems){
+    //Step 1: get all parents
+    var parentListItems = getParentListItemsByKey(itemData[Constants.DATA_KEYNAME], flatItems);
+
+    //Step 2: loop, (every parent, check exists at least one item checked => toggle checked status)
+    while (parentListItems.length > 0) {
+        var parentElement = parentListItems.shift();
+        var checkedItem = flatItems.find((item) => item && item.ADNCode.indexOf(parentElement.ADNCode + ".") != -1 && item.checked);
+
+        parentElement.checked = !!checkedItem;
+
+        if (checkedItem) {
+            break;
+        }
+    }
+
+    for (var i = 0; i < parentListItems.length; i++) {
+        parentListItems[i].checked = true;
+    }
+}
+//#endregion change status for radio button (single select)
+
+//#region change status for check box (multiple select)
+export function toggleChangeStatus(itemData, checkedStatus, flatItems){
+    itemData.checked = checkedStatus;
+    setChildrenCheckedStatus(itemData, checkedStatus, flatItems);
+    setParentCheckedStatus(itemData, checkedStatus, flatItems);
+}
+
+
+function setParentCheckedStatus(itemData, checkedStatus, flatItems){
+    //Step 1: get all parents
+    var parentListItems = getParentListItemsByKey(itemData[Constants.DATA_KEYNAME], flatItems);
+
+    //Step 2: loop, (every parent, check exists at least one item checked => toggle checked status)
+    while (checkedStatus && parentListItems.length > 0) {
+        var parentElement = parentListItems.shift();
+        var checkedItems = flatItems.filter((item) => item && item.ADNCode.indexOf(parentElement.ADNCode + ".") != -1 && item.checked);
+
+        if (checkedItems.length == 0) {
+            checkedStatus = false;
+        } else {
+            parentElement.checked = checkedStatus;
+        }
+    }
+
+    for (var i = 0; i < parentListItems.length; i++) {
+        parentListItems[i].checked = false;
+    }
+}
+//#endregion change status for check box (multiple select)
+
+function getParentListItemsByKey(key, flatItems){
+    var childItem = flatItems.find((item) => item && item[Constants.DATA_KEYNAME] == key);
+    var lastDotPosition = childItem.ADNCode.lastIndexOf(".");
+    var ADNCodeToFind = childItem.ADNCode.substring(0, lastDotPosition);
+    var existsAtLeastOneParent = true;
+
+    var parentListItems = [];
+    while (existsAtLeastOneParent) {
+        var parent = flatItems.find((item) => item && item.ADNCode == ADNCodeToFind && item.level != 0);
+        if (parent) {
+            parentListItems.push(parent);
+            lastDotPosition = parent.ADNCode.lastIndexOf(".");
+            ADNCodeToFind = parent.ADNCode.substring(0, lastDotPosition);
+        } else {
+            existsAtLeastOneParent = false;
+        }
+    }
+    return parentListItems;
+}
