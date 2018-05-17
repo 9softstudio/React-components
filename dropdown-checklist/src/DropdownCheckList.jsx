@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import * as Utils from './Utils'
 import { DropdownCheckListPropTypes } from './PropTypes';
 import { DropdownCheckListDefaultProps } from './DefaultProps';
 import Header from './Header';
@@ -19,42 +20,34 @@ export default class DropdownCheckList extends Component {
             selectedTextElement: this.props.selectAllText
         }
     }
-    
+
     static propTypes = DropdownCheckListPropTypes;
 
     static defaultProps = DropdownCheckListDefaultProps;
 
     componentWillMount() {
-        var { dataSource, idName, parentIdName, countLevel, showRoot, singleSelect, autoCheck, mode } = this.props;
+        var options = this.props;
+        var { dataSource, idName, parentIdName, countLevel, showRoot, singleSelect, autoCheck, mode } = options;
         var { disabled, flatItems } = this.state;
-
         var normalizedData = (idName && parentIdName)
-            ? this.buildHierarchyCollection(dataSource, flatItems)
-            : this.normalizeData(dataSource, flatItems);
-
+            ? Utils.buildHierarchyCollection(dataSource, flatItems, options)
+            : Utils.normalizeData(dataSource, flatItems, options);
         var maxLevel = countLevel;
-
         if (showRoot) {
-            normalizedData = this.addRootNode(normalizedData, flatItems);
+            normalizedData = Utils.addRootNode(normalizedData, flatItems, options);
         }
-
         if (!singleSelect && autoCheck) {
-            this.autoChecks(normalizedData);
+            Utils.autoChecks(normalizedData);
         }
-
         if (maxLevel === -1 && !singleSelect) {
-            maxLevel = this.findMaxlevel(flatItems);
+            maxLevel = Utils.findMaxlevel(flatItems);
         }
-
         this.updateSelectedText();
         this.setDisableStatus(disabled === true);
-
-        this.setState(
-            {
-                normalizedData: normalizedData,
-                maxLevel: maxLevel
-            });
-
+        this.setState({
+            normalizedData: normalizedData,
+            maxLevel: maxLevel
+        });
     }
 
     onClickDropDownHandler = () => {
@@ -85,7 +78,7 @@ export default class DropdownCheckList extends Component {
         var { flatItems } = this.state;
         var { value, checked } = e.target;
 
-        var itemData = this.getItemByKey(value);
+        var itemData = Utils.getItemByKey(value, dataKeyName, flatItems);
         var toggle = singleSelect ? this.toggleSingleChangeStatus : this.toggleChangeStatus;
         toggle(itemData, checked);
 
@@ -111,201 +104,20 @@ export default class DropdownCheckList extends Component {
         this.filter(value);
     }
 
-    // #endregion
+    // #endregion helpers
 
     //#region Utilities
-    normalizeData = (data, flatItems, level = 1, parentADNCode = "0") => {
-        var { displayName, checkedName, selectAll, expandedName, expandAll, childName, dataKeyName } = this.props;
-
-        var collection = [];
-
-        for (var i = 0; i < data.length; i++) {
-            var itemData = data[i];
-            var newItemData = {
-                items: [],
-                data: itemData,
-                level: level,
-                text: itemData[displayName],
-                checked: (itemData[checkedName] || selectAll),
-                expanded: (itemData[expandedName] || expandAll),
-                ADNCode: parentADNCode + "." + flatItems.length
-            };
-
-            // generate key
-            newItemData[dataKeyName] = itemData[dataKeyName] = flatItems.length;
-
-            flatItems.push(newItemData);
-            collection.push(newItemData);
-
-            if (itemData[childName]) {
-                newItemData.items = this.normalizeData(itemData[childName], flatItems, level + 1, newItemData.ADNCode);
-            }
-        }
-
-        return collection;
-    }
-
-    buildHierarchyCollection = (data, flatItems) => {
-        var { parentIdName, idName, displayName, checkedName, selectAll, expandedName, expandAll, dataKeyName } = this.props;
-
-        var collection = [];
-        var hashtable = {};
-        var newItemData, id;
-        var resolveParentMissing = function (_, item) {
-            if (item.data[parentIdName] === id) {
-                newItemData.items.push(item);
-            }
-        };
-        
-        var parentADNCode = "0.1";
-
-        for (var i = 0; i < data.length; i++) {
-            var itemData = data[i];
-            id = itemData[idName];
-
-            var parentId = itemData[parentIdName];
-            newItemData = {
-                items: [],
-                data: itemData,
-                text: itemData[displayName],
-                checked: (itemData[checkedName] || selectAll),
-                expanded: (itemData[expandedName] || expandAll),
-                ADNCode: parentADNCode + "." + flatItems.length
-            };
-
-            hashtable[id] = newItemData;
-
-            // generate key
-            newItemData[dataKeyName] = itemData[dataKeyName] = flatItems.length;
-            flatItems.push(newItemData);
-
-            // if there is no parent then add to collection as root item
-            if (!parentId) {
-                collection.push(newItemData);
-            }
-            // if parent is found, then add to parent's items
-            else if (hashtable[parentId]) {
-                var parent = hashtable[parentId];
-                newItemData.ADNCode = parent.ADNCode + "." + newItemData[dataKeyName];
-                parent.items.push(newItemData);
-            }
-        }
-
-        this.resolveItemLevel(collection, 1);
-        return collection;
-    }
-
-    addRootNode = (normalizedData, flatItems) => {
-        var { rootText, selectAll, singleSelect, dataKeyName } = this.props;
-
-        var root = {
-            text: rootText,
-            items: normalizedData,
-            expanded: true,
-            level: 0,
-            checked: selectAll && !singleSelect,
-            data: [],
-            ADNCode: "0.1" 
-        };
-        root[dataKeyName] = 0;
-        flatItems[0] = root;
-        return [root];
-    }
-
-    autoChecks = (data) => {
-        var isChecked = true;
-
-        for (var i = 0; i < data.length; i++) {
-            var dataItem = data[i];
-
-            if (dataItem.items.length) {
-                dataItem.checked = this.autoChecks(dataItem.items);
-            }
-
-            isChecked = isChecked && dataItem.checked;
-        }
-
-        return isChecked;
-    }
-
-    findMaxlevel = (items) => {
-        var max = 0;
-        for (var i = 0; i < items.length; i++) {
-            if (items[i] && max < items[i].level) {
-                max = items[i].level;
-            }
-        }
-
-        return max;
-    }
-
+   
     updateSelectedText = () => {
-        var { selectAllText, noSelectedText, multipleSelectedText } = this.props;
-        var { maxLevel } = this.state;
-
-        var text = "";
-        var checkInfo = this.getCheckInfo();
-        var selectedItems = checkInfo.selectedItems;
-        var selectedCount = selectedItems.length;
-        var isSelectAll = checkInfo.total === selectedCount;
-
-        if (isSelectAll) {
-            text = selectAllText;
-        } else if (!selectedCount) {
-            text = noSelectedText;
-        } else {
-            // only count item at specific level
-            selectedItems = selectedItems.filter((item) => {
-                if (item.level >= maxLevel)
-                    return item;
-            });
-            selectedCount = selectedItems.length;
-
-            // show item text if less than 3 item selected
-            text = (selectedCount < 3)
-                ? selectedItems.map((item) => { return item.text; }).join(", ")
-                : multipleSelectedText.replace(/\{0\}/g, selectedCount);
-        }
-
-
         this.setState({
-            selectedTextElement: text
+            selectedTextElement: Utils.getSelectedText(this.props, this.state.maxLevel, this.state.flatItems)
         });
     }
 
-    getCheckInfo = () => {
-        var { singleSelect } = this.props;
-        var { flatItems } = this.state;
-
-        var selectedItems = [];
-
-        for (var i = 1; i < flatItems.length; i++) {
-            if (flatItems[i].checked &&
-                (!singleSelect || singleSelect === flatItems[i].level)) {
-                selectedItems.push(flatItems[i]);
-
-                if (singleSelect) {
-                    break;
-                }
-            }
-        }
-
-        return {
-            total: flatItems.length - 1,
-            selectedItems: selectedItems
-        };
-    }
-
+    
     setDisableStatus = (isDisabled) => {
         this.setState({
             disabled: isDisabled
-        });
-    }
-
-    resolveItemLevel = (items, level) => {
-        items.map((item, index) => {
-            item.level = level;
-            this.resolveItemLevel(item.items, level + 1);
         });
     }
 
@@ -338,21 +150,13 @@ export default class DropdownCheckList extends Component {
         }
     }
 
-    getElementByKey = (dataKeyValue) => {
-        return ReactDOM.findDOMNode(this[this.props.dropdownName + 'itemElement-' + dataKeyValue]);
-    }
-
-    getItemByKey = (dataKeyValue) => {
-        return this.state.flatItems.find((item) => item && item[this.props.dataKeyName] == dataKeyValue);
-    }
-
     //#region change status for radio button (single select)
     toggleSingleChangeStatus = (itemData, checkedStatus) => {
         var { singleSelect } = this.props;
 
         //Step 1: uncheck prev checked item (force value false)
-        var prevCheckedItem = this.getCheckInfo().selectedItems[0];
-        var currItemIschildrenOfPrevItem = prevCheckedItem && itemData.ADNCode.indexOf(prevCheckedItem.ADNCode + ".") != -1; 
+        var prevCheckedItem = Utils.getCheckInfo(singleSelect, this.state.flatItems).selectedItems[0];
+        var currItemIschildrenOfPrevItem = prevCheckedItem && itemData.ADNCode.indexOf(prevCheckedItem.ADNCode + ".") != -1;
         if (checkedStatus && prevCheckedItem && !currItemIschildrenOfPrevItem) {
             this.setSingleCheck(prevCheckedItem, false);
         }
@@ -378,7 +182,7 @@ export default class DropdownCheckList extends Component {
         var { flatItems } = this.state;
 
         var parent = flatItems.find((item) => item && item[dataKeyName] == itemData[dataKeyName]);
-        var childItems = flatItems.filter((item) => item && item.ADNCode.indexOf(parent.ADNCode + ".") != -1 );
+        var childItems = flatItems.filter((item) => item && item.ADNCode.indexOf(parent.ADNCode + ".") != -1);
 
         for (var i = 0; i < childItems.length; i++) {
             childItems[i].checked = checkedStatus;
@@ -407,7 +211,7 @@ export default class DropdownCheckList extends Component {
             parentListItems[i].checked = true;
         }
     }
-    
+
     //#endregion change status for radio button (single select)
 
     //#region change status for check box (multiple select)
@@ -419,15 +223,15 @@ export default class DropdownCheckList extends Component {
 
     setParentCheckedStatus = (itemData, checkedStatus) => {
         var { flatItems } = this.state;
-       
+
         //Step 1: get all parents
         var parentListItems = this.getAllParentListItems(itemData);
-       
+
         //Step 2: loop, (every parent, check exists at least one item checked => toggle checked status)
         while (checkedStatus && parentListItems.length > 0) {
             var parentElement = parentListItems.shift();
             var checkedItems = flatItems.filter((item) => item && item.ADNCode.indexOf(parentElement.ADNCode + ".") != -1 && item.checked);
-            
+
             if (checkedItems.length == 0) {
                 checkedStatus = false;
             } else {
@@ -440,7 +244,7 @@ export default class DropdownCheckList extends Component {
         }
     }
 
-    getAllParentListItems = (itemData) =>{
+    getAllParentListItems = (itemData) => {
         var { dataKeyName } = this.props;
         var { flatItems } = this.state;
 
@@ -450,13 +254,13 @@ export default class DropdownCheckList extends Component {
         var existsAtLeastOneParent = true;
 
         var parentListItems = [];
-        while(existsAtLeastOneParent){
+        while (existsAtLeastOneParent) {
             var parent = flatItems.find((item) => item && item.ADNCode == ADNCodeToFind && item.level != 0);
-            if(parent){
+            if (parent) {
                 parentListItems.push(parent);
                 lastDotPosition = parent.ADNCode.lastIndexOf(".");
                 ADNCodeToFind = parent.ADNCode.substring(0, lastDotPosition);
-            }else{
+            } else {
                 existsAtLeastOneParent = false;
             }
         }
@@ -465,7 +269,7 @@ export default class DropdownCheckList extends Component {
     //#endregion change status for check box (multiple select)
 
     //#endregion Utilities
-
+    
     render() {
         var { dropdownName } = this.props;
         var { normalizedData, selectedTextElement, opened, listVisible } = this.state;
@@ -480,13 +284,13 @@ export default class DropdownCheckList extends Component {
                     headerRef={el => { this.dropdownElement = el }} />
 
                 {listVisible ? <Body dropdownElement={el => { this.dropdownElement = el }}
-                                     options={this.props}
-                                     dropdownElement={this.dropdownElement}
-                                     normalizedData={normalizedData} 
-                                     onCheckChanged = {this.onCheckChanged}
-                                     onExpandClick = {this.onExpandClick}
-                                     onFilterChange = {this.onFilterChange}/>
-                                     : ""}
+                    options={this.props}
+                    dropdownElement={this.dropdownElement}
+                    normalizedData={normalizedData}
+                    onCheckChanged={this.onCheckChanged}
+                    onExpandClick={this.onExpandClick}
+                    onFilterChange={this.onFilterChange} />
+                    : ""}
 
             </div>
         );
