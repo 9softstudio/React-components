@@ -48,10 +48,4 @@
     // to indicate what level of item to be counted
     countLevel: -1,
 
-    dataKeyName: "$$key$$",
-    attributeKeyName: "dc-key",
-    pluginName: "dropdownCheckList",
-    listItemClassName: "ddcl__item",
-    itemCheckClassName: "ddci__check",
-    body: document.body
  }

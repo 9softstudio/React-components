@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import * as Utils from './Utils'
+import * as Utils from './Utils';
+import * as Constants from './Constants';
 import { DropdownCheckListPropTypes } from './PropTypes';
 import { DropdownCheckListDefaultProps } from './DefaultProps';
 import Header from './Header';
@@ -74,11 +75,11 @@ export default class DropdownCheckList extends Component {
 
     //#region helpers
     onCheckChanged = (e) => {
-        var { dataKeyName, singleSelect } = this.props;
+        var { singleSelect } = this.props;
         var { flatItems } = this.state;
         var { value, checked } = e.target;
 
-        var itemData = Utils.getItemByKey(value, dataKeyName, flatItems);
+        var itemData = Utils.getItemByKey(value, flatItems);
         var toggle = singleSelect ? this.toggleSingleChangeStatus : this.toggleChangeStatus;
         toggle(itemData, checked);
 
@@ -86,13 +87,12 @@ export default class DropdownCheckList extends Component {
     }
 
     onExpandClick = (e) => {
-        var { dataKeyName } = this.props;
         var { flatItems } = this.state;
 
         var key = e.target.getAttribute("data-key")
 
         for (var i = 0; i < flatItems.length; i++)
-            if (flatItems[i] && flatItems[i][dataKeyName] == key) {
+            if (flatItems[i] && flatItems[i][Constants.DATA_KEYNAME] == key) {
                 flatItems[i].expanded = !flatItems[i].expanded;
                 break;
             }
@@ -107,14 +107,13 @@ export default class DropdownCheckList extends Component {
     // #endregion helpers
 
     //#region Utilities
-   
+
     updateSelectedText = () => {
         this.setState({
             selectedTextElement: Utils.getSelectedText(this.props, this.state.maxLevel, this.state.flatItems)
         });
     }
 
-    
     setDisableStatus = (isDisabled) => {
         this.setState({
             disabled: isDisabled
@@ -122,14 +121,13 @@ export default class DropdownCheckList extends Component {
     }
 
     filter = (value) => {
-        var { listItemClassName, dataKeyName } = this.props;
         var { flatItems } = this.state;
 
         var filters = [];
         var itemElement;
         var item;
         var i;
-        var itemFilter = "." + listItemClassName;
+        var itemFilter = "." + Constants.LISTITEM_CLASSNAME;
 
         if (value) {
             value = value.toLowerCase();
@@ -178,10 +176,9 @@ export default class DropdownCheckList extends Component {
     }
 
     setChildrenCheckedStatus = (itemData, checkedStatus) => {
-        var { dataKeyName } = this.props;
         var { flatItems } = this.state;
 
-        var parent = flatItems.find((item) => item && item[dataKeyName] == itemData[dataKeyName]);
+        var parent = flatItems.find((item) => item && item[Constants.DATA_KEYNAME] == itemData[Constants.DATA_KEYNAME]);
         var childItems = flatItems.filter((item) => item && item.ADNCode.indexOf(parent.ADNCode + ".") != -1);
 
         for (var i = 0; i < childItems.length; i++) {
@@ -245,10 +242,9 @@ export default class DropdownCheckList extends Component {
     }
 
     getAllParentListItems = (itemData) => {
-        var { dataKeyName } = this.props;
         var { flatItems } = this.state;
 
-        var childItem = flatItems.find((item) => item && item[dataKeyName] == itemData[dataKeyName]);
+        var childItem = flatItems.find((item) => item && item[Constants.DATA_KEYNAME] == itemData[Constants.DATA_KEYNAME]);
         var lastDotPosition = childItem.ADNCode.lastIndexOf(".");
         var ADNCodeToFind = childItem.ADNCode.substring(0, lastDotPosition);
         var existsAtLeastOneParent = true;
@@ -269,7 +265,7 @@ export default class DropdownCheckList extends Component {
     //#endregion change status for check box (multiple select)
 
     //#endregion Utilities
-    
+
     render() {
         var { dropdownName } = this.props;
         var { normalizedData, selectedTextElement, opened, listVisible } = this.state;
@@ -277,22 +273,21 @@ export default class DropdownCheckList extends Component {
         return (
             <div ref={el => { this.dropdownCheckList = el }}>
                 <Header
-                    dropdownName={dropdownName}
-                    opened={opened}
-                    onClickHandler={this.onClickDropDownHandler}
-                    selectedTextElement={selectedTextElement}
-                    headerRef={el => { this.dropdownElement = el }} />
+dropdownName={dropdownName}
+opened={opened}
+onClickHandler={this.onClickDropDownHandler}
+selectedTextElement={selectedTextElement}
+headerRef={el => { this.dropdownElement = el }} />
 
-                {listVisible ? <Body dropdownElement={el => { this.dropdownElement = el }}
-                    options={this.props}
+{listVisible ? <Body dropdownElement={el => { this.dropdownElement = el }}
+options={this.props}
                     dropdownElement={this.dropdownElement}
                     normalizedData={normalizedData}
                     onCheckChanged={this.onCheckChanged}
                     onExpandClick={this.onExpandClick}
                     onFilterChange={this.onFilterChange} />
                     : ""}
-
             </div>
         );
-    }
+}
 };

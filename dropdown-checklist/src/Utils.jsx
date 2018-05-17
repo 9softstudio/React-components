@@ -1,5 +1,7 @@
+import * as Constants from './Constants';
+
 export function buildHierarchyCollection(dataSource, flatItems, options) {
-    var { parentIdName, idName, displayName, checkedName, selectAll, expandedName, expandAll, dataKeyName } = options;
+    var { parentIdName, idName, displayName, checkedName, selectAll, expandedName, expandAll } = options;
 
     var collection = [];
     var hashtable = {};
@@ -29,17 +31,17 @@ export function buildHierarchyCollection(dataSource, flatItems, options) {
         hashtable[id] = newItemData;
 
         // generate key
-        newItemData[dataKeyName] = itemData[dataKeyName] = flatItems.length;
+        newItemData[Constants.DATA_KEYNAME] = itemData[Constants.DATA_KEYNAME] = flatItems.length;
         flatItems.push(newItemData);
 
         // if there is no parent then add to collection as root item
         if (!parentId) {
             collection.push(newItemData);
         }
-        // if parent is found, then add to parent's items
+            // if parent is found, then add to parent's items
         else if (hashtable[parentId]) {
             var parent = hashtable[parentId];
-            newItemData.ADNCode = parent.ADNCode + "." + newItemData[dataKeyName];
+            newItemData.ADNCode = parent.ADNCode + "." + newItemData[Constants.DATA_KEYNAME];
             parent.items.push(newItemData);
         }
     }
@@ -49,7 +51,7 @@ export function buildHierarchyCollection(dataSource, flatItems, options) {
 }
 
 export function normalizeData(dataSource, flatItems, options, level = 1, parentADNCode = "0") {
-    var { displayName, checkedName, selectAll, expandedName, expandAll, childName, dataKeyName } = options;
+    var { displayName, checkedName, selectAll, expandedName, expandAll, childName } = options;
 
     var collection = [];
 
@@ -66,7 +68,7 @@ export function normalizeData(dataSource, flatItems, options, level = 1, parentA
         };
 
         // generate key
-        newItemData[dataKeyName] = itemData[dataKeyName] = flatItems.length;
+        newItemData[Constants.DATA_KEYNAME] = itemData[Constants.DATA_KEYNAME] = flatItems.length;
 
         flatItems.push(newItemData);
         collection.push(newItemData);
@@ -80,7 +82,7 @@ export function normalizeData(dataSource, flatItems, options, level = 1, parentA
 }
 
 export function addRootNode(normalizedData, flatItems, options) {
-    var { rootText, selectAll, singleSelect, dataKeyName } = options;
+    var { rootText, selectAll, singleSelect } = options;
 
     var root = {
         text: rootText,
@@ -91,7 +93,7 @@ export function addRootNode(normalizedData, flatItems, options) {
         data: [],
         ADNCode: "0.1"
     };
-    root[dataKeyName] = 0;
+    root[Constants.DATA_KEYNAME] = 0;
     flatItems[0] = root;
     return [root];
 }
@@ -173,8 +175,8 @@ export function getCheckInfo(singleSelect, flatItems) {
     };
 }
 
-export function getItemByKey(dataKeyValue, dataKeyName, flatItems) {
-    return flatItems.find((item) => item && item[dataKeyName] == dataKeyValue);
+export function getItemByKey(dataKeyValue, flatItems) {
+    return flatItems.find((item) => item && item[Constants.DATA_KEYNAME] == dataKeyValue);
 }
 
 function resolveItemLevel(items, level) {

@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import ListItems from './ListItems';
 import CheckItem from './CheckItem';
+import * as Constants from './Constants';
 
 export default class Item extends Component {
     onExpandClick = (e) => {
@@ -10,7 +11,7 @@ export default class Item extends Component {
 
     render() {
         var { item, options} = this.props;
-        var { singleSelect, dataKeyName, listItemClassName, dropdownName } = options;
+        var { singleSelect, dataKeyName, dropdownName } = options;
 
         var levelClassName = " level-" + item.level;
         var singleClassName = singleSelect === item.level ? " single " : "";
@@ -23,18 +24,18 @@ export default class Item extends Component {
         if (item.items && item.items.length > 0) {
             let attributeKey = { 'data-key': item[dataKeyName] }
             expandElement = <div className="ddcl__expand" {...attributeKey} onClick={this.onExpandClick}></div>
-            childElements = <ListItems items={item.items} 
-                                        options={options}
-                                        onCheckChanged = {this.props.onCheckChanged}
-                                        onExpandClick = {this.props.onExpandClick}/>
-        }
-        
+            childElements = <ListItems items={item.items}
+            options={options}
+            onCheckChanged = {this.props.onCheckChanged}
+            onExpandClick = {this.props.onExpandClick} />
+            }
+
         return (
-            <li className={listItemClassName + expandedClassName + singleClassName + rootClassName + levelClassName}>
-                <CheckItem item={item} options={options} onCheckChanged={this.props.onCheckChanged}/>
+            <li className={Constants.LISTITEM_CLASSNAME + expandedClassName + singleClassName + rootClassName + levelClassName}>
+                <CheckItem item={item} options={options} onCheckChanged={this.props.onCheckChanged} />
                 {expandElement}
-                {childElements}
-            </li>
+    {childElements}
+    </li>
         );
-    }
+}
 };
