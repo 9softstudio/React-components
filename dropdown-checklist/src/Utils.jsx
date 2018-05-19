@@ -257,9 +257,9 @@ function setParentCheckedStatus(itemData, checkedStatus, flatItems){
     //Step 2: loop, (every parent, check exists at least one item checked => toggle checked status)
     while (checkedStatus && parentListItems.length > 0) {
         var parentElement = parentListItems.shift();
-        var checkedItems = flatItems.filter((item) => item && item.ADNCode.indexOf(parentElement.ADNCode + ".") != -1 && item.checked);
+        var nonCheckedItem = flatItems.find((item) => item && item.ADNCode.indexOf(parentElement.ADNCode + ".") != -1 && !item.checked);
 
-        if (checkedItems.length == 0) {
+        if (nonCheckedItem) {
             checkedStatus = false;
         } else {
             parentElement.checked = checkedStatus;
@@ -280,7 +280,7 @@ function getParentListItemsByKey(key, flatItems){
 
     var parentListItems = [];
     while (existsAtLeastOneParent) {
-        var parent = flatItems.find((item) => item && item.ADNCode == ADNCodeToFind && item.level != 0);
+        var parent = flatItems.find((item) => item && item.ADNCode == ADNCodeToFind);
         if (parent) {
             parentListItems.push(parent);
             lastDotPosition = parent.ADNCode.lastIndexOf(".");
