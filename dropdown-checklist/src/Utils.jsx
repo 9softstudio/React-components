@@ -50,7 +50,7 @@ export function buildHierarchyCollection(dataSource, flatItems, options) {
     return collection;
 }
 
-export function normalizeData(dataSource, flatItems, options, level = 1, parentADNCode = "0") {
+export function normalizeData(dataSource, flatItems, options, level = 1, parentADNCode = "0.1") {
     var { displayName, checkedName, selectAll, expandedName, expandAll, childName } = options;
 
     var collection = [];
