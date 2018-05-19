@@ -11,18 +11,18 @@ export default class Item extends Component {
 
     render() {
         var { item, options} = this.props;
-        var { singleSelect, dataKeyName, dropdownName } = options;
+        var { singleSelect, dropdownName } = options;
 
         var levelClassName = " level-" + item.level;
         var singleClassName = singleSelect === item.level ? " single " : "";
         var expandedClassName = item.expanded ? " expanded " : "";
-        var rootClassName = item[dataKeyName] === 0 ? " root " : "";
+        var rootClassName = item[Constants.DATA_KEYNAME] === 0 ? " root " : "";
 
         var expandElement;
         var childElements;
 
         if (item.items && item.items.length > 0) {
-            let attributeKey = { 'data-key': item[dataKeyName] }
+            let attributeKey = { 'data-key': item[Constants.DATA_KEYNAME] }
             expandElement = <div className="ddcl__expand" {...attributeKey} onClick={this.onExpandClick}></div>
             childElements = <ListItems items={item.items}
             options={options}
