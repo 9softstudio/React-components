@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RowLayout  rendered content should be match with snapshot 1`] = `
+<tr
+  className="first-row"
+>
+  <td
+    style={
+      Object {
+        "width": "100px",
+      }
+    }
+  />
+  <td
+    style={
+      Object {
+        "width": "200px",
+      }
+    }
+  />
+</tr>
+`;

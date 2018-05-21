@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Cell component render correctly 1`] = `
+<td>
+  Cell Content
+</td>
+`;
+
+exports[`Cell component render correctly with html attributes 1`] = `
+<td
+  className="cell"
+  style={
+    Object {
+      "height": 200,
+      "width": 100,
+    }
+  }
+>
+  Cell Content
+</td>
+`;

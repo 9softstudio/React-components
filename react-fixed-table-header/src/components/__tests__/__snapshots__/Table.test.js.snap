@@ -1,0 +1,305 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table  render columnsWidth is not null - return content that match with snapshot 1`] = `
+<div
+  className="table-container"
+  style={
+    Object {
+      "maxWidth": -30,
+    }
+  }
+>
+  <div
+    className="header-content"
+    style={
+      Object {
+        "maxHeight": undefined,
+        "minWidth": undefined,
+        "width": -30,
+      }
+    }
+  >
+    <div
+      className="table-wrapper"
+    >
+      <table
+        className="table"
+        style={
+          Object {
+            "width": -49,
+          }
+        }
+      >
+        <thead>
+          <tr
+            className="first-row"
+          />
+          <tr>
+            <td>
+              Header 1
+            </td>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+  <div
+    className="body-content"
+    style={
+      Object {
+        "maxHeight": 696,
+        "minWidth": undefined,
+        "width": -30,
+      }
+    }
+  >
+    <div
+      className="table-wrapper"
+    >
+      <table
+        className="table"
+        style={
+          Object {
+            "width": -49,
+          }
+        }
+      >
+        <tbody>
+          <tr
+            className="first-row"
+          />
+          <tr>
+            <td>
+              Body 1
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div
+    className="footer-content"
+    style={
+      Object {
+        "maxHeight": undefined,
+        "minWidth": undefined,
+        "width": -30,
+      }
+    }
+  >
+    <div
+      className="table-wrapper"
+    >
+      <table
+        className="table"
+        style={
+          Object {
+            "width": -49,
+          }
+        }
+      >
+        <tbody>
+          <tr
+            className="first-row"
+          />
+          <tr>
+            <td>
+              Footer 1
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Table  render isPaging is true - return content with paging that match with snapshot 1`] = `
+<div
+  className="table-container"
+  style={
+    Object {
+      "maxWidth": -30,
+    }
+  }
+>
+  <div
+    className="header-content"
+    style={
+      Object {
+        "maxHeight": undefined,
+        "minWidth": undefined,
+        "width": -30,
+      }
+    }
+  >
+    <div
+      className="table-wrapper"
+    >
+      <table
+        className="table"
+        style={
+          Object {
+            "width": -49,
+          }
+        }
+      >
+        <thead>
+          <tr
+            className="first-row"
+          />
+          <tr>
+            <td>
+              Header 1
+            </td>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+  <div
+    className="body-content"
+    style={
+      Object {
+        "maxHeight": 696,
+        "minWidth": undefined,
+        "width": -30,
+      }
+    }
+  >
+    <div
+      className="table-wrapper"
+    >
+      <table
+        className="table"
+        style={
+          Object {
+            "width": -49,
+          }
+        }
+      >
+        <tbody>
+          <tr
+            className="first-row"
+          />
+          <tr>
+            <td>
+              Body 1
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div
+    className="footer-content"
+    style={
+      Object {
+        "maxHeight": undefined,
+        "minWidth": undefined,
+        "width": -30,
+      }
+    }
+  >
+    <div
+      className="table-wrapper"
+    >
+      <table
+        className="table"
+        style={
+          Object {
+            "width": -49,
+          }
+        }
+      >
+        <tbody>
+          <tr
+            className="first-row"
+          />
+          <tr>
+            <td>
+              Footer 1
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div
+    className="page-container center-align"
+    style={
+      Object {
+        "display": "block",
+      }
+    }
+  >
+    <a
+      className="icon page-first disable"
+      href="javascript:;"
+      onClick={[Function]}
+    />
+    <a
+      className="icon page-prev disable"
+      href="javascript:;"
+      onClick={[Function]}
+    />
+    <div
+      className="page-input"
+    >
+      <span>
+        Page 
+      </span>
+      <input
+        className="page-form"
+        maxLength="4"
+        onChange={[Function]}
+        onKeyUp={[Function]}
+        size="2"
+        type="text"
+        value={1}
+      />
+      <span>
+         of 3
+         
+      </span>
+    </div>
+    <a
+      className="icon page-next "
+      href="javascript:;"
+      onClick={[Function]}
+    />
+    <a
+      className="icon page-last "
+      href="javascript:;"
+      onClick={[Function]}
+    />
+    <select
+      className="pagesize-select"
+      disabled={false}
+      onChange={[Function]}
+      value={5}
+    >
+      <option
+        value={5}
+      >
+        5
+      </option>
+      <option
+        value={10}
+      >
+        10
+      </option>
+      <option
+        value={20}
+      >
+        20
+      </option>
+    </select>
+    <span
+      className="page-info"
+    >
+      View 1-5 of 15
+    </span>
+  </div>
+</div>
+`;
