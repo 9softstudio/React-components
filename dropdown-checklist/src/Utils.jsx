@@ -158,7 +158,7 @@ export function getCheckInfo(singleSelect, flatItems) {
     let selectedItems = [];
 
     for (let item of flatItems) {
-        if (item && item.checked && (!singleSelect || singleSelect === item.level)) {
+        if (item && item.checked && (!singleSelect || singleSelect === item.level) && item.level != 0) {
             selectedItems.push(item);
 
             if (singleSelect) {
