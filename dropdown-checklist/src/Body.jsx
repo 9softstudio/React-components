@@ -5,9 +5,9 @@ import Scroller from './Scroller';
 
 export default class Body extends Component {
     render() {
-        var { options, listVisible, normalizedData, searchValue } = this.props;
-        var { showFilter, filterDelay, cssClass} = options;
-        var width = options.width ? options.width :  this.props.dropdownElement.offsetWidth
+        const { options, listVisible, normalizedData, searchValue } = this.props;
+        const { showFilter, filterDelay, cssClass} = options;
+        const width = options.width ? options.width :  this.props.dropdownElement.offsetWidth
 
         return (
             <div className={cssClass + " fdcl__dropdown"}>

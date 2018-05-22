@@ -8,10 +8,10 @@ export default class CheckItem extends Component {
     }
 
     render() {
-        var { item, options} = this.props;
-        var { singleSelect, selectableLevel } = options;
+        const { item, options} = this.props;
+        const { singleSelect, selectableLevel } = options;
 
-        var inputChild = "";
+        let inputChild = "";
         if ((!singleSelect || singleSelect <= item.level) &&
             (selectableLevel === -1 || item.level <= selectableLevel)) {
 

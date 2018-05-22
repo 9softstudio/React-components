@@ -28,13 +28,13 @@ export default class DropdownCheckList extends Component {
     static defaultProps = DropdownCheckListDefaultProps;
 
     componentWillMount() {
-        var options = this.props;
-        var { dataSource, idName, parentIdName, countLevel, showRoot, singleSelect, autoCheck, mode } = options;
-        var { disabled, flatItems } = this.state;
-        var normalizedData = (idName && parentIdName)
+        const options = this.props;
+        const { dataSource, idName, parentIdName, countLevel, showRoot, singleSelect, autoCheck, mode } = options;
+        let { disabled, flatItems } = this.state;
+        let normalizedData = (idName && parentIdName)
             ? Utils.buildHierarchyCollection(dataSource, flatItems, options)
             : Utils.normalizeData(dataSource, flatItems, options);
-        var maxLevel = countLevel;
+        let maxLevel = countLevel;
         if (showRoot) {
             normalizedData = Utils.addRootNode(normalizedData, flatItems, options);
         }
@@ -76,25 +76,25 @@ export default class DropdownCheckList extends Component {
 
     //#region helpers
     onCheckChanged = (e) => {
-        var { singleSelect } = this.props;
-        var { flatItems } = this.state;
-        var { value, checked } = e.target;
+        const { singleSelect } = this.props;
+        let { flatItems } = this.state;
+        let { value, checked } = e.target;
 
-        var itemData = Utils.getItemByKey(value, flatItems);
-        var toggle = singleSelect ? Utils.toggleSingleChangeStatus : Utils.toggleChangeStatus;
+        let itemData = Utils.getItemByKey(value, flatItems);
+        let toggle = singleSelect ? Utils.toggleSingleChangeStatus : Utils.toggleChangeStatus;
         toggle(itemData, checked, flatItems, singleSelect);
 
         this.updateSelectedText();
     }
 
     onExpandClick = (e) => {
-        var { flatItems } = this.state;
+        let { flatItems } = this.state;
 
-        var key = e.target.getAttribute("data-key")
+        const key = e.target.getAttribute("data-key")
 
-        for (var i = 0; i < flatItems.length; i++)
-            if (flatItems[i] && flatItems[i][Constants.DATA_KEYNAME] == key) {
-                flatItems[i].expanded = !flatItems[i].expanded;
+        for (let item of flatItems)
+            if (item && item[Constants.DATA_KEYNAME] == key) {
+                item.expanded = !item.expanded;
                 break;
             }
 
@@ -102,7 +102,7 @@ export default class DropdownCheckList extends Component {
     }
 
     onFilterChange = (value) => {
-        var { flatItems } = this.state;
+        let { flatItems } = this.state;
         
         Utils.filter(value, flatItems);
 
@@ -128,8 +128,8 @@ export default class DropdownCheckList extends Component {
     //#endregion Utilities
 
     render() {
-        var { dropdownName } = this.props;
-        var { normalizedData, selectedTextElement, opened, listVisible, searchValue } = this.state;
+        const { dropdownName } = this.props;
+        let { normalizedData, selectedTextElement, opened, listVisible, searchValue } = this.state;
 
         return (
             <div ref={el => { this.dropdownCheckList = el }}>

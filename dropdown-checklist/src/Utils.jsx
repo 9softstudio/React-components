@@ -1,24 +1,23 @@
 import * as Constants from './Constants';
 
 export function buildHierarchyCollection(dataSource, flatItems, options) {
-    var { parentIdName, idName, displayName, checkedName, selectAll, expandedName, expandAll } = options;
+    const { parentIdName, idName, displayName, checkedName, selectAll, expandedName, expandAll } = options;
 
-    var collection = [];
-    var hashtable = {};
-    var newItemData, id;
-    var resolveParentMissing = function (_, item) {
+    let collection = [];
+    let hashtable = {};
+    let newItemData, id;
+    let resolveParentMissing = function (_, item) {
         if (item.data[parentIdName] === id) {
             newItemData.items.push(item);
         }
     };
 
-    var parentADNCode = "0.1";
+    let parentADNCode = "0.1";
 
-    for (var i = 0; i < dataSource.length; i++) {
-        var itemData = dataSource[i];
+    for (let itemData of dataSource) {
         id = itemData[idName];
 
-        var parentId = itemData[parentIdName];
+        let parentId = itemData[parentIdName];
         newItemData = {
             items: [],
             data: itemData,
@@ -41,7 +40,7 @@ export function buildHierarchyCollection(dataSource, flatItems, options) {
         }
             // if parent is found, then add to parent's items
         else if (hashtable[parentId]) {
-            var parent = hashtable[parentId];
+            let parent = hashtable[parentId];
             newItemData.ADNCode = parent.ADNCode + "." + newItemData[Constants.DATA_KEYNAME];
             parent.items.push(newItemData);
         }
@@ -52,13 +51,12 @@ export function buildHierarchyCollection(dataSource, flatItems, options) {
 }
 
 export function normalizeData(dataSource, flatItems, options, level = 1, parentADNCode = "0.1") {
-    var { displayName, checkedName, selectAll, expandedName, expandAll, childName } = options;
+    const { displayName, checkedName, selectAll, expandedName, expandAll, childName } = options;
 
-    var collection = [];
+    let collection = [];
 
-    for (var i = 0; i < dataSource.length; i++) {
-        var itemData = dataSource[i];
-        var newItemData = {
+    for (let itemData of dataSource) {
+        let newItemData = {
             items: [],
             data: itemData,
             level: level,
@@ -84,9 +82,9 @@ export function normalizeData(dataSource, flatItems, options, level = 1, parentA
 }
 
 export function addRootNode(normalizedData, flatItems, options) {
-    var { rootText, selectAll, singleSelect } = options;
+    const { rootText, selectAll, singleSelect } = options;
 
-    var root = {
+    let root = {
         text: rootText,
         items: normalizedData,
         expanded: true,
@@ -102,11 +100,9 @@ export function addRootNode(normalizedData, flatItems, options) {
 }
 
 export function autoChecks(data) {
-    var isChecked = true;
+    let isChecked = true;
 
-    for (var i = 0; i < data.length; i++) {
-        var dataItem = data[i];
-
+    for (let dataItem of data) {
         if (dataItem.items.length) {
             dataItem.checked = autoChecks(dataItem.items);
         }
@@ -118,10 +114,10 @@ export function autoChecks(data) {
 }
 
 export function findMaxlevel(items) {
-    var max = 0;
-    for (var i = 0; i < items.length; i++) {
-        if (items[i] && max < items[i].level) {
-            max = items[i].level;
+    let max = 0;
+    for (let item of items) {
+        if (item && max < item.level) {
+            max = item.level;
         }
     }
 
@@ -129,13 +125,13 @@ export function findMaxlevel(items) {
 }
 
 export function getSelectedText(options, maxLevel, flatItems) {
-    var { selectAllText, noSelectedText, multipleSelectedText, singleSelect } = options;
+    const { selectAllText, noSelectedText, multipleSelectedText, singleSelect } = options;
 
-    var text = "";
-    var checkInfo = getCheckInfo(singleSelect, flatItems);
-    var selectedItems = checkInfo.selectedItems;
-    var selectedCount = selectedItems.length;
-    var isSelectAll = checkInfo.total === selectedCount;
+    let text = "";
+    let checkInfo = getCheckInfo(singleSelect, flatItems);
+    let selectedItems = checkInfo.selectedItems;
+    let selectedCount = selectedItems.length;
+    let isSelectAll = checkInfo.total === selectedCount;
 
     if (isSelectAll) {
         text = selectAllText;
@@ -159,12 +155,11 @@ export function getSelectedText(options, maxLevel, flatItems) {
 }
 
 export function getCheckInfo(singleSelect, flatItems) {
-    var selectedItems = [];
+    let selectedItems = [];
 
-    for (var i = 1; i < flatItems.length; i++) {
-        if (flatItems[i].checked &&
-            (!singleSelect || singleSelect === flatItems[i].level)) {
-            selectedItems.push(flatItems[i]);
+    for (let item of flatItems) {
+        if (item && item.checked && (!singleSelect || singleSelect === item.level)) {
+            selectedItems.push(item);
 
             if (singleSelect) {
                 break;
@@ -207,8 +202,8 @@ export function filter(keyword, flatItems){
 //#region change status for radio button (single select)
 export function toggleSingleChangeStatus(itemData, checkedStatus, flatItems, singleSelect){
     //Step 1: uncheck prev checked item (force value false)
-    var prevCheckedItem = getCheckInfo(singleSelect, flatItems).selectedItems[0];
-    var currItemIschildrenOfPrevItem = prevCheckedItem && itemData.ADNCode.indexOf(prevCheckedItem.ADNCode + ".") != -1;
+    let prevCheckedItem = getCheckInfo(singleSelect, flatItems).selectedItems[0];
+    let currItemIschildrenOfPrevItem = prevCheckedItem && itemData.ADNCode.indexOf(prevCheckedItem.ADNCode + ".") != -1;
     if (checkedStatus && prevCheckedItem && !currItemIschildrenOfPrevItem) {
         setSingleCheck(prevCheckedItem, false, flatItems);
     }
@@ -230,22 +225,22 @@ function setSingleCheck(itemData, checkedStatus, flatItems){
 }
 
 function setChildrenCheckedStatus(itemData, checkedStatus, flatItems){
-    var parent = flatItems.find((item) => item && item[Constants.DATA_KEYNAME] == itemData[Constants.DATA_KEYNAME]);
-    var childItems = flatItems.filter((item) => item && item.ADNCode.indexOf(parent.ADNCode + ".") != -1);
+    let parent = flatItems.find((item) => item && item[Constants.DATA_KEYNAME] == itemData[Constants.DATA_KEYNAME]);
+    let childItems = flatItems.filter((item) => item && item.ADNCode.indexOf(parent.ADNCode + ".") != -1);
 
-    for (var i = 0; i < childItems.length; i++) {
-        childItems[i].checked = checkedStatus;
+    for (let item of childItems) {
+        item.checked = checkedStatus;
     }
 }
     
 function setParentSingleCheckedStatus(itemData, flatItems){
     //Step 1: get all parents
-    var parentListItems = getParentListItemsByKey(itemData[Constants.DATA_KEYNAME], flatItems);
+    let parentListItems = getParentListItemsByKey(itemData[Constants.DATA_KEYNAME], flatItems);
 
     //Step 2: loop, (every parent, check exists at least one item checked => toggle checked status)
     while (parentListItems.length > 0) {
-        var parentElement = parentListItems.shift();
-        var checkedItem = flatItems.find((item) => item && item.ADNCode.indexOf(parentElement.ADNCode + ".") != -1 && item.checked);
+        let parentElement = parentListItems.shift();
+        let checkedItem = flatItems.find((item) => item && item.ADNCode.indexOf(parentElement.ADNCode + ".") != -1 && item.checked);
 
         parentElement.checked = !!checkedItem;
 
@@ -254,8 +249,8 @@ function setParentSingleCheckedStatus(itemData, flatItems){
         }
     }
 
-    for (var i = 0; i < parentListItems.length; i++) {
-        parentListItems[i].checked = true;
+    for (let item of parentListItems) {
+        item.checked = true;
     }
 }
 //#endregion change status for radio button (single select)
@@ -269,12 +264,12 @@ export function toggleChangeStatus(itemData, checkedStatus, flatItems){
 
 function setParentCheckedStatus(itemData, checkedStatus, flatItems){
     //Step 1: get all parents
-    var parentListItems = getParentListItemsByKey(itemData[Constants.DATA_KEYNAME], flatItems);
+    let parentListItems = getParentListItemsByKey(itemData[Constants.DATA_KEYNAME], flatItems);
 
     //Step 2: loop, (every parent, check exists at least one item checked => toggle checked status)
     while (checkedStatus && parentListItems.length > 0) {
-        var parentElement = parentListItems.shift();
-        var nonCheckedItem = flatItems.find((item) => item && item.ADNCode.indexOf(parentElement.ADNCode + ".") != -1 && !item.checked);
+        let parentElement = parentListItems.shift();
+        let nonCheckedItem = flatItems.find((item) => item && item.ADNCode.indexOf(parentElement.ADNCode + ".") != -1 && !item.checked);
 
         if (nonCheckedItem) {
             checkedStatus = false;
@@ -283,21 +278,21 @@ function setParentCheckedStatus(itemData, checkedStatus, flatItems){
         }
     }
 
-    for (var i = 0; i < parentListItems.length; i++) {
-        parentListItems[i].checked = false;
+    for (let item of parentListItems) {
+        item.checked = false;
     }
 }
 //#endregion change status for check box (multiple select)
 
 function getParentListItemsByKey(key, flatItems){
-    var childItem = flatItems.find((item) => item && item[Constants.DATA_KEYNAME] == key);
-    var lastDotPosition = childItem.ADNCode.lastIndexOf(".");
-    var ADNCodeToFind = childItem.ADNCode.substring(0, lastDotPosition);
-    var existsAtLeastOneParent = true;
+    let childItem = flatItems.find((item) => item && item[Constants.DATA_KEYNAME] == key);
+    let lastDotPosition = childItem.ADNCode.lastIndexOf(".");
+    let ADNCodeToFind = childItem.ADNCode.substring(0, lastDotPosition);
+    let existsAtLeastOneParent = true;
 
-    var parentListItems = [];
+    let parentListItems = [];
     while (existsAtLeastOneParent) {
-        var parent = flatItems.find((item) => item && item.ADNCode == ADNCodeToFind);
+        let parent = flatItems.find((item) => item && item.ADNCode == ADNCodeToFind);
         if (parent) {
             parentListItems.push(parent);
             lastDotPosition = parent.ADNCode.lastIndexOf(".");

@@ -6,7 +6,7 @@ export default class Header extends Component {
         this.props.onClickHandler();
     }
     render() {
-        var { dropdownName, opened, selectedTextElement, headerRef} = this.props;
+        const { dropdownName, opened, selectedTextElement, headerRef} = this.props;
         return (
             <div ref={headerRef} 
                 id={dropdownName}

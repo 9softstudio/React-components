@@ -5,7 +5,7 @@ import * as Constants from './Constants';
 
 export default class ListItems extends Component {
     render() {
-        var { items, options } = this.props;
+        const { items, options } = this.props;
         return (
             <ul className="ddcl">
                 {items.map((item) =>

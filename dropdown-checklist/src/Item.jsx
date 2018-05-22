@@ -10,16 +10,16 @@ export default class Item extends Component {
     }
 
     render() {
-        var { item, options } = this.props;
-        var { singleSelect, dropdownName } = options;
+        const { item, options } = this.props;
+        const { singleSelect, dropdownName } = options;
 
-        var levelClassName = " level-" + item.level;
-        var singleClassName = singleSelect === item.level ? " single " : "";
-        var expandedClassName = item.expanded ? " expanded " : "";
-        var rootClassName = item[Constants.DATA_KEYNAME] === 0 ? " root " : "";
+        let levelClassName = " level-" + item.level;
+        let singleClassName = singleSelect === item.level ? " single " : "";
+        let expandedClassName = item.expanded ? " expanded " : "";
+        let rootClassName = item[Constants.DATA_KEYNAME] === 0 ? " root " : "";
 
-        var expandElement;
-        var childElements;
+        let expandElement;
+        let childElements;
 
         if (item.items && item.items.length > 0) {
             let attributeKey = { 'data-key': item[Constants.DATA_KEYNAME] }
