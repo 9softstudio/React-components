@@ -25,7 +25,8 @@ export function buildHierarchyCollection(dataSource, flatItems, options) {
             text: itemData[displayName],
             checked: (itemData[checkedName] || selectAll),
             expanded: (itemData[expandedName] || expandAll),
-            ADNCode: parentADNCode + "." + flatItems.length
+            ADNCode: parentADNCode + "." + flatItems.length,
+            isDisplay: true
         };
 
         hashtable[id] = newItemData;
@@ -64,7 +65,8 @@ export function normalizeData(dataSource, flatItems, options, level = 1, parentA
             text: itemData[displayName],
             checked: (itemData[checkedName] || selectAll),
             expanded: (itemData[expandedName] || expandAll),
-            ADNCode: parentADNCode + "." + flatItems.length
+            ADNCode: parentADNCode + "." + flatItems.length,
+            isDisplay: true
         };
 
         // generate key
@@ -91,7 +93,8 @@ export function addRootNode(normalizedData, flatItems, options) {
         level: 0,
         checked: selectAll && !singleSelect,
         data: [],
-        ADNCode: "0.1"
+        ADNCode: "0.1",
+        isDisplay: true
     };
     root[Constants.DATA_KEYNAME] = 0;
     flatItems[0] = root;
@@ -186,6 +189,21 @@ function resolveItemLevel(items, level) {
     });
 }
 
+export function filter(keyword, flatItems){
+    if (keyword) {
+        setDisplayItems(false, flatItems);
+
+        let keywordLower = keyword.toLowerCase();
+        let itemsFiltered = flatItems.filter((item) => item && item.text.toLowerCase().indexOf(keywordLower) >= 0);
+        for (let item of itemsFiltered) {
+            item.isDisplay = true;
+            setDisplayItems(true, getParentListItemsByKey(item[Constants.DATA_KEYNAME], flatItems));
+        }
+    } else {
+        setDisplayItems(true, flatItems);
+    }
+}
+
 //#region change status for radio button (single select)
 export function toggleSingleChangeStatus(itemData, checkedStatus, flatItems, singleSelect){
     //Step 1: uncheck prev checked item (force value false)
@@ -249,7 +267,6 @@ export function toggleChangeStatus(itemData, checkedStatus, flatItems){
     setParentCheckedStatus(itemData, checkedStatus, flatItems);
 }
 
-
 function setParentCheckedStatus(itemData, checkedStatus, flatItems){
     //Step 1: get all parents
     var parentListItems = getParentListItemsByKey(itemData[Constants.DATA_KEYNAME], flatItems);
@@ -291,3 +308,11 @@ function getParentListItemsByKey(key, flatItems){
     }
     return parentListItems;
 }
+
+function setDisplayItems(isDisplay, items){
+    for (let item of items) {
+        if(item)
+            item.isDisplay = isDisplay;
+    }
+}
+

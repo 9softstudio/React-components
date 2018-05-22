@@ -10,7 +10,7 @@ export default class Item extends Component {
     }
 
     render() {
-        var { item, options} = this.props;
+        var { item, options } = this.props;
         var { singleSelect, dropdownName } = options;
 
         var levelClassName = " level-" + item.level;
@@ -25,17 +25,17 @@ export default class Item extends Component {
             let attributeKey = { 'data-key': item[Constants.DATA_KEYNAME] }
             expandElement = <div className="ddcl__expand" {...attributeKey} onClick={this.onExpandClick}></div>
             childElements = <ListItems items={item.items}
-            options={options}
-            onCheckChanged = {this.props.onCheckChanged}
-            onExpandClick = {this.props.onExpandClick} />
-            }
+                options={options}
+                onCheckChanged={this.props.onCheckChanged}
+                onExpandClick={this.props.onExpandClick} />
+        }
 
         return (
-            <li className={Constants.LISTITEM_CLASSNAME + expandedClassName + singleClassName + rootClassName + levelClassName}>
+            <li className={Constants.LISTITEM_CLASSNAME + expandedClassName + singleClassName + rootClassName + levelClassName} style={{display: item.isDisplay ? "block" : "none"}}>
                 <CheckItem item={item} options={options} onCheckChanged={this.props.onCheckChanged} />
                 {expandElement}
-    {childElements}
-    </li>
+                {childElements}
+            </li>
         );
-}
+    }
 };

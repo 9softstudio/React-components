@@ -18,7 +18,8 @@ export default class DropdownCheckList extends Component {
             disabled: false,
             flatItems: [null],
             maxLevel: 0,
-            selectedTextElement: this.props.selectAllText
+            selectedTextElement: this.props.selectAllText,
+            searchValue: ""
         }
     }
 
@@ -97,11 +98,15 @@ export default class DropdownCheckList extends Component {
                 break;
             }
 
-        this.setState({ flatItems: flatItems });
+        this.setState({flatItems});
     }
 
     onFilterChange = (value) => {
-        this.filter(value);
+        var { flatItems } = this.state;
+        
+        Utils.filter(value, flatItems);
+
+        this.setState({flatItems, searchValue: value});
     }
 
     // #endregion helpers
@@ -120,39 +125,11 @@ export default class DropdownCheckList extends Component {
         });
     }
 
-    filter = (value) => {
-        var { flatItems } = this.state;
-
-        var filters = [];
-        var itemElement;
-        var item;
-        var i;
-        var itemFilter = "." + Constants.LISTITEM_CLASSNAME;
-
-        if (value) {
-            value = value.toLowerCase();
-
-            // Step1: Push items, which contains filtered by text
-            filters = flatItems.filter((item) => {
-                return item && item.text.toLowerCase().indexOf(value) >= 0;
-            });
-
-            console.log(filters);
-
-            // Step2: Hide all tag li
-
-            // Step3: revise all filters and show tag li( curr && parent)
-        } else {
-            // Show all tag li
-            this.showHideAllItems(true);
-        }
-    }
-
     //#endregion Utilities
 
     render() {
         var { dropdownName } = this.props;
-        var { normalizedData, selectedTextElement, opened, listVisible } = this.state;
+        var { normalizedData, selectedTextElement, opened, listVisible, searchValue } = this.state;
 
         return (
             <div ref={el => { this.dropdownCheckList = el }}>
@@ -169,7 +146,8 @@ export default class DropdownCheckList extends Component {
                     normalizedData={normalizedData}
                     onCheckChanged={this.onCheckChanged}
                     onExpandClick={this.onExpandClick}
-                    onFilterChange={this.onFilterChange} />
+                    onFilterChange={this.onFilterChange}
+                    searchValue={searchValue} />
                     : ""}
             </div>
         );
