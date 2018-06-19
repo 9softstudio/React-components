@@ -42,7 +42,12 @@ export default class Tabs extends Component {
     _renderTabComponents() {
         return this.tabComponents.map((item, index) => {
             return (
-                <Tab key={`tab${index}`} isActive={this.state.tabState[index]} label={item.props.label} onClick={this.onTabChange.bind(this, index)} />
+                <Tab key={`tab${index}`} 
+                     isActive={this.state.tabState[index]} 
+                     label={item.props.label} 
+                     onClick={this.onTabChange.bind(this, index)}
+                     url={item.props.url}
+                     />
             );
         });
     }

@@ -9,18 +9,20 @@ export default class Tab extends Component {
 
     static propTypes = {
         isActive: PropTypes.bool,
-        label: PropTypes.string
+        label: PropTypes.string,
+        url: PropTypes.string
     }
 
     static defaultProps = {
         isActive: false,
-        label: ""
+        label: "",
+        url: "javascript:;"
     }
 
     render() {
         return (
             <li className="tab">
-                <a className={this.props.isActive ? "active" : ""} href="javascript:;" onClick={this.props.onClick}>{this.props.label}</a>
+                <a className={this.props.isActive ? "active" : ""} href={this.props.url} onClick={this.props.onClick}>{this.props.label}</a>
             </li>
         );
     }
