@@ -1,0 +1,49 @@
+$prefix: ".la-panel";
+$panel-border: 1px solid #ddd;
+$panel-bgcolor: #fff;
+$header-bgcolor: #fc3;
+$header-color:#000;
+$indicator-color: #666;
+#{$prefix} {
+    background-color: $panel-bgcolor;
+    position: relative;
+    border: $panel-border;
+    &.is-collapsed {
+        #{$prefix} {
+            &__indicator:after {
+                transform: rotate(45deg);
+                -webkit-transform: rotate(45deg);
+                margin-top: 48%;
+            }
+        }
+    }
+    &__header {
+        background-color: $header-bgcolor;
+        color: $header-color;
+        padding: 7px;
+        font-weight: 700;
+        position: relative;
+    }
+    &__indicator {
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 6px;
+        cursor: pointer;
+        width: 16px;
+        &:after {
+            border: solid $indicator-color;
+            border-width: 0 2px 2px 0;
+            display: inline-block;
+            padding: 3px;
+            transform: rotate(-135deg);
+            -webkit-transform: rotate(-135deg);
+            content: "";
+            margin-top: 68%;
+        }
+    }
+    &__body {
+        padding: 15px;
+    }
+}
