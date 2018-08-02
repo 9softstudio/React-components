@@ -188,7 +188,7 @@
                     null,
                     React.createElement(
                         LaPanel,
-                        { collapsible: false, className: 'panel' },
+                        { collapsible: false, className: 'example-panel' },
                         React.createElement(
                             LaPanelHeader,
                             null,
@@ -202,7 +202,7 @@
                     ),
                     React.createElement(
                         LaPanel,
-                        { defaultExpanding: false, className: 'panel' },
+                        { defaultExpanding: false, className: 'example-panel' },
                         React.createElement(
                             LaPanelHeader,
                             null,
