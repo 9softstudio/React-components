@@ -37,7 +37,7 @@ describe('Panel Header is collapsible:', () => {
     });
 
     test('click on indicator: onToggleCollapse()', () => {
-        const onToggleCollapse = jest.fn()
+        const onToggleCollapse = jest.fn();
         const component = renderer
             .create(
                 <Context.Provider value={({ collapsible: true, onToggleCollapse: onToggleCollapse })}>

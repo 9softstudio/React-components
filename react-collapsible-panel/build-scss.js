@@ -16,4 +16,4 @@ import component from './.configs/component-config';
     fs.writeFile(options.outFile, result.css);
     console.log('\x1b[32m', options.outFile);
     console.log('\x1b[0m');
-}))
+}));

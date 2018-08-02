@@ -5,7 +5,7 @@ import Context from '../panel-context';
 
 class Panel extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
 
         this.onToggleCollapse = this.onToggleCollapse.bind(this);
         this.state = {
@@ -21,11 +21,11 @@ class Panel extends React.Component {
     }
 
     render() {
-        return <Context.Provider value={({ ...this.state, onToggleCollapse: this.onToggleCollapse })}>
+        return (<Context.Provider value={({ ...this.state, onToggleCollapse: this.onToggleCollapse })}>
             <div className={mergeClassName(this.props, 'la-panel', this.state.isExpanded ? '' : 'is-collapsed')}>
                 {this.props.children}
             </div>
-        </Context.Provider>
+        </Context.Provider>);
     }
 }
 
@@ -33,12 +33,12 @@ Panel.defaultProps = {
     defaultExpanding: true,
     collapsible: true,
     showIcon: true
-}
+};
 
 Panel.propTypes = {
-    defaultExpanding: PropTypes.bool,
     collapsible: PropTypes.bool,
+    defaultExpanding: PropTypes.bool,
     showIcon: PropTypes.bool
-}
+};
 
 export default Panel;

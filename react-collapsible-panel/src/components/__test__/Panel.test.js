@@ -15,7 +15,7 @@ describe('Panel:', () => {
     });
 
     test('custom class name', () => {
-        const component = renderer.create(<Panel className="test" defaultExpanding={true} />);
+        const component = renderer.create(<Panel className="test" />);
         expect(component.toJSON()).toMatchSnapshot();
     });
 
@@ -27,7 +27,7 @@ describe('Panel:', () => {
     test('props to context', () => {
         const component = renderer.create(
             <Panel defaultExpanding={false} collapsible={false}>
-                <Context.Consumer>{value => <span contextValue={value}></span>}</Context.Consumer>
+                <Context.Consumer>{value => <span contextValue={value} />}</Context.Consumer>
             </Panel>
         );
         expect(component.toJSON().children[0].props.contextValue).toEqual({

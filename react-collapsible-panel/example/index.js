@@ -3,7 +3,7 @@ import { LaPanel, LaPanelHeader, LaPanelBody } from '../src';
 
 class Example extends React.Component {
     render() {
-        return <div>
+        return (<div>
             <LaPanel collapsible={false} className="example-panel">
                 <LaPanelHeader>This is title</LaPanelHeader>
                 <LaPanelBody>This body</LaPanelBody>
@@ -12,7 +12,7 @@ class Example extends React.Component {
                 <LaPanelHeader >This is title</LaPanelHeader>
                 <LaPanelBody>This body</LaPanelBody>
             </LaPanel>
-        </div>
+        </div>);
     }
 }
 
