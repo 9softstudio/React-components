@@ -1,4 +1,4 @@
-import { mergeClassName } from '../src/utils';
+import { mergeClassName } from '../utils';
 
 describe('no given classes and props should be empty', () => {
   test('null', () => expect(mergeClassName(null, null)).toBe(''));

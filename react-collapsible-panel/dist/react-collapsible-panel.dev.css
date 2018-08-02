@@ -3,11 +3,13 @@
   position: relative;
   border: 1px solid #ddd;
 }
+
 .la-panel.is-collapsed .la-panel__indicator:after {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
   margin-top: 48%;
 }
+
 .la-panel__header {
   background-color: #fc3;
   color: #000;
@@ -15,6 +17,7 @@
   font-weight: 700;
   position: relative;
 }
+
 .la-panel__indicator {
   display: block;
   position: absolute;
@@ -24,6 +27,7 @@
   cursor: pointer;
   width: 16px;
 }
+
 .la-panel__indicator:after {
   border: solid #666;
   border-width: 0 2px 2px 0;
@@ -34,6 +38,7 @@
   content: "";
   margin-top: 68%;
 }
+
 .la-panel__body {
   padding: 15px;
 }
