@@ -1,5 +1,3 @@
-import './scss/styles.scss';
-
 import Panel from './components/Panel';
 import Header from './components/Header';
 import Body from './components/Body';

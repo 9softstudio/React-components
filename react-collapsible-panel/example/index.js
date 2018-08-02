@@ -1,5 +1,3 @@
-import './example.scss';
-
 import React from 'react';
 import { LaPanel, LaPanelHeader, LaPanelBody } from '../src';
 

@@ -5,10 +5,11 @@
   "main": "dist/react-collapsible-panel.dev.js",
   "scripts": {
     "test": "jest",
-    "build": "npm run build:dev && npm run build:pro && npm run build:example",
+    "build": "npm run build:dev && npm run build:pro && npm run build:example && npm run build:scss",
     "build:pro": "rollup -c --environment entry:pro",
     "build:dev": "rollup -c --environment entry:dev",
-    "build:example": "rollup -c --environment entry:example"
+    "build:example": "rollup -c --environment entry:example",
+    "build:scss": "babel-node build-scss.js"
   },
   "babel": {
     "plugins": [
@@ -30,13 +31,13 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "jest": "^23.4.0",
+    "node-sass": "^4.5.3",
     "react-test-renderer": "^16.4.2",
     "regenerator-runtime": "^0.12.0",
     "rollup": "^0.62.0",
     "rollup-plugin-babel": "^3.0.7",
     "rollup-plugin-babel-minify": "^5.0.0",
-    "rollup-plugin-node-resolve": "^3.3.0",
-    "rollup-plugin-scss": "^0.4.0"
+    "rollup-plugin-node-resolve": "^3.3.0"
   },
   "dependencies": {
     "prop-types": "^15.6.0",

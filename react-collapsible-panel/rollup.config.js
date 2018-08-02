@@ -1,7 +1,7 @@
-import ExampleConfigs from './.configs/rollup.config.example';
-import BuildConfigs from './.configs/rollup.config';
+import example from './.configs/example-config';
+import component from './.configs/component-config';
 
 const entry = process.env.entry;
-const config = entry === 'example' ? ExampleConfigs : BuildConfigs(entry);
+const config = entry === 'example' ? example : component;
 
-export default config;
+export default config(entry).rollup;
