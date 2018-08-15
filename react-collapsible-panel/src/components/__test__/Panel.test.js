@@ -36,4 +36,26 @@ describe('Panel:', () => {
             onToggleCollapse: component.getInstance().onToggleCollapse
         });
     });
+
+    describe('onToggleCollapse():', () => {
+        test('not collapsible: do not change state', () => {
+            const component = new Panel({ collapsible: false });
+            component.setState = jest.fn();
+            component.onToggleCollapse();
+            expect(component.setState).not.toBeCalled();
+        });
+
+        test('collapsible: toggle expanding state', () => {
+            const component = new Panel({ collapsible: true });
+            component.setState = jest.fn();
+
+            component.state.isExpanded = true;
+            component.onToggleCollapse();
+            expect(component.setState).toBeCalledWith({ isExpanded: false });
+
+            component.state.isExpanded = false;
+            component.onToggleCollapse();
+            expect(component.setState).toBeCalledWith({ isExpanded: true });
+        });
+    });
 });

@@ -1,8 +1,9 @@
-(function (React,PropTypes) {
+(function (React,PropTypes,ReactDOM) {
     'use strict';
 
     React = React && React.hasOwnProperty('default') ? React['default'] : React;
     PropTypes = PropTypes && PropTypes.hasOwnProperty('default') ? PropTypes['default'] : PropTypes;
+    ReactDOM = ReactDOM && ReactDOM.hasOwnProperty('default') ? ReactDOM['default'] : ReactDOM;
 
     var mergeClassName = function mergeClassName(props) {
         for (var _len = arguments.length, classNames = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
@@ -131,8 +132,8 @@
     };
 
     Panel.propTypes = {
-        defaultExpanding: PropTypes.bool,
         collapsible: PropTypes.bool,
+        defaultExpanding: PropTypes.bool,
         showIcon: PropTypes.bool
     };
 
@@ -168,9 +169,8 @@
         );
     });
 
-    var LaPanel = Panel;
-    var LaPanelHeader = Header;
-    var LaPanelBody = Body;
+    Panel.Header = Header;
+    Panel.Body = Body;
 
     var Example = function (_React$Component) {
         inherits(Example, _React$Component);
@@ -187,29 +187,29 @@
                     'div',
                     null,
                     React.createElement(
-                        LaPanel,
+                        Panel,
                         { collapsible: false, className: 'example-panel' },
                         React.createElement(
-                            LaPanelHeader,
+                            Panel.Header,
                             null,
-                            'This is title'
+                            'This panel has disabled collapsible'
                         ),
                         React.createElement(
-                            LaPanelBody,
+                            Panel.Body,
                             null,
-                            'This body'
+                            'Panel body is expanded by default'
                         )
                     ),
                     React.createElement(
-                        LaPanel,
+                        Panel,
                         { defaultExpanding: false, className: 'example-panel' },
                         React.createElement(
-                            LaPanelHeader,
+                            Panel.Header,
                             null,
-                            'This is title'
+                            'This panel is collapsible'
                         ),
                         React.createElement(
-                            LaPanelBody,
+                            Panel.Body,
                             null,
                             'This body'
                         )
@@ -222,4 +222,4 @@
 
     ReactDOM.render(React.createElement(Example, null), document.getElementById('example'));
 
-}(React,PropTypes));
+}(React,PropTypes,ReactDOM));
