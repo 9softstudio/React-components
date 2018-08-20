@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest --coverage --config ./jest.config.js",
     "start": "webpack-dev-server --config ./webpack.config.js --mode development"
   },
   "keywords": [],
@@ -19,6 +19,7 @@
     "css-loader": "^0.28.11",
     "enzyme": "^3.4.2",
     "enzyme-adapter-react-16": "^1.2.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^23.5.0",
     "react-test-renderer": "^16.4.2",
     "style-loader": "^0.21.0",
