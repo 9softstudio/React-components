@@ -73,7 +73,7 @@ export class Numeric extends React.Component {
         return (
             <input 
                 title={this.state.isValid ? '' : 'Invalid data'} 
-                className={this.state.isValid ? '' : 'invalid'} 
+                className={(this.props.className ? this.props.className : '')  + (this.state.isValid ? '' : ' invalid')} 
                 value={this.props.value} 
                 onChange={this.handleChange }></input>
         );
@@ -81,6 +81,7 @@ export class Numeric extends React.Component {
 }
 
 Numeric.defaultProps = {
+    className: '',
     format: 'decimal',
     positive: false,
     decimalPlaces: null,
@@ -88,6 +89,7 @@ Numeric.defaultProps = {
 };
 
 Numeric.propTypes = {
+    className: PropTypes.string,
     format: PropTypes.string,
     positive: PropTypes.bool, 
     decimalPlaces: PropTypes.number,

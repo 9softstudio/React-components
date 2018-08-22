@@ -1,5 +1,6 @@
 import React from 'react';
 import {Numeric} from '../src/components/numeric';
+import './form.css';
 
 export class Form extends React.Component {
     constructor(props){
@@ -64,7 +65,7 @@ export class Form extends React.Component {
             <form >
                 <div>
                     <div>Integer </div>
-                    <Numeric format={"integer"} value={this.state.input1} onChange={this.handleInputChange1}/>
+                    <Numeric className={"greenBorder"} format={"integer"} value={this.state.input1} onChange={this.handleInputChange1}/>
                     <label> Value: {this.state.input1}</label>
                 </div>                
                 <br />
