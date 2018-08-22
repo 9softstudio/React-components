@@ -29,7 +29,12 @@ export class Form extends React.Component {
     render() {        
         return (
             <form >
-                <Numeric format={"decimal"} positive={true}  decimalPlaces={4} value={this.state.input} onChange={this.handleInputChange}/>
+                <Numeric    className={"greenBorder"}
+                            format={"decimal"} 
+                            positive={true}  
+                            decimalPlaces={4} 
+                            value={this.state.input} 
+                            onChange={this.handleInputChange}/>
             </form>
         );
     }
