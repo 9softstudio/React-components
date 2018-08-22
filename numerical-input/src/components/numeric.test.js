@@ -61,20 +61,6 @@ describe('Get right format', () => {
 })
 
 describe("When input changed", () => {
-    it('when input invalid set state isValid false', () => {
-        const component = shallow(<Numeric  format={"integer"}/>);
-        const event = {target: {value: "1234.2"}};
-        component.simulate('change', event);
-        expect(component.state().isValid).toEqual(false);
-    })
-
-    it('when input valid set state isValid true', () => {
-        const component = shallow(<Numeric  format={"decimal"}/>);
-        const event = {target: {value: "1234.2"}};
-        component.simulate('change', event);
-        expect(component.state().isValid).toEqual(true);
-    })
-
     it('call onchange of prop when state value changed', () => {
         const onChangeSpy = jest.fn();
         const component = shallow(<Numeric onChange={onChangeSpy}/>);

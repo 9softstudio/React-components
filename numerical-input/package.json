@@ -21,6 +21,7 @@
     "enzyme-adapter-react-16": "^1.2.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^23.5.0",
+    "jest-cli": "^23.5.0",
     "react-test-renderer": "^16.4.2",
     "style-loader": "^0.21.0",
     "webpack": "^4.8.3",
