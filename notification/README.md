@@ -1,12 +1,5 @@
-NUMERICAL INPUT
+NOTIFICATION
 =======
-## Supported formats
-```javascript
-[
-    "integer": ["all", "positive"]
-    "decimal": ["all", "positive", "limited decimal places"]
-]
-```
 ## Basic Usage
 ```javascript
 import React from 'react';
