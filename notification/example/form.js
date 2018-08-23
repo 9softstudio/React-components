@@ -27,7 +27,6 @@ export class Form extends React.Component {
     }   
 
     hideNotification(){
-        console.log("close");
         this.setState({isActive: false});
     }
 
