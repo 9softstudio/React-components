@@ -20613,6 +20613,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
@@ -20648,9 +20650,18 @@ var Cell = function (_Component) {
             var _props = this.props,
                 header = _props.header,
                 colWidth = _props.colWidth,
-                rest = _objectWithoutProperties(_props, ['header', 'colWidth']);
+                sortable = _props.sortable,
+                sorting = _props.sorting,
+                asc = _props.asc,
+                onClick = _props.onClick,
+                rest = _objectWithoutProperties(_props, ['header', 'colWidth', 'sortable', 'sorting', 'asc', 'onClick']);
 
-            return header ? _react2.default.createElement(
+            return header ? sortable ? _react2.default.createElement(
+                'th',
+                _extends({}, rest, { className: 'sortable ' + (sorting ? 'sorting' : ''), onClick: onClick }),
+                this.props.children,
+                _react2.default.createElement('span', { className: '' + (sorting ? asc ? 'asc' : 'desc' : '') })
+            ) : _react2.default.createElement(
                 'th',
                 rest,
                 this.props.children
@@ -20666,19 +20677,27 @@ var Cell = function (_Component) {
 }(_react.Component);
 
 Cell.propTypes = {
-    header: _propTypes2.default.bool
+    header: _propTypes2.default.bool,
+    sortable: _propTypes2.default.bool,
+    sorting: _propTypes2.default.bool,
+    asc: _propTypes2.default.bool,
+    onClick: _propTypes2.default.func
 };
 Cell.defaultProps = {
-    header: false
+    header: false,
+    sortable: false,
+    sorting: false,
+    asc: true,
+    onClick: function onClick() {}
 };
 exports.default = Cell;
 
 /***/ }),
 
-/***/ "./src/components/Page.jsx":
-/*!*********************************!*\
-  !*** ./src/components/Page.jsx ***!
-  \*********************************/
+/***/ "./src/components/Pager.jsx":
+/*!**********************************!*\
+  !*** ./src/components/Pager.jsx ***!
+  \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20707,13 +20726,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Page = function (_Component) {
-    _inherits(Page, _Component);
+var Pager = function (_Component) {
+    _inherits(Pager, _Component);
 
-    function Page(props) {
-        _classCallCheck(this, Page);
+    function Pager(props) {
+        _classCallCheck(this, Pager);
 
-        var _this = _possibleConstructorReturn(this, (Page.__proto__ || Object.getPrototypeOf(Page)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Pager.__proto__ || Object.getPrototypeOf(Pager)).call(this, props));
 
         _this.onKeyUpHandle = function (e, totalPage) {
             var code = e.keyCode ? e.keyCode : e.which;
@@ -20725,23 +20744,33 @@ var Page = function (_Component) {
             }
         };
 
+        _this.onInputChangeHandler = function (e) {
+            var pattern = /^\d*$/;
+            var value = e.target.value;
+
+            var isValidNumber = pattern.test(value);
+            if (isValidNumber) {
+                _this._updateState(value);
+            }
+        };
+
         _this.state = {
             inputValue: _this.props.pageOption.PageIndex
         };
         return _this;
     }
 
-    _createClass(Page, [{
-        key: 'componentWillReceiveProps',
-        value: function componentWillReceiveProps(nextProps) {
-            if (this.props.pageOption.PageIndex !== nextProps.pageOption.PageIndex) {
-                this._updateState(nextProps.pageOption.PageIndex);
+    _createClass(Pager, [{
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate(prevProps, prevState) {
+            var pageIndex = this.props.pageOption.PageIndex;
+            if (pageIndex !== prevProps.pageOption.PageIndex) {
+                this._updateState(pageIndex);
             }
         }
     }, {
         key: 'goToPage',
         value: function goToPage(index, pageSize) {
-            this._updateState(index);
             this.props.onPaging && this.props.onPaging(index, pageSize);
         }
     }, {
@@ -20754,9 +20783,7 @@ var Page = function (_Component) {
     }, {
         key: '_updateState',
         value: function _updateState(inputValue) {
-            this.setState({
-                inputValue: inputValue
-            });
+            this.setState({ inputValue: inputValue });
         }
     }, {
         key: '_renderPageSizeSelection',
@@ -20805,9 +20832,7 @@ var Page = function (_Component) {
                     'Page '
                 ),
                 _react2.default.createElement('input', { type: 'text', className: 'page-form', value: index, maxLength: '4', size: '2',
-                    onChange: function onChange(e) {
-                        return _this4._updateState(e.target.value);
-                    },
+                    onChange: this.onInputChangeHandler,
                     onKeyUp: function onKeyUp(e) {
                         return _this4.onKeyUpHandle(e, totalPage);
                     } }),
@@ -20816,6 +20841,20 @@ var Page = function (_Component) {
                     null,
                     ' of ' + totalPage,
                     ' '
+                )
+            );
+        }
+    }, {
+        key: '_renderPageLabel',
+        value: function _renderPageLabel(index, totalPage) {
+            return _react2.default.createElement(
+                'div',
+                { className: 'page-input' },
+                _react2.default.createElement(
+                    'span',
+                    null,
+                    'Page ',
+                    index + ' of ' + totalPage + ' '
                 )
             );
         }
@@ -20835,15 +20874,19 @@ var Page = function (_Component) {
         value: function render() {
             var _this5 = this;
 
-            var _props$pageOption = this.props.pageOption,
-                PageIndex = _props$pageOption.PageIndex,
-                PageSize = _props$pageOption.PageSize,
-                TotalItem = _props$pageOption.TotalItem,
-                PageList = _props$pageOption.PageList;
+            var _props = this.props,
+                isShowPagingInfo = _props.isShowPagingInfo,
+                isAllowInputPageIndex = _props.isAllowInputPageIndex,
+                pageOption = _props.pageOption;
+            var PageIndex = pageOption.PageIndex,
+                PageSize = pageOption.PageSize,
+                TotalItem = pageOption.TotalItem,
+                PageList = pageOption.PageList;
             var inputValue = this.state.inputValue;
 
 
             var isDisable = isNaN(parseInt(inputValue));
+
             var isShow = TotalItem > PageList[0];
             var totalPage = Math.ceil(TotalItem / PageSize);
 
@@ -20856,7 +20899,7 @@ var Page = function (_Component) {
                 this._renderPageIcon("page-prev", isDisable || PageIndex <= 1 || PageIndex > totalPage, function () {
                     return _this5.goToPage(PageIndex - 1, PageSize);
                 }),
-                this._renderPageInput(inputValue, totalPage),
+                isAllowInputPageIndex ? this._renderPageInput(inputValue, totalPage) : this._renderPageLabel(PageIndex, totalPage),
                 this._renderPageIcon("page-next", isDisable || PageIndex >= totalPage || PageIndex < 1, function () {
                     return _this5.goToPage(PageIndex + 1, PageSize);
                 }),
@@ -20864,32 +20907,36 @@ var Page = function (_Component) {
                     return _this5.goToPage(totalPage, PageSize);
                 }),
                 this._renderPageSizeSelection(isDisable, PageIndex, PageSize),
-                this._renderPageInfo(PageIndex, PageSize, TotalItem)
+                isShowPagingInfo && this._renderPageInfo(PageIndex, PageSize, TotalItem)
             );
         }
     }]);
 
-    return Page;
+    return Pager;
 }(_react.Component);
 
-Page.propTypes = {
+Pager.propTypes = {
     pageOption: _propTypes2.default.shape({
         PageIndex: _propTypes2.default.number,
         PageSize: _propTypes2.default.number,
         PageList: _propTypes2.default.arrayOf(_propTypes2.default.number),
         TotalItem: _propTypes2.default.number
     }),
-    onPaging: _propTypes2.default.func
+    onPaging: _propTypes2.default.func,
+    isShowPagingInfo: _propTypes2.default.bool,
+    isAllowInputPageIndex: _propTypes2.default.bool
 };
-Page.defaultProps = {
+Pager.defaultProps = {
     pageOption: {
         PageIndex: 1,
         PageSize: 50,
         PageList: [50, 100, 200],
         TotalItem: 0
-    }
+    },
+    isShowPagingInfo: true,
+    isAllowInputPageIndex: true
 };
-exports.default = Page;
+exports.default = Pager;
 
 /***/ }),
 
@@ -21062,9 +21109,9 @@ var _tableSection2 = _interopRequireDefault(_tableSection);
 
 var _constants = __webpack_require__(/*! ../constants */ "./src/constants.js");
 
-var _Page = __webpack_require__(/*! ./Page */ "./src/components/Page.jsx");
+var _Pager = __webpack_require__(/*! ./Pager */ "./src/components/Pager.jsx");
 
-var _Page2 = _interopRequireDefault(_Page);
+var _Pager2 = _interopRequireDefault(_Pager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21073,6 +21120,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function scrollToTop(element, scrollDuration) {
+    var scrollStep = -element.scrollTop / (scrollDuration / 15),
+        scrollInterval = setInterval(function () {
+        if (element.scrollTop != 0) {
+            element.scrollBy(0, scrollStep);
+        } else clearInterval(scrollInterval);
+    }, 15);
+}
 
 function debounce(func, wait) {
     var timeout = void 0;
@@ -21121,12 +21177,12 @@ var Table = function (_Component) {
             adjustedHeight = _this$props.adjustedHeight;
 
         _this.diffWidth = _constants.BODY_WIDTH - maxWidth;
-        _this.columnsWidth = _this._getColumnsWidth(props.header);
         _this.adjustedHeight = adjustedHeight;
 
         _this.state = {
             maxWidth: maxWidth,
-            contentHeight: bodyHeight
+            contentHeight: bodyHeight,
+            columnsWidth: _this._getColumnsWidth(props.header)
         };
         return _this;
     }
@@ -21205,9 +21261,15 @@ var Table = function (_Component) {
             window.removeEventListener('resize', debounce(this._handleResize));
         }
     }, {
-        key: 'componentWillReceiveProps',
-        value: function componentWillReceiveProps(nextProps) {
-            this.columnsWidth = this._getColumnsWidth(nextProps.header);
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate(prevProps, prevState) {
+            if (this.props.header != prevProps.header) {
+                this.setState({ columnsWidth: this._getColumnsWidth(this.props.header) });
+            }
+
+            if (prevProps.body != this.props.body) {
+                scrollToTop(this.bodyWrapper, 200);
+            }
         }
     }, {
         key: '_calculateBodyHeight',
@@ -21230,7 +21292,7 @@ var Table = function (_Component) {
             var sumOfColumnWidth = autoWidth ? this.state.maxWidth : width;
             sumOfColumnWidth = sumOfColumnWidth - _constants.SCROLLBAR_WIDTH;
 
-            var newColumnsWidth = this.columnWidthSum && this.columnsWidth.map(function (cellWidth) {
+            var newColumnsWidth = this.columnWidthSum && this.state.columnsWidth.map(function (cellWidth) {
                 return sumOfColumnWidth / _this3.columnWidthSum * cellWidth;
             });
 
@@ -21252,7 +21314,7 @@ var Table = function (_Component) {
 
             var maxWidth = this.state.maxWidth;
 
-            var newColumnLayout = this.columnWidthSum && this.columnWidthSum !== width ? this._getUpdatedColumnLayout() : this.columnsWidth;
+            var newColumnLayout = this.columnWidthSum && this.columnWidthSum !== width ? this._getUpdatedColumnLayout() : this.state.columnsWidth;
 
             if (!newColumnLayout) {
                 return null;
@@ -21267,34 +21329,39 @@ var Table = function (_Component) {
 
             return _react2.default.createElement(
                 'div',
-                { className: 'table-container', style: { maxWidth: maxWidth } },
+                null,
                 _react2.default.createElement(
-                    Header,
-                    sectionProps,
-                    rowLayout,
-                    header
+                    'div',
+                    { className: 'table-container', style: { maxWidth: maxWidth } },
+                    _react2.default.createElement(
+                        Header,
+                        sectionProps,
+                        rowLayout,
+                        header
+                    ),
+                    body && _react2.default.createElement(
+                        Body,
+                        _extends({}, sectionProps, { maxHeight: this.state.contentHeight }),
+                        rowLayout,
+                        body
+                    ),
+                    footer && _react2.default.createElement(
+                        Footer,
+                        sectionProps,
+                        rowLayout,
+                        footer
+                    )
                 ),
-                body && _react2.default.createElement(
-                    Body,
-                    _extends({}, sectionProps, { maxHeight: this.state.contentHeight }),
-                    rowLayout,
-                    body
-                ),
-                footer && _react2.default.createElement(
-                    Footer,
-                    sectionProps,
-                    rowLayout,
-                    footer
-                ),
-                isPaging && pageOption && _react2.default.createElement(_Page2.default, { pageOption: pageOption, onPaging: onPaging })
+                isPaging && pageOption && _react2.default.createElement(_Pager2.default, { pageOption: pageOption, onPaging: onPaging })
             );
         }
     }, {
         key: 'columnWidthSum',
         get: function get() {
-            return !this.columnsWidth || !this.columnsWidth.length || this.columnsWidth.find(function (x) {
+            var columnsWidth = this.state.columnsWidth;
+            return !columnsWidth || !columnsWidth.length || columnsWidth.find(function (x) {
                 return typeof x !== "number";
-            }) ? null : this.columnsWidth.reduce(function (prev, current) {
+            }) ? null : columnsWidth.reduce(function (prev, current) {
                 return prev + current;
             }, 0);
         }

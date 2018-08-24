@@ -4,7 +4,17 @@ import RowLayout from './RowLayout';
 import PropTypes from 'prop-types';
 import createTableSection from './tableSection';
 import { MAX_WIDTH, DEFAULT_MILLISECOND_FOR_WAITING, DEFAULT_COLUMN_WIDTH, BODY_WIDTH, SCROLLBAR_WIDTH } from '../constants';
-import Page from './Page';
+import Pager from './Pager';
+
+function scrollToTop(element, scrollDuration) {
+    var scrollStep = -element.scrollTop / (scrollDuration / 15),
+        scrollInterval = setInterval(function(){
+            if ( element.scrollTop != 0 ) {
+                element.scrollBy( 0, scrollStep );
+            }
+            else clearInterval(scrollInterval); 
+        },15);
+}
 
 function debounce(func, wait) {
     let timeout;
@@ -39,12 +49,12 @@ class Table extends Component {
 
         const { maxWidth, bodyHeight, adjustedHeight } = this.props;
         this.diffWidth = BODY_WIDTH - maxWidth;
-        this.columnsWidth = this._getColumnsWidth(props.header);
         this.adjustedHeight = adjustedHeight;
 
         this.state = {
             maxWidth,
-            contentHeight: bodyHeight
+            contentHeight: bodyHeight,
+            columnsWidth: this._getColumnsWidth(props.header)
         }
     }
 
@@ -134,8 +144,9 @@ class Table extends Component {
     }
 
     get columnWidthSum() {
-        return !this.columnsWidth || !this.columnsWidth.length || this.columnsWidth.find(x => typeof x !== "number") ?
-            null : this.columnsWidth.reduce((prev, current) => prev + current, 0);
+        const columnsWidth = this.state.columnsWidth;
+        return !columnsWidth || !columnsWidth.length || columnsWidth.find(x => typeof x !== "number") ?
+            null : columnsWidth.reduce((prev, current) => prev + current, 0);
     }
 
     componentDidMount() {
@@ -147,8 +158,15 @@ class Table extends Component {
         window.removeEventListener('resize', debounce(this._handleResize))
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.columnsWidth = this._getColumnsWidth(nextProps.header);
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.header != prevProps.header)
+        {
+            this.setState({columnsWidth: this._getColumnsWidth(this.props.header)});
+        }
+
+        if(prevProps.body != this.props.body){
+            scrollToTop(this.bodyWrapper, 200);
+        }
     }
 
     _handleResize = (event) => {
@@ -180,20 +198,19 @@ class Table extends Component {
         let sumOfColumnWidth = autoWidth ? this.state.maxWidth : width;
         sumOfColumnWidth = sumOfColumnWidth - SCROLLBAR_WIDTH;
 
-        const newColumnsWidth = this.columnWidthSum && this.columnsWidth.map(cellWidth => {
+        const newColumnsWidth = this.columnWidthSum && this.state.columnsWidth.map(cellWidth => {
             return sumOfColumnWidth / this.columnWidthSum * cellWidth
         });
 
         return newColumnsWidth;
     }
-
     render() {
         const { width, autoWidth, minWidth, header, body, footer, isPaging, pageOption, onPaging } = this.props;
         const maxWidth = this.state.maxWidth;
 
         const newColumnLayout = this.columnWidthSum && this.columnWidthSum !== width ?
             this._getUpdatedColumnLayout() :
-            this.columnsWidth;
+            this.state.columnsWidth;
 
         if (!newColumnLayout) {
             return null;
@@ -207,35 +224,34 @@ class Table extends Component {
         const Footer = this.Footer;
 
         return (
-            <div className="table-container" style={{ maxWidth }}>
-                <Header {...sectionProps}>
-                    {rowLayout}
-                    {header}
-                </Header>
-
-                {
-                    body &&
-                    <Body {...sectionProps} maxHeight={this.state.contentHeight}>
+            <div>
+                <div className="table-container" style={{ maxWidth }}>
+                    <Header {...sectionProps}>
+                        {rowLayout}
+                        {header}
+                    </Header>
+                    {
+                        body &&
+                        <Body {...sectionProps} maxHeight={this.state.contentHeight}>
                         {rowLayout}
                         {body}
-                    </Body>
-                }
-
-                {
-                    footer &&
-                    <Footer {...sectionProps}>
+                        </Body>
+                    }
+                    {
+                        footer &&
+                        <Footer {...sectionProps}>
                         {rowLayout}
                         {footer}
-                    </Footer>
-                }
-
-                {
+                        </Footer>
+                    }
+                </div>
+                    {
                     isPaging && pageOption &&
-                    <Page pageOption={pageOption} onPaging={onPaging} />
-                }
+                    <Pager pageOption={pageOption} onPaging={onPaging} />
+                    }
             </div>
         )
-    }
+}
 }
 
 export default Table;
