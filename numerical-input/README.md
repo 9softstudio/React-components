@@ -1,5 +1,8 @@
 NUMERICAL INPUT
 =======
+## Demo
+[Numerical Input Demo](https://jsfiddle.net/tuanhn/4pn5d7ek/)
+
 ## Supported formats
 ```javascript
 [
