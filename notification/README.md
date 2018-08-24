@@ -1,5 +1,8 @@
 NOTIFICATION
 =======
+## Demo
+[Notification Demo](https://jsfiddle.net/tuanhn/by9wz2tx/1/)
+
 ## Basic Usage
 ```javascript
 import React from 'react';
