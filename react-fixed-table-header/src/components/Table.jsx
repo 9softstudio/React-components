@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import RowLayout from './RowLayout';
 import PropTypes from 'prop-types';
 import createTableSection from './tableSection';
-import { MAX_WIDTH, DEFAULT_MILLISECOND_FOR_WAITING, DEFAULT_COLUMN_WIDTH, BODY_WIDTH, SCROLLBAR_WIDTH } from '../constants';
+import { DEFAULT_MILLISECOND_FOR_WAITING, DEFAULT_COLUMN_WIDTH, SCROLLBAR_WIDTH } from '../constants';
 import Pager from './Pager';
+
+const clientWidth = document.body.clientWidth;
 
 function scrollToTop(element, scrollDuration) {
     var scrollStep = -element.scrollTop / (scrollDuration / 15),
@@ -48,11 +49,13 @@ class Table extends Component {
         this.Footer = createTableSection(footerContainerProps);
 
         const { maxWidth, bodyHeight, adjustedHeight } = this.props;
-        this.diffWidth = BODY_WIDTH - maxWidth;
+        const maxWidthValue = maxWidth || clientWidth;
+
+        this.diffWidth = clientWidth - maxWidthValue;
         this.adjustedHeight = adjustedHeight;
 
         this.state = {
-            maxWidth,
+            maxWidth: maxWidthValue,
             contentHeight: bodyHeight,
             columnsWidth: this._getColumnsWidth(props.header)
         }
@@ -71,17 +74,19 @@ class Table extends Component {
         isPaging: PropTypes.bool,
         onPaging: PropTypes.func,
         pageOption: PropTypes.object,
-        adjustedHeight: PropTypes.number
+        adjustedHeight: PropTypes.number,
+        containerPadding: PropTypes.number
     }
 
     static defaultProps = {
-        width: MAX_WIDTH,
-        maxWidth: MAX_WIDTH,
+        width: clientWidth,
+        maxWidth: clientWidth,
         autoWidth: true,
         isPaging: false,
         adjustedHeight: 0,
         bodyHeight: 0,
-        autoHeight: true
+        autoHeight: true,
+        containerPadding: 30
     }
 
     _getColumnsWidth(headerRows) {
@@ -194,9 +199,9 @@ class Table extends Component {
     }
 
     _getUpdatedColumnLayout() {
-        const { width, autoWidth } = this.props;
+        const { width, autoWidth, containerPadding } = this.props;
         let sumOfColumnWidth = autoWidth ? this.state.maxWidth : width;
-        sumOfColumnWidth = sumOfColumnWidth - SCROLLBAR_WIDTH;
+        sumOfColumnWidth = sumOfColumnWidth - containerPadding - SCROLLBAR_WIDTH;
 
         const newColumnsWidth = this.columnWidthSum && this.state.columnsWidth.map(cellWidth => {
             return sumOfColumnWidth / this.columnWidthSum * cellWidth
@@ -205,10 +210,11 @@ class Table extends Component {
         return newColumnsWidth;
     }
     render() {
-        const { width, autoWidth, minWidth, header, body, footer, isPaging, pageOption, onPaging } = this.props;
-        const maxWidth = this.state.maxWidth;
+        const { width, autoWidth, minWidth, header, body, footer, isPaging, pageOption, onPaging, containerPadding } = this.props;
+        const maxWidth = this.state.maxWidth - containerPadding;
+        const actualWidth = width - containerPadding;
 
-        const newColumnLayout = this.columnWidthSum && this.columnWidthSum !== width ?
+        const newColumnLayout = this.columnWidthSum && this.columnWidthSum !== actualWidth ?
             this._getUpdatedColumnLayout() :
             this.state.columnsWidth;
 
@@ -216,7 +222,7 @@ class Table extends Component {
             return null;
         }
 
-        const sectionProps = { width, autoWidth, minWidth, maxWidth };
+        const sectionProps = { width: actualWidth, autoWidth, minWidth, maxWidth };
         const rowLayout = <RowLayout columnLayout={newColumnLayout} />;
 
         const Header = this.Header;

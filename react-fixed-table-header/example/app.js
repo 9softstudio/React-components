@@ -83,6 +83,7 @@ export default class App extends Component {
                 footer={this._buildFooter()}
                 isPaging={true}
                 pageOption={defaultPagingOption}
+                containerPadding={0}
             />
         );
     }
