@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
-
-import { Table, Row, Cell } from '../dist/index'
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import { Table, Row, Cell } from '../dist/index';
 
 export default class App extends Component {
     constructor(props) {
