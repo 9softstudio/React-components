@@ -14,13 +14,7 @@ describe('When init', () => {
     it('when input valid set state isValid true', () => {
         const component = shallow(<Numeric  format={"decimal"} value={"1234.2"}/>);
         expect(component.state().isValid).toEqual(true);
-    })
-
-    it('call onchange in constructor if needed', () => {
-        const onChangeSpy = jest.fn();
-        const component = shallow(<Numeric value={"123"} onChange={onChangeSpy}/>);   
-        expect(onChangeSpy).toHaveBeenCalled();
-    })   
+    })    
 })
 
 describe('Get right format', () => {     
@@ -61,24 +55,30 @@ describe('Get right format', () => {
 })
 
 describe("When input changed", () => {
-    it('call onchange of prop when state value changed', () => {
+    it('call onchange with the value converted to number', () => {
         const onChangeSpy = jest.fn();
         const component = shallow(<Numeric onChange={onChangeSpy}/>);
         const event = {target: {value: "1234"}};
         component.simulate('change', event);
-        expect(onChangeSpy).toHaveBeenCalledWith({isValid: true, value: "1234"});
-    })
+        expect(onChangeSpy).toHaveBeenCalledWith({isValid: true, value: 1234});
+    })   
 })
 
 describe('Dom attributes', () => {
-    it('when valid className is empty', () => {
-        const component = shallow(<Numeric value={"123"}/>);   
-        expect(component.prop('className')).toEqual('');
+    it('get className from prop', () => {
+        const component = shallow(<Numeric value={"123"} className="some_classes"/>);   
+        expect(component.prop('className')).toContain('some_classes');
     })
 
-    it('when invalid className is invalid', () => {
+    it('when valid, does not have className "invalid"', () => {
+        const component = shallow(<Numeric value={"123"}/>);   
+        let classNames = component.prop('className');
+        expect(classNames.indexOf('invalid')).toBeLessThan(0);
+    })
+
+    it('when invalid, has className "invalid"', () => {
         const component = shallow(<Numeric format={"integer"} value={"123.1"} />);   
-        expect(component.prop('className')).toEqual('invalid');
+        expect(component.prop('className')).toContain('invalid');
     })
 
     it('when valid title is empty', () => {

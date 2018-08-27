@@ -27,7 +27,6 @@ export class Numeric extends React.Component {
             isValid: regex.test(this.props.value)
         }    
         
-        this.callPropOnChange(this.state.isValid, this.props.value);            
         this.handleChange  = this.handleChange.bind(this);
     }   
 
@@ -52,7 +51,7 @@ export class Numeric extends React.Component {
         if(this.props.onChange){
             this.props.onChange({
                 isValid: isValid,
-                value: value
+                value: parseFloat(value)
             });
         }
     }
