@@ -14,7 +14,7 @@ export class Form extends React.Component {
         super(props);        
 
         this.state = {
-            isActive: false,
+            isShowedNotifcation: false,
             message: "Hello there!"
         }
 
@@ -30,23 +30,26 @@ export class Form extends React.Component {
     }
 
     showNotification(){
-        this.setState({isActive: true});
+        this.setState({isShowedNotifcation: true});
     }   
 
     hideNotification(){
-        this.setState({isActive: false});
+        this.setState({isShowedNotifcation: false});
     }
 
     render() {        
         return (
             <div className="exampleDiv">
                 <input value={this.state.message} onChange={this.updateMessage}/> 
-                <button onClick={this.showNotification}>Show message</button>           
-                <Notification 
+                <button onClick={this.showNotification}>Show message</button>  
+                {
+                    this.state.isShowedNotifcation ? 
+                        <Notification 
                             message={this.state.message}  
                             timeout={3000} 
-                            isActive={this.state.isActive} 
                             onClose={this.hideNotification}/>
+                        : null
+                }                         
             </div>
         );
     }

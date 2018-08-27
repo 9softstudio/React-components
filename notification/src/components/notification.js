@@ -5,20 +5,13 @@ import './notification.scss';
 export class Notification extends React.Component {
     constructor(props){
         super(props);
-        this.timer = null;
+        setTimeout(() => this.props.onClose(), this.props.timeout);        
     }
-
-    componentDidUpdate(){
-        clearTimeout(this.timer);
-        if(this.props.isActive){
-            this.timer = setTimeout(() => this.props.onClose(), this.props.timeout);
-        }
-    }
-
+   
     render() {
         return (
             <div className="notification">
-                <div className={"messageBox " + (this.props.isActive ? '' : ' hidden')} >
+                <div className="messageBox">
                     <div className="content content-info">
                         <span className="close" onClick={this.props.onClose}>×</span>
                         <div className="message">{this.props.message}</div>
@@ -36,6 +29,5 @@ Notification.defaultProps = {
 Notification.propTypes = {
    message: PropTypes.string.isRequired,
    timeout: PropTypes.number,
-   isActive: PropTypes.bool.isRequired,
    onClose: PropTypes.func.isRequired
 };
