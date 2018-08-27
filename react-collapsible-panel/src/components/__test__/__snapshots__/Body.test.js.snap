@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Panel Body is collapsed: not render 1`] = `null`;
+
+exports[`Panel Body is expanded: custom class name 1`] = `
+<div
+  className="hello la-panel__body"
+/>
+`;
+
+exports[`Panel Body is expanded: has children 1`] = `
+<div
+  className="hello la-panel__body"
+>
+  <span>
+    world
+  </span>
+</div>
+`;
+
+exports[`Panel Body is expanded: renders correctly 1`] = `
+<div
+  className="la-panel__body"
+/>
+`;

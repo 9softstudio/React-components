@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Panel: custom class name 1`] = `
+<div
+  className="test la-panel "
+/>
+`;
+
+exports[`Panel: default collapsed 1`] = `
+<div
+  className="la-panel is-collapsed"
+/>
+`;
+
+exports[`Panel: has children 1`] = `
+<div
+  className="la-panel "
+>
+  <span>
+    helloworld
+  </span>
+</div>
+`;
+
+exports[`Panel: renders correctly 1`] = `
+<div
+  className="la-panel "
+/>
+`;

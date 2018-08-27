@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Panel Header is collapsible: custom class name 1`] = `
+<div
+  className="hello la-panel__header"
+>
+  <span
+    className="la-panel__indicator"
+  />
+</div>
+`;
+
+exports[`Panel Header is collapsible: has children 1`] = `
+<div
+  className="hello la-panel__header"
+>
+  <span
+    className="la-panel__indicator"
+  />
+  <span>
+    world
+  </span>
+</div>
+`;
+
+exports[`Panel Header is collapsible: renders correctly 1`] = `
+<div
+  className="la-panel__header"
+>
+  <span
+    className="la-panel__indicator"
+  />
+</div>
+`;
+
+exports[`Panel Header is not collapsible: hide indicator icon 1`] = `
+<div
+  className="hello la-panel__header"
+>
+  <span>
+    world
+  </span>
+</div>
+`;
