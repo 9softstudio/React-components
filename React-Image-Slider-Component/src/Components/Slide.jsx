@@ -7,9 +7,7 @@ export default class Slide extends Component {
         return (
             <Context.Consumer>{
                 ({ onImageClick, currentSlideIndex }) =>
-                    <div className={`slide${index === currentSlideIndex ? " active" : ""}`} onClick={() => onImageClick(currentSlideIndex)}>
-                        <img src={imageInfo.url} alt={imageInfo.text} className="slide-img" />
-                    </div>
+                    <img src={imageInfo.url} alt={imageInfo.text} className={`slide${index === currentSlideIndex ? " active" : ""}`} onClick={() => onImageClick(currentSlideIndex)} />
             }</Context.Consumer>);
     }
 };

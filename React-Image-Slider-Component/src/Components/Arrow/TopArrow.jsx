@@ -6,9 +6,7 @@ export default class TopArrow extends Component {
         return (
             <Context.Consumer>{
                 ({ onTopArrowClick }) =>
-                    <div className='slider-arrow-position top-arrow' onClick={onTopArrowClick}>
-                        <img src="img/slider-top-arrow.png" className="slider-arrow-position-img" />
-                    </div>
+                    <img src="img/slider-top-arrow.png" className="slider-arrow-position top-arrow" onClick={onTopArrowClick} />
             }</Context.Consumer>);
     }
 };

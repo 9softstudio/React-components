@@ -6,9 +6,7 @@ export default class LeftArrow extends Component {
         return (
             <Context.Consumer>{
                 ({ onLeftArrowClick }) =>
-                    <div className='slider-arrow-position left-arrow' onClick={onLeftArrowClick}>
-                        <img src="img/slider-left-arrow.png" className="slider-arrow-position-img" />
-                    </div>
+                    <img src="img/slider-left-arrow.png" className="slider-arrow-position left-arrow" onClick={onLeftArrowClick} />
             }</Context.Consumer>);
     }
 };

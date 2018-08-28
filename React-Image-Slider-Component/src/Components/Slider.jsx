@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import Context from '../slider-context';
 import { mergeClassName } from '../utils';
 import Slide from './Slide';
-import LeftArrow from './Arrow/LeftArrow';
-import RightArrow from './Arrow/RightArrow';
-import TopArrow from './Arrow/TopArrow';
-import BottomArrow from './Arrow/BottomArrow';
+import LeftArrow from './arrow/LeftArrow';
+import RightArrow from './arrow/RightArrow';
+import TopArrow from './arrow/TopArrow';
+import BottomArrow from './arrow/BottomArrow';
 
 export default class Slider extends Component {
     constructor(props) {
@@ -77,10 +77,10 @@ export default class Slider extends Component {
 
             <div className={mergeClassName(this.props, 'la-slider')}>
                 {this.renderSlides()}
-                {this.props.isShowLeftArrow && <LeftArrow> </LeftArrow>}
-                {this.props.isShowRightArrow && <RightArrow> </RightArrow>}
-                {this.props.isShowTopArrow && <TopArrow> </TopArrow>}
-                {this.props.isShowBottomArrow && <BottomArrow></BottomArrow>}
+                {this.props.isShowLeftArrow && <LeftArrow />}
+                {this.props.isShowRightArrow && <RightArrow />}
+                {this.props.isShowTopArrow && <TopArrow />}
+                {this.props.isShowBottomArrow && <BottomArrow />}
             </div>
         </Context.Provider>);
     }
