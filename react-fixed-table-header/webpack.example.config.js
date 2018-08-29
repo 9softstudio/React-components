@@ -1,52 +1,56 @@
-var path = require('path');
-const webpack = require('webpack');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const extractSass = new ExtractTextPlugin({
-    filename: "[name].css"
-});
-
-module.exports = {
-    entry: {
-        'app': './example/app.js'
-    },
-    output: {
-        filename: '[name].js',
-        path: path.resolve(__dirname, './example/dist')
-    },
-    resolve: {
-        extensions: [".js", ".jsx"],
-    },
-    module: {
-        rules: [{
-                test: /\.(js|jsx)$/,
-                use: 'babel-loader',
-                exclude: /(node_modules|bower_components)/,
-            },
-            {
-                test: /\.scss$/,
-                use: ExtractTextPlugin.extract({
-                    use: [{
-                        loader: "css-loader"
-                    }, {
-                        loader: "sass-loader",
-                        options: {
-                            sourceMap: true
-                        }
-                    }],
-                    // use style-loader in development
-                    fallback: "style-loader"
-                })
-            }
-        ]
-    },
-    plugins: [
-        extractSass
-    ],
-    devServer: {
-        contentBase: path.join(__dirname, "./example"),
-        compress: true
-    },
-    devtool: "source-map",
-    watch: true
+const environment = {
+    development: 'development',
+    production: 'production'
 }
+
+module.exports = env => {
+    env = environment[env] || environment.development;
+
+    const webpackConfig = {
+        context: path.resolve(__dirname, "./"),
+        mode: env,
+        stats: { modules: false },
+        resolve: { extensions: [".js", ".jsx"] },
+        entry: {
+            'app': './example/app.js'
+        },
+        output: {
+            path: path.resolve(__dirname, './example/dist'),
+            filename: "[name].js",
+            publicPath: '/example/dist/'
+        },
+        module: {
+            rules: [{
+                    test: /\.(js|jsx)$/,
+                    use: "babel-loader",
+                    exclude: /(node_modules|bower_components)/
+                },
+                {
+                    test: /\.s?[ac]ss$/,
+                    use: [
+                        "style-loader",
+                        MiniCssExtractPlugin.loader,
+                        "css-loader",
+                        "sass-loader"
+                    ]
+                }
+            ]
+        },
+        plugins: [
+            new MiniCssExtractPlugin({
+                filename: "[name].css"
+            }),
+        ],
+        devtool: "source-map",
+        devServer: {
+            port: 3000,
+            hot: true,
+            watchContentBase: true
+        }
+    };
+
+    return webpackConfig;
+};

@@ -60,7 +60,7 @@ describe('Table ', () => {
                 const props = Object.assign({}, defaultProps, { header: [] });
                 const table = new Table(props);
 
-                const result = table.columnsWidth;
+                const result = table.state.columnsWidth;
 
                 expect(result).toBeNull();
             })
@@ -70,7 +70,7 @@ describe('Table ', () => {
 
                 const table = new Table(defaultProps);
 
-                const result = table.columnsWidth;
+                const result = table.state.columnsWidth;
 
                 expect(result).toEqual(expectedResult);
             })
@@ -88,12 +88,12 @@ describe('Table ', () => {
                 const props = Object.assign({}, defaultProps, { header });
                 const table = new Table(props);
 
-                const result = table.columnsWidth;
+                const result = table.state.columnsWidth;
 
                 expect(result).toEqual(expectedResult);
             })
 
-            it('componentWillReceiveProps - columnsWidth should be updated with correct values', () => {
+        it('componentDidUpdate - columnsWidth should be updated with correct values', () => {
                 const header = [
                     <Row>
                         <Cell colWidth={200}>Cell 1</Cell>
@@ -103,28 +103,31 @@ describe('Table ', () => {
                 ]
                 const expectedResult = [200, 200];
 
-                const table = new Table(defaultProps);
-                const nextProps = Object.assign({}, defaultProps, { header });
-                table.props = nextProps;
-                table.componentWillReceiveProps(nextProps);
+                const props = Object.assign({}, {...defaultProps});
+                const table = new Table(props);
+                table.setState = jest.fn();
+                props.header = header;
+                table.componentDidUpdate(defaultProps);
                 
-                const result = table.columnsWidth;
+                const result = table.state.columnsWidth;
 
-                expect(result).toEqual(expectedResult);
+                expect(table.setState).toHaveBeenCalledWith({columnsWidth: expectedResult});
             })
         })
 
         describe('state', () => {
             it('initial state should be correct value', () => {
                 const expectedResult = {
-                    maxWidth: defaultProps.maxWidth
+                    maxWidth: defaultProps.maxWidth,
+                    contentHeight: defaultProps.bodyHeight,
+                    columnsWidth: [120, 200, 100, 50, 100, 300, 100]
                 }
 
                 const table = new Table(defaultProps);
 
                 const result = table.state;
 
-                expect(result).toEqual(expectedResult)
+                expect(result).toEqual(expectedResult);
             })
         })
     })
@@ -432,19 +435,6 @@ describe('Table ', () => {
             expect(window.removeEventListener.mock.calls[0][0]).toBe('resize');
 
             window.removeEventListener = originalRemoveEventListenerFunction;
-        })
-    })
-
-    describe("componentWillReceiveProps", () => {
-        it("column width should has correct value", () => {
-            const expectedWidth = [100, 200];
-            const table = new Table(defaultProps);
-            table._getColumnsWidth = jest.fn(() => expectedWidth);
-
-            const nextProps = Object.assign({}, defaultProps);
-            table.componentWillReceiveProps(nextProps);
-
-            expect(table.columnsWidth).toEqual(expectedWidth);
         })
     })
 })

@@ -1,76 +1,80 @@
-var path = require('path');
-const webpack = require('webpack');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const path = require("path");
+const webpack = require("webpack");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const merge = require("webpack-merge");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 
-const extractSass = new ExtractTextPlugin({
-    filename: "[name].css"
-});
+const environment = {
+    development: 'development',
+    production: 'production'
+}
 
-var webpackConfig = {
-    entry: {
-        'dist/index': './src/index.jsx',
-        'dist/style': './src/style/_fixed-table-header.scss'
-    },
-    output: {
-        filename: '[name].js',
-        path: path.resolve(__dirname, './'),
-        libraryTarget: 'umd',
-        library: 'ReactFixedTableHeader'
-    },
-    resolve: {
-        extensions: [".js", ".jsx"],
-    },
-    module: {
-        rules: [{
+let pathsToClean = ["dist/*.*"];
+
+let cleanOptions = {
+    root: path.resolve(__dirname, "."),
+    verbose: true,
+    dry: false
+};
+
+module.exports = env => {
+    env = environment[env] || environment.development;
+    const isDevBuild = !(env === environment.production);
+
+    const sharedConfig = () => ({
+        context: path.resolve(__dirname, "./"),
+        mode: env,
+        stats: { modules: false },
+        resolve: { extensions: [".js", ".jsx"] },
+        output: {
+            filename: "[name].js",
+            publicPath: '/dist/',
+            libraryTarget: 'umd',
+            library: 'ReactFixedTableHeader'
+        },
+        module: {
+            rules: [{
                 test: /\.(js|jsx)$/,
-                use: 'babel-loader',
-                exclude: /(node_modules|bower_components)/,
-            },
-            {
-                test: /\.scss$/,
-                use: ExtractTextPlugin.extract({
-                    use: [{
-                        loader: "css-loader"
-                    }, {
-                        loader: "sass-loader",
-                        options: {
-                            sourceMap: true
-                        }
-                    }],
-                    // use style-loader in development
-                    fallback: "style-loader"
-                })
-            }
-        ]
-    },
-    plugins: [
-        extractSass,
-        new CleanWebpackPlugin(["dist"], {
-            root: process.cwd()
-        }),
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-        })
-    ],
-    devtool: "source-map"
-}
-
-// webpack production config.
-if (process.env.NODE_ENV === 'production') {
-    webpackConfig.externals = {
-        react: {
-            root: 'React',
-            commonjs2: 'react',
-            commonjs: 'react',
-            amd: 'react'
+                use: "babel-loader",
+                exclude: /(node_modules|bower_components)/
+            }]
         }
-    };
-    webpackConfig.plugins.push(new UglifyJSPlugin());
+    });
 
-    webpackConfig.watch = false;
-    webpackConfig.devtool = undefined;
-}
+    // Configuration for client-side bundle suitable for running in browsers
+    const clientBundleConfig = merge(sharedConfig(), {
+        entry: {
+            'index': './src/index.jsx',
+            'style': './src/style/_fixed-table-header.scss'
+        },
+        module: {
+            rules: [{
+                test: /\.s?[ac]ss$/,
+                use: [
+                    "style-loader",
+                    MiniCssExtractPlugin.loader,
+                    "css-loader",
+                    "sass-loader"
+                ]
+            }]
+        },
+        output: { path: path.resolve(__dirname, "./dist") },
+        plugins: [
+            new MiniCssExtractPlugin({
+                filename: "[name].css"
+            })
+        ].concat(isDevBuild ? [] : [new OptimizeCSSAssetsPlugin(), new CleanWebpackPlugin(pathsToClean, cleanOptions), ]),
+        devtool: isDevBuild ? "source-map" : undefined,
+        externals: isDevBuild ? {} : {
+            react: {
+                root: 'React',
+                commonjs2: 'react',
+                commonjs: 'react',
+                amd: 'react'
+            }
+        }
+    });
 
-module.exports = webpackConfig;
+    return clientBundleConfig;
+};

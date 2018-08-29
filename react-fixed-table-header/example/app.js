@@ -1,7 +1,14 @@
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import { Table, Row, Cell } from '../dist/index';
 
-import { Table, Row, Cell } from '../dist/index'
+const totalItem = 30;
+const defaultPagingOption = {
+    PageIndex: 1,
+    PageSize: 10,
+    TotalItem: totalItem + 1,
+    PageList: [10, 20, 50, 100, 500]
+};
 
 export default class App extends Component {
     constructor(props) {
@@ -35,7 +42,7 @@ export default class App extends Component {
             </Row>
         );
 
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < totalItem; i++) {
             rows.push(
                 <Row key={`body${i}`}>
                     <Cell>Data 1</Cell>
@@ -74,6 +81,9 @@ export default class App extends Component {
                 header={this._buildHeader()}
                 body={this._buildBody()}
                 footer={this._buildFooter()}
+                isPaging={true}
+                pageOption={defaultPagingOption}
+                containerPadding={0}
             />
         );
     }

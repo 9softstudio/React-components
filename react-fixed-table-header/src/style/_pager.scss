@@ -1,0 +1,97 @@
+﻿$colorLightGray: #ccc;
+$colorDisabledPgButton: #d1dae1;
+$bgPaging: #EFF3F8;
+$colorBorderPaging: #d1dae1;
+.page-container {
+    padding: 3px;
+    background-color: $bgPaging;
+    border: 1px solid $colorBorderPaging;
+    text-align: center;
+    .icon {
+        position: relative;
+        top: 1px;
+        display: inline-block;
+        font-family: 'Icons';
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-size: 12px;
+        color: #4c6375;
+        cursor: pointer;
+        margin: 0 5px;
+        &:focus {
+            outline: none;
+        }
+        &:hover,
+        &:focus {
+            text-decoration: none;
+        }
+    }
+    .disable {
+        color: $colorDisabledPgButton;
+        cursor: default;
+        pointer-events: none;
+    }
+    .page-first {
+        &:before {
+            content: "\e097";
+        }
+    }
+    .page-prev {
+        &:before {
+            content: "\e02e";
+        }
+    }
+    .page-next {
+        &:before {
+            content: "\e02f";
+        }
+    }
+    .page-last {
+        &:before {
+            content: "\e098";
+        }
+    }
+    .page-form {
+        width: auto;
+        height: auto;
+        font-size: inherit;
+        padding: 2px;
+        text-align: center;
+        margin: 0;
+        &,
+        &:focus {
+            background: #fff;
+            border: 1px solid #e2d6d6;
+            box-shadow: none;
+        }
+    }
+    .page-input {
+        display: inline;
+        &:after,
+        &:before {
+            content: "";
+            border: 1px solid #ccc;
+        }
+        &:after {
+            margin-left: 5px;
+        }
+        &:before {
+            margin-right: 5px;
+        }
+    }
+    .pagesize-select {
+        height: auto;
+        font-size: inherit;
+        padding: 2px;
+        min-width: 65px;
+        border: 1px solid #e2d6d6;
+        margin-left: 5px;
+    }
+    .page-info {
+        float: right;
+        padding: 3px;
+    }
+}
