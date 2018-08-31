@@ -1,37 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { getCurrentDate } from '../modules/constants';
 import YearSelector from './YearSelector';
 import MonthList from './MonthList';
-
-const defaultMonthNames = [
-    ['Jan', 'Feb', 'Mar'],
-    ['Apr', 'May', 'Jun'],
-    ['Jul', 'Aug', 'Sep'],
-    ['Oct', 'Nov', 'Dec']
-]
 
 export default class MonthPicker extends React.Component {
     constructor(props) {
         super(props);
+
+        const { open, selectedYear, selectedMonth } = this.props;
+        const now = getCurrentDate();
+
+        const initialYear = selectedYear || now.getFullYear();
+
         this.state = {
-            open: false
+            open,
+            selectedYear: initialYear,
+            prevSelectedYear: initialYear,
+            selectedMonth: selectedMonth ? selectedMonth - 1 : now.getMonth()
         }
     }
 
     static propTypes = {
         open: PropTypes.bool,
+        minMonth: PropTypes.number,
         minYear: PropTypes.number,
+        maxMonth: PropTypes.number,
         maxYear: PropTypes.number,
         monthNames: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
-        disableFutureMonth: PropTypes.bool
+        hasRange: PropTypes.bool,
+        selectedYear: PropTypes.number,
+        selectedMonth: PropTypes.number,
+        onSelect: PropTypes.func
     }
 
     static defaultProps = {
         open: false,
-        minYear: 2000,
-        monthNames: defaultMonthNames,
-        disableFutureMonth: true
+        onSelect: () => { }
     }
 
     toggle = () => {
@@ -40,32 +46,21 @@ export default class MonthPicker extends React.Component {
         }));
     }
 
-    _getYearList() {
-        let { minYear, maxYear } = this.props;
-        maxYear = maxYear || (new Date()).getFullYear();
-
-        if (minYear > maxYear) {
-            const temp = minYear;
-            minYear = maxYear;
-            maxYear = temp;
-        }
-
-        const yearList = [];
-        for (let i = maxYear; i >= minYear; i--) {
-            yearList.push(i);
-        }
-
-        return yearList;
+    handleChangeYear = (selectedValue) => {
+        console.log(selectedValue);
+        console.log(this.state);
+        this.setState({ selectedYear: selectedValue }, () => this.props.onSelect(this.state.selectedMonth + 1, selectedValue));
     }
 
-    handleChangeYear = (selectedYear) => {
-        console.log(selectedYear);
+    handleSelectMonth = (selectedValue) => {
+        console.log(selectedValue);
+        const { selectedYear } = this.state;
+        this.setState({ selectedMonth: selectedValue, prevSelectedYear: selectedYear }, () => this.props.onSelect(selectedValue + 1, selectedYear));
     }
 
     render() {
-        const { open } = this.state;
-        const { monthNames, disableFutureMonth } = this.props;
-        const yearList = this._getYearList();
+        const { open, selectedYear, prevSelectedYear, selectedMonth } = this.state;
+        let { monthNames, hasRange, minMonth, minYear, maxMonth, maxYear } = this.props;
 
         return (
             <div className="rmp-main-container">
@@ -73,8 +68,11 @@ export default class MonthPicker extends React.Component {
                     <input type="text" className="mp-form-input" />
                 </div>
                 <div className="mp-container" style={{ display: open ? 'block' : 'none' }}>
-                    <YearSelector yearList={yearList} onSelect={this.handleChangeYear} />
-                    <MonthList monthNames={monthNames} disableFutureMonth={disableFutureMonth} />
+                    <YearSelector minYear={minYear} maxYear={maxYear} selectedYear={selectedYear} onSelect={this.handleChangeYear} />
+                    <MonthList monthNames={monthNames} hasRange={hasRange}
+                        selectedYear={selectedYear} selectedMonth={selectedMonth} prevSelectedYear={prevSelectedYear}
+                        minMonth={minMonth} minYear={minYear} maxMonth={maxMonth} maxYear={maxYear}
+                        onSelect={this.handleSelectMonth} />
                 </div>
             </div>
         )

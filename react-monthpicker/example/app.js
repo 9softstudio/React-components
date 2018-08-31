@@ -7,11 +7,15 @@ export default class App extends Component {
         super(props);
     }
 
+    handleSelect = (month, year) => {
+        console.log(month, year);
+    }
+
     render() {
         return (
-            <MonthPicker />
+            <MonthPicker onSelect={this.handleSelect} />
         );
     }
 }
 
-ReactDOM.render( < App / > , document.getElementById("app"));
+ReactDOM.render(<App />, document.getElementById("app"));
