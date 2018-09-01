@@ -11,7 +11,7 @@ export default class YearSelector extends React.Component {
     static propTypes = {
         minYear: PropTypes.number,
         maxYear: PropTypes.number,
-        selectedYear: PropTypes.number,
+        displayedYear: PropTypes.number,
         onSelect: PropTypes.func
     }
 
@@ -44,9 +44,9 @@ export default class YearSelector extends React.Component {
     }
 
     render() {
-        const { selectedYear } = this.props;
+        const { displayedYear } = this.props;
         const yearList = this._getYearList();
-        const selectedValue = selectedYear || (yearList.length && yearList[0]);
+        const selectedValue = displayedYear || (yearList.length && yearList[0]);
 
         return (
             <div className="mp-header">

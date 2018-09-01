@@ -5,19 +5,23 @@ import { getCurrentDate } from '../modules/constants';
 import YearSelector from './YearSelector';
 import MonthList from './MonthList';
 
+const defaultFormatFunc = (month, year) => {
+    return `${month < 10 ? '0' + month : month }/${year}`
+}
+
 export default class MonthPicker extends React.Component {
     constructor(props) {
         super(props);
 
-        const { open, selectedYear, selectedMonth } = this.props;
+        const { open, displayedYear, selectedMonth } = this.props;
         const now = getCurrentDate();
 
-        const initialYear = selectedYear || now.getFullYear();
+        const initialYear = displayedYear || now.getFullYear();
 
         this.state = {
             open,
+            displayedYear: initialYear,
             selectedYear: initialYear,
-            prevSelectedYear: initialYear,
             selectedMonth: selectedMonth ? selectedMonth - 1 : now.getMonth()
         }
     }
@@ -30,14 +34,16 @@ export default class MonthPicker extends React.Component {
         maxYear: PropTypes.number,
         monthNames: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
         hasRange: PropTypes.bool,
-        selectedYear: PropTypes.number,
+        displayedYear: PropTypes.number,
         selectedMonth: PropTypes.number,
-        onSelect: PropTypes.func
+        onSelect: PropTypes.func,
+        onFormat: PropTypes.func
     }
 
     static defaultProps = {
         open: false,
-        onSelect: () => { }
+        onSelect: () => { },
+        onFormat: defaultFormatFunc
     }
 
     toggle = () => {
@@ -47,30 +53,28 @@ export default class MonthPicker extends React.Component {
     }
 
     handleChangeYear = (selectedValue) => {
-        console.log(selectedValue);
-        console.log(this.state);
-        this.setState({ selectedYear: selectedValue }, () => this.props.onSelect(this.state.selectedMonth + 1, selectedValue));
+        this.setState({ displayedYear: selectedValue }, () => this.props.onSelect(this.state.selectedMonth + 1, selectedValue));
     }
 
     handleSelectMonth = (selectedValue) => {
-        console.log(selectedValue);
-        const { selectedYear } = this.state;
-        this.setState({ selectedMonth: selectedValue, prevSelectedYear: selectedYear }, () => this.props.onSelect(selectedValue + 1, selectedYear));
+        const { displayedYear } = this.state;
+        this.setState({ selectedMonth: selectedValue, selectedYear: displayedYear }, () => this.props.onSelect(selectedValue + 1, displayedYear));
     }
 
     render() {
-        const { open, selectedYear, prevSelectedYear, selectedMonth } = this.state;
-        let { monthNames, hasRange, minMonth, minYear, maxMonth, maxYear } = this.props;
+        const { open, displayedYear, selectedYear, selectedMonth } = this.state;
+        let { monthNames, hasRange, minMonth, minYear, maxMonth, maxYear, onFormat } = this.props;
+        const displayText = onFormat(selectedMonth + 1, selectedYear);
 
         return (
             <div className="rmp-main-container">
                 <div className='mp-form-container' onClick={this.toggle}>
-                    <input type="text" className="mp-form-input" />
+                    <input type="text" className="mp-form-input" value={displayText} />
                 </div>
                 <div className="mp-container" style={{ display: open ? 'block' : 'none' }}>
-                    <YearSelector minYear={minYear} maxYear={maxYear} selectedYear={selectedYear} onSelect={this.handleChangeYear} />
+                    <YearSelector minYear={minYear} maxYear={maxYear} displayedYear={displayedYear} onSelect={this.handleChangeYear} />
                     <MonthList monthNames={monthNames} hasRange={hasRange}
-                        selectedYear={selectedYear} selectedMonth={selectedMonth} prevSelectedYear={prevSelectedYear}
+                        displayedYear={displayedYear} selectedMonth={selectedMonth} selectedYear={selectedYear}
                         minMonth={minMonth} minYear={minYear} maxMonth={maxMonth} maxYear={maxYear}
                         onSelect={this.handleSelectMonth} />
                 </div>

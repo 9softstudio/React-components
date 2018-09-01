@@ -16,13 +16,13 @@ export default class MonthList extends React.Component {
     }
 
     static propTypes = {
-        monthNames: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+        monthNames: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
         minMonth: PropTypes.number,
         minYear: PropTypes.number,
         maxMonth: PropTypes.number,
         maxYear: PropTypes.number,
+        displayedYear: PropTypes.number,
         selectedYear: PropTypes.number,
-        prevSelectedYear: PropTypes.number,
         selectedMonth: PropTypes.number,
         hasRange: PropTypes.bool
     }
@@ -47,7 +47,7 @@ export default class MonthList extends React.Component {
     }
 
     _buildRow(monthRow, index) {
-        const { selectedYear, prevSelectedYear } = this.props;
+        const { displayedYear, selectedYear } = this.props;
         const selectedMonth = this.props.selectedMonth === undefined ? getCurrentDate().getMonth() : this.props.selectedMonth;
 
         return (
@@ -57,7 +57,7 @@ export default class MonthList extends React.Component {
                         const currentMonth = index * monthRow.length + j;
                         const isDisabled = this.props.hasRange && !this._isInRange(currentMonth);
                         const disableClass = isDisabled ? "mp-disabled" : "";
-                        const activeClass = selectedYear === prevSelectedYear && selectedMonth === currentMonth ? "mp-active" : "";
+                        const activeClass = displayedYear === selectedYear && selectedMonth === currentMonth ? "mp-active" : "";
 
                         return (
                             <td key={cell}>
@@ -74,14 +74,14 @@ export default class MonthList extends React.Component {
     }
 
     _isInRange(currentMonth) {
-        let { minMonth, minYear, maxMonth, maxYear, selectedYear } = this.props;
+        let { minMonth, minYear, maxMonth, maxYear, displayedYear } = this.props;
         const now = getCurrentDate();
         maxYear = maxYear || now.getFullYear();
         maxMonth = maxMonth ? maxMonth - 1 : now.getMonth();
-        selectedYear = selectedYear || now.getFullYear();
+        displayedYear = displayedYear || now.getFullYear();
 
-        const isValidMinRange = selectedYear > minYear || (selectedYear === minYear && currentMonth >= minMonth - 1);
-        const isValidMaxRange = selectedYear < maxYear || (selectedYear === maxYear && currentMonth <= maxMonth);
+        const isValidMinRange = displayedYear > minYear || (displayedYear === minYear && currentMonth >= minMonth - 1);
+        const isValidMaxRange = displayedYear < maxYear || (displayedYear === maxYear && currentMonth <= maxMonth);
 
         return isValidMinRange && isValidMaxRange;
     }
