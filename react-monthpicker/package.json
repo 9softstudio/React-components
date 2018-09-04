@@ -1,6 +1,6 @@
 {
     "name": "@9softstudio/react-monthpicker",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "description": "React Month Picker",
     "repository": {
         "type": "git",
@@ -11,13 +11,11 @@
         "react-monthpicker",
         "monthpicker"
     ],
-    "main": "index.js",
+    "main": "dist/index.js",
     "scripts": {
         "start": "node_modules/.bin/webpack-dev-server --config webpack.example.config.js --hot --inline --progress --watch-content-base",
         "build:dev": "node node_modules/webpack/bin/webpack.js --config webpack.config.js --watch",
-        "build:pro": "node node_modules/webpack/bin/webpack.js --config webpack.config.js --env=production",
-        "run:example": "node node_modules/webpack/bin/webpack.js --config webpack.config.js && npm run start",
-        "test": "jest --coverage"
+        "build:pro": "node node_modules/webpack/bin/webpack.js --config webpack.config.js --env=production"
     },
     "author": "walter",
     "license": "MIT",

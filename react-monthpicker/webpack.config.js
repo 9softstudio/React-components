@@ -46,7 +46,7 @@ module.exports = env => {
     const clientBundleConfig = merge(sharedConfig(), {
         entry: {
             'index': './src/js/index.jsx',
-            'style': './src/style/reactmonthpicker.scss'
+            'reactmonthpicker': './src/style/reactmonthpicker.scss'
         },
         module: {
             rules: [{
