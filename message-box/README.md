@@ -1,4 +1,4 @@
-NOTIFICATION
+MESSAGE BOX
 =======
 ## Demo
 [MessageBox Demo](https://jsfiddle.net/tuanhn/pz9j1357/)
