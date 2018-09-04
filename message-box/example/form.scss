@@ -1,0 +1,22 @@
+.exampleDiv {
+    margin: 10px;
+
+    label {
+        display: inline-block;
+        width: 60px;
+    }
+    
+    input {
+        width: 300px;
+    }
+    
+    .positive span{
+        font-weight: bold;
+        color: green;
+    }
+
+    .negative span{
+        font-weight: bold;
+        color: red;
+    }
+}
