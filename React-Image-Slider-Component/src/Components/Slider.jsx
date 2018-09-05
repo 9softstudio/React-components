@@ -12,12 +12,6 @@ export default class Slider extends Component {
     constructor(props) {
         super(props);
         this.state = { currentSlideIndex: 0, intervalId: 0 };
-
-        this.onLeftArrowClick = this.onLeftArrowClick.bind(this);
-        this.onRightArrowClick = this.onRightArrowClick.bind(this);
-        this.onTopArrowClick = this.onTopArrowClick.bind(this);
-        this.onBottomArrowClick = this.onBottomArrowClick.bind(this);
-        this.onImageClick = this.onImageClick.bind(this);
     }
 
     renderSlides() {
@@ -68,11 +62,11 @@ export default class Slider extends Component {
         return (<Context.Provider value=
             {({
                 currentSlideIndex: this.state.currentSlideIndex,
-                onLeftArrowClick: this.onLeftArrowClick,
-                onRightArrowClick: this.onRightArrowClick,
-                onTopArrowClick: this.onTopArrowClick,
-                onBottomArrowClick: this.onBottomArrowClick,
-                onImageClick: this.onImageClick
+                onLeftArrowClick: () => this.onLeftArrowClick(),
+                onRightArrowClick: () => this.onRightArrowClick(),
+                onTopArrowClick: () => this.onTopArrowClick(),
+                onBottomArrowClick: () => this.onBottomArrowClick(),
+                onImageClick: (index) => this.onImageClick(index)
             })}>
 
             <div className={mergeClassName(this.props, 'la-slider')}>

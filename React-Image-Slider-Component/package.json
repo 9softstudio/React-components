@@ -29,6 +29,8 @@
         "clean-webpack-plugin": "^0.1.17",
         "cross-env": "^5.1.1",
         "css-loader": "^0.28.7",
+        "enzyme": "^3.6.0",
+        "enzyme-adapter-react-16": "^1.4.0",
         "extract-text-webpack-plugin": "^3.0.2",
         "jest": "^23.5.0",
         "node-sass": "^4.6.0",
