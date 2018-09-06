@@ -2,7 +2,7 @@ React Month Picker
 =========================
 
 ## Demo
-[React Month Picker](https://codesandbox.io/s/329x00yl0m)
+[React Month Picker](https://codesandbox.io/s/64r97wr453)
 
 ## Usage
 ```javascript
@@ -38,7 +38,8 @@ propTypes = {
     onSelect: PropTypes.func,
     onFormat: PropTypes.func,
     isReadonly: PropTypes.bool,
-    iconElement: PropTypes.any
+    iconElement: PropTypes.any,
+    enable: PropTypes.bool
 }
 
 defaultProps = {
@@ -53,7 +54,8 @@ defaultProps = {
         ['Apr', 'May', 'Jun'],
         ['Jul', 'Aug', 'Sep'],
         ['Oct', 'Nov', 'Dec']
-    ]
+    ],
+    enable: true
 }
 ```
 
