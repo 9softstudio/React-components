@@ -13,14 +13,14 @@ export default class MonthPicker extends React.Component {
     constructor(props) {
         super(props);
 
-        const { open, displayedYear, selectedMonth } = this.props;
+        const { open, selectedDropdownYear, selectedMonth } = this.props;
         const now = getCurrentDate();
 
-        const initialYear = displayedYear || now.getFullYear();
+        const initialYear = selectedDropdownYear || now.getFullYear();
 
         this.state = {
             open,
-            displayedYear: initialYear,
+            selectedDropdownYear: initialYear,
             selectedYear: initialYear,
             selectedMonth: selectedMonth ? selectedMonth - 1 : now.getMonth()
         }
@@ -36,11 +36,12 @@ export default class MonthPicker extends React.Component {
         maxYear: PropTypes.number,
         monthNames: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
         hasRange: PropTypes.bool,
-        displayedYear: PropTypes.number,
+        selectedDropdownYear: PropTypes.number,
         selectedMonth: PropTypes.number,
         onSelect: PropTypes.func,
         onFormat: PropTypes.func,
-        isReadonly: PropTypes.bool
+        isReadonly: PropTypes.bool,
+        iconElement: PropTypes.any
     }
 
     static defaultProps = {
@@ -65,17 +66,17 @@ export default class MonthPicker extends React.Component {
     }
 
     handleChangeYear = (selectedValue) => {
-        this.setState({ displayedYear: selectedValue }, () => this.props.onSelect(this.state.selectedMonth + 1, selectedValue));
+        this.setState({ selectedDropdownYear: selectedValue });
     }
 
     handleSelectMonth = (selectedValue) => {
-        const { displayedYear } = this.state;
+        const { selectedDropdownYear } = this.state;
         this.setState({ 
             selectedMonth: selectedValue, 
-            selectedYear: displayedYear,
+            selectedYear: selectedDropdownYear,
             open: false
         }, 
-        () => this.props.onSelect(selectedValue + 1, displayedYear));
+        () => this.props.onSelect(selectedValue + 1, selectedDropdownYear));
     }
 
     handleClickOutSide = (event) => {
@@ -88,19 +89,20 @@ export default class MonthPicker extends React.Component {
     }
 
     render() {
-        const { open, displayedYear, selectedYear, selectedMonth } = this.state;
-        let { monthNames, hasRange, minMonth, minYear, maxMonth, maxYear, isReadonly, onFormat } = this.props;
+        const { open, selectedDropdownYear, selectedYear, selectedMonth } = this.state;
+        let { monthNames, hasRange, minMonth, minYear, maxMonth, maxYear, isReadonly, onFormat, iconElement } = this.props;
         const displayText = onFormat(selectedMonth + 1, selectedYear);
 
         return (
             <div className="rmp-main-container">
                 <div className='mp-form-container' onClick={this.toggle}>
                     <input type="text" className="mp-form-input" value={displayText} readOnly={isReadonly} />
+                    {iconElement}
                 </div>
                 <div className="mp-container" style={{ display: open ? 'block' : 'none' }} ref={this.container}>
-                    <YearSelector minYear={minYear} maxYear={maxYear} displayedYear={displayedYear} onSelect={this.handleChangeYear} />
+                    <YearSelector minYear={minYear} maxYear={maxYear} selectedDropdownYear={selectedDropdownYear} onSelect={this.handleChangeYear} />
                     <MonthList monthNames={monthNames} hasRange={hasRange}
-                        displayedYear={displayedYear} selectedMonth={selectedMonth} selectedYear={selectedYear}
+                        selectedDropdownYear={selectedDropdownYear} selectedMonth={selectedMonth} selectedYear={selectedYear}
                         minMonth={minMonth} minYear={minYear} maxMonth={maxMonth} maxYear={maxYear}
                         onSelect={this.handleSelectMonth} />
                 </div>
