@@ -22,33 +22,16 @@ describe('renders correctly:', () => {
         expect(wrapper.find('div').props().className).toBe('test la-slider');
     });
 
-    const testCases = [
-        {
-            props: {isShowLeftArrow: true},
-            description: 'should be render LeftArrow',
-            componentName: 'LeftArrow'
-        },
-        {
-            props: {isShowRightArrow : true},
-            description: 'should be render RightArrow',
-            componentName: 'RightArrow'
-        },
-        {
-            props: {isShowTopArrow : true},
-            description: 'should be render TopArrow',
-            componentName: 'TopArrow'
-        },
-        {
-            props: {isShowBottomArrow : true},
-            description: 'should be render BottomArrow',
-            componentName: 'BottomArrow'
-        }
-    ];
-    testCases.forEach(testcase => {
-        test(testcase.description, () => {
-            const wrapper = shallow(<Slider {...testcase.props} images={images}></Slider>);
-            expect(wrapper.find(testcase.componentName)).toHaveLength(1);
-        });
+    test('when isShowLeftRightArrows: should be render left and right arrows', () => {
+        const wrapper = shallow(<Slider isShowLeftRightArrows={true} images={images}></Slider>);
+        expect(wrapper.find('.left-arrow')).toHaveLength(1);
+        expect(wrapper.find('.right-arrow')).toHaveLength(1);
+    });
+
+    test('when isShowTopBottomArrows: should be render top and bottom arrows', () => {
+        const wrapper = shallow(<Slider isShowTopBottomArrows={true} images={images}></Slider>);
+        expect(wrapper.find('.top-arrow')).toHaveLength(1);
+        expect(wrapper.find('.bottom-arrow')).toHaveLength(1);
     });
 });
 
@@ -69,24 +52,9 @@ describe('default props', () => {
         expect(wrapper.instance().props.transitionTime).toBe(3000);
     });
 
-    test('value of isShowLeftArrow should be false', () => {
-        expect(wrapper.instance().props.isShowLeftArrow).not.toBeUndefined();
-        expect(wrapper.instance().props.isShowLeftArrow).toBeFalsy();
-    });
-
-    test('value of isShowRightArrow should be false', () => {
-        expect(wrapper.instance().props.isShowRightArrow).not.toBeUndefined();
-        expect(wrapper.instance().props.isShowRightArrow).toBeFalsy();
-    });
-
-    test('value of isShowTopArrow should be false', () => {
-        expect(wrapper.instance().props.isShowTopArrow).not.toBeUndefined();
-        expect(wrapper.instance().props.isShowTopArrow).toBeFalsy();
-    });
-
-    test('value of isShowBottomArrow should be false', () => {
-        expect(wrapper.instance().props.isShowBottomArrow).not.toBeUndefined();
-        expect(wrapper.instance().props.isShowBottomArrow).toBeFalsy();
+    test('value of isShowLeftRightArrows should be false', () => {
+        expect(wrapper.instance().props.isShowLeftRightArrows).not.toBeUndefined();
+        expect(wrapper.instance().props.isShowLeftRightArrows).toBeFalsy();
     });
 });
 

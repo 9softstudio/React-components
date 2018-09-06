@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import Context from '../slider-context';
 import { mergeClassName } from '../utils';
 import Slide from './Slide';
-import LeftArrow from './arrow/LeftArrow';
-import RightArrow from './arrow/RightArrow';
-import TopArrow from './arrow/TopArrow';
-import BottomArrow from './arrow/BottomArrow';
 
 export default class Slider extends Component {
     constructor(props) {
@@ -48,10 +44,31 @@ export default class Slider extends Component {
         this.setState({ currentSlideIndex: index });
     }
 
+    renderLeftRightArrows() {
+        return <React.Fragment>
+            {this.getArrow('left', () => this.onLeftArrowClick())}
+            {this.getArrow('right', () => this.onRightArrowClick())}
+        </React.Fragment>
+    }
+
+    renderTopBottomArrows() {
+        return <React.Fragment>
+            {this.getArrow('top', () => this.onTopArrowClick())}
+            {this.getArrow('bottom', () => this.onBottomArrowClick())}    
+            </React.Fragment>
+    }
+ 
+    getArrow(arrowName, eventClick) {
+        return <img src={`img/slider-${arrowName}-arrow.png`} 
+                    className={`slider-arrow-position ${arrowName}-arrow`} 
+                    onClick={eventClick} 
+                    style={this.props.arrowButtonStyle}/>
+    }
+
     componentDidMount() {
         const { autoPlay, transitionTime } = this.props;
         if (autoPlay) {
-            var intervalId = setInterval(() => {
+            const intervalId = setInterval(() => {
                 this.increaseCurrentSlideIndex()
             }, transitionTime);
             this.setState({ intervalId: intervalId })
@@ -62,19 +79,13 @@ export default class Slider extends Component {
         return (<Context.Provider value=
             {({
                 currentSlideIndex: this.state.currentSlideIndex,
-                onLeftArrowClick: () => this.onLeftArrowClick(),
-                onRightArrowClick: () => this.onRightArrowClick(),
-                onTopArrowClick: () => this.onTopArrowClick(),
-                onBottomArrowClick: () => this.onBottomArrowClick(),
                 onImageClick: (index) => this.onImageClick(index)
             })}>
 
-            <div className={mergeClassName(this.props, 'la-slider')}>
+            <div className={mergeClassName(this.props, 'la-slider')} style={{ width: this.props.width, height: this.props.height }}>
                 {this.renderSlides()}
-                {this.props.isShowLeftArrow && <LeftArrow />}
-                {this.props.isShowRightArrow && <RightArrow />}
-                {this.props.isShowTopArrow && <TopArrow />}
-                {this.props.isShowBottomArrow && <BottomArrow />}
+                {this.props.isShowLeftRightArrows && this.renderLeftRightArrows()}
+                {this.props.isShowTopBottomArrows && this.renderTopBottomArrows()}
             </div>
         </Context.Provider>);
     }
@@ -84,18 +95,19 @@ Slider.defaultProps = {
     images: [],
     autoPlay: false,
     transitionTime: 3000,
-    isShowLeftArrow: false,
-    isShowRightArrow: false,
-    isShowTopArrow: false,
-    isShowBottomArrow: false
+    isShowLeftRightArrows: false,
+    isShowTopBottomArrows: false,
+    width: '100%',
+    height: '500px'
 }
 
 Slider.propTypes = {
     images: PropTypes.array.isRequired,
     autoPlay: PropTypes.bool,
     transitionTime: PropTypes.number,
-    isShowLeftArrow: PropTypes.bool,
-    isShowRightArrow: PropTypes.bool,
-    isShowTopArrow: PropTypes.bool,
-    isShowBottomArrow: PropTypes.bool
+    isShowLeftRightArrows: PropTypes.bool,
+    isShowTopBottomArrows: PropTypes.bool,
+    width: PropTypes.string,
+    height: PropTypes.string,
+    arrowButtonStyle: PropTypes.object
 }

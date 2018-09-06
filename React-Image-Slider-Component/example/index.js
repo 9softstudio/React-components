@@ -14,10 +14,11 @@ export default class App extends Component {
                 <LaSlider images={images}
                     autoPlay={true}
                     transitionTime={3000}
-                    isShowLeftArrow={true}
-                    isShowRightArrow={true}
-                    isShowTopArrow={true}
-                    isShowBottomArrow={true}> </LaSlider>
+                    isShowLeftRightArrows={true}
+                    isShowTopBottomArrows={true}
+                    width="100%"
+                    height="500px"
+                    arrowButtonStyle={{width: '3%', cursor: 'pointer'}}/>
             </div>
         );
     }

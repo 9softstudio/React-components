@@ -1,7 +1,6 @@
 $prefix: ".la-slider";
 
 #{$prefix}{
-    height: 500px;
     position: relative;
 
     .slide{
@@ -17,12 +16,6 @@ $prefix: ".la-slider";
 
     .slider-arrow-position{
         position: absolute;
-        opacity: 0.5;
-        width: 50px;
-        &:hover{
-            cursor: pointer;
-            opacity: 1;
-        }
 
         &.left-arrow{
             top: 50%;
@@ -39,11 +32,13 @@ $prefix: ".la-slider";
         &.top-arrow{
             top: 0%;
             left: 50%;
+            transform: translate(-50%,0%);
         }
 
         &.bottom-arrow{
             bottom: 0%;
             left: 50%;
+            transform: translate(-50%,0%);
         }
     }
 }
