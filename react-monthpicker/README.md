@@ -2,7 +2,7 @@ React Month Picker
 =========================
 
 ## Demo
-[React Month Picker](https://codesandbox.io/s/yv9wl5vlq1)
+[React Month Picker](https://codesandbox.io/s/329x00yl0m)
 
 ## Usage
 ```javascript
@@ -26,26 +26,34 @@ export default class App extends Component {
 ## Props
 ```javascript
 propTypes = {
-        open: PropTypes.bool,
-        minMonth: PropTypes.number,
-        minYear: PropTypes.number,
-        maxMonth: PropTypes.number,
-        maxYear: PropTypes.number,
-        monthNames: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
-        hasRange: PropTypes.bool,
-        selectedDropdownYear: PropTypes.number,
-        selectedMonth: PropTypes.number,
-        onSelect: PropTypes.func,
-        onFormat: PropTypes.func,
-        isReadonly: PropTypes.bool,
-        iconElement: PropTypes.any
+    open: PropTypes.bool,
+    minMonth: PropTypes.number,
+    minYear: PropTypes.number,
+    maxMonth: PropTypes.number,
+    maxYear: PropTypes.number,
+    monthNames: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
+    hasRange: PropTypes.bool,
+    selectedDropdownYear: PropTypes.number,
+    selectedMonth: PropTypes.number,
+    onSelect: PropTypes.func,
+    onFormat: PropTypes.func,
+    isReadonly: PropTypes.bool,
+    iconElement: PropTypes.any
 }
 
 defaultProps = {
-        open: false,
-        onSelect: () => { },
-        onFormat: defaultFormatFunc,
-        isReadonly: true
+    open: false,
+    onSelect: () => { },
+    onFormat: (month, year) => {
+        return `${month < 10 ? '0' + month : month}/${year}`
+    },
+    isReadonly: true,
+    monthNames: [
+        ['Jan', 'Feb', 'Mar'],
+        ['Apr', 'May', 'Jun'],
+        ['Jul', 'Aug', 'Sep'],
+        ['Oct', 'Nov', 'Dec']
+    ]
 }
 ```
 
