@@ -1,5 +1,17 @@
 .rmp-main-container {
     position: relative;
+    .mp-form-container {
+        &.disable {
+            pointer-events: none;
+            .mp-form-input {
+                color: #99a0a7;
+                pointer-events: none;
+                cursor: auto;
+                background-color: #fff;
+                border: 1px solid #dee2e6;
+            }
+        }
+    }
     .mp-container {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;

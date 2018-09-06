@@ -41,14 +41,16 @@ export default class MonthPicker extends React.Component {
         onSelect: PropTypes.func,
         onFormat: PropTypes.func,
         isReadonly: PropTypes.bool,
-        iconElement: PropTypes.any
+        iconElement: PropTypes.any,
+        enable: PropTypes.bool
     }
 
     static defaultProps = {
         open: false,
         onSelect: () => { },
         onFormat: defaultFormatFunc,
-        isReadonly: true
+        isReadonly: true,
+        enable: true
     }
 
     componentDidMount() {
@@ -60,9 +62,11 @@ export default class MonthPicker extends React.Component {
     }
 
     toggle = () => {
-        this.setState((prevState) => ({
-            open: !prevState.open
-        }));
+        if (this.props.enable) {
+            this.setState((prevState) => ({
+                open: !prevState.open
+            }));
+        }
     }
 
     handleChangeYear = (selectedValue) => {
@@ -71,12 +75,12 @@ export default class MonthPicker extends React.Component {
 
     handleSelectMonth = (selectedValue) => {
         const { selectedDropdownYear } = this.state;
-        this.setState({ 
-            selectedMonth: selectedValue, 
+        this.setState({
+            selectedMonth: selectedValue,
             selectedYear: selectedDropdownYear,
             open: false
-        }, 
-        () => this.props.onSelect(selectedValue + 1, selectedDropdownYear));
+        },
+            () => this.props.onSelect(selectedValue + 1, selectedDropdownYear));
     }
 
     handleClickOutSide = (event) => {
@@ -90,12 +94,13 @@ export default class MonthPicker extends React.Component {
 
     render() {
         const { open, selectedDropdownYear, selectedYear, selectedMonth } = this.state;
-        let { monthNames, hasRange, minMonth, minYear, maxMonth, maxYear, isReadonly, onFormat, iconElement } = this.props;
+        let { monthNames, hasRange, minMonth, minYear, maxMonth, maxYear, isReadonly, onFormat, iconElement, enable } = this.props;
         const displayText = onFormat(selectedMonth + 1, selectedYear);
+        const inputClassName = enable ? 'mp-form-container' : 'mp-form-container disable';
 
         return (
             <div className="rmp-main-container">
-                <div className='mp-form-container' onClick={this.toggle}>
+                <div className={inputClassName} onClick={this.toggle}>
                     <input type="text" className="mp-form-input" value={displayText} readOnly={isReadonly} />
                     {iconElement}
                 </div>
