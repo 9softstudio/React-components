@@ -19,7 +19,7 @@ describe('renders correctly:', () => {
 
     test('custom class name', () => {
         const wrapper = shallow(<Slider className='test' images={images}></Slider>);
-        expect(wrapper.find('div').props().className).toBe('test la-slider');
+        expect(wrapper.find('div').first().props().className).toBe('test la-slider');
     });
 
     test('when isShowLeftRightArrows: should be render left and right arrows', () => {
@@ -104,47 +104,47 @@ describe('arrow methods', () => {
 });
 
 describe('trigger method decreaseCurrentSlideIndex ', () => {
-    test('when current slide index of state equal zero: it should be update to index of last image', () => {
+    test('when current slide index of state equal zero: setCurrentSlide method should be called with param is index of last image', () => {
         const images = [ { url: "fakeImage1.jpg", text: "fakeImage1" }, { url: "fakeImage2.jpg", text: "fakeImage2" }, { url: "fakeImage3.jpg", text: "fakeImage3" }]; 
         const component = new Slider({images}); 
-        component.setState = jest.fn();
+        component.setCurrentSlide = jest.fn();
 
         component.state.currentSlideIndex = 0;
         component.decreaseCurrentSlideIndex();
         const indexOfLastImage = images.length - 1;
-        expect(component.setState).toBeCalledWith({ currentSlideIndex: indexOfLastImage });
+        expect(component.setCurrentSlide).toBeCalledWith(indexOfLastImage);
     });
 
-    test('when current slide index of state not equal zero: make decrease one value', () => {
+    test('when current slide index of state not equal zero: setCurrentSlide method should be called with param is current slide index decrease one value', () => {
         const component = new Slider(); 
-        component.setState = jest.fn();
+        component.setCurrentSlide = jest.fn();
 
         component.state.currentSlideIndex = 2;
         component.decreaseCurrentSlideIndex();
-        expect(component.setState).toBeCalledWith({ currentSlideIndex: 1 });
+        expect(component.setCurrentSlide).toBeCalledWith(1);
     });
 });
 
 describe('trigger method increaseCurrentSlideIndex ', () => {
-    test('when current slide index equal index of last image: it should be update to zero', () => {
+    test('when current slide index equal index of last image: setCurrentSlide method should be called with param is zero', () => {
         const images = [ { url: "fakeImage1.jpg", text: "fakeImage1" }, { url: "fakeImage2.jpg", text: "fakeImage2" }, { url: "fakeImage3.jpg", text: "fakeImage3" }]; 
-        const component = new Slider({images}); 
-        component.setState = jest.fn();
+        const component = new Slider({images});
+        component.setCurrentSlide = jest.fn();
 
         const indexOfLastImage = images.length - 1;
         component.state.currentSlideIndex = indexOfLastImage;
         component.increaseCurrentSlideIndex();
-        expect(component.setState).toBeCalledWith({ currentSlideIndex: 0 });
+        expect(component.setCurrentSlide).toBeCalledWith(0);
     });
 
-    test('when current slide index not equal index of last image: make increase one value', () => {
+    test('when current slide index not equal index of last image: setCurrentSlide method should be called with param is increase one value', () => {
         const images = [ { url: "fakeImage1.jpg", text: "fakeImage1" }, { url: "fakeImage2.jpg", text: "fakeImage2" }, { url: "fakeImage3.jpg", text: "fakeImage3" }]; 
         const component = new Slider({images}); 
-        component.setState = jest.fn();
+        component.setCurrentSlide = jest.fn();
 
         component.state.currentSlideIndex = 1;
         component.increaseCurrentSlideIndex();
-        expect(component.setState).toBeCalledWith({ currentSlideIndex: 2 });
+        expect(component.setCurrentSlide).toBeCalledWith(2);
     });
 });
 

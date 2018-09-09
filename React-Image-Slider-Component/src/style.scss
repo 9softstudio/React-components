@@ -2,16 +2,12 @@ $prefix: ".la-slider";
 
 #{$prefix}{
     position: relative;
+    overflow: hidden;    
+    white-space: nowrap;
 
     .slide{
-        position: absolute;
         width: 100%;
         height: 100%;
-        opacity: 0;
-        transition: opacity 0.75s ease-in-out;
-        &.active{
-            opacity: 1;
-        }
     }
 
     .slider-arrow-position{

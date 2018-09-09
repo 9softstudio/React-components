@@ -15,7 +15,7 @@ export default class App extends Component {
                     autoPlay={true}
                     transitionTime={3000}
                     isShowLeftRightArrows={true}
-                    isShowTopBottomArrows={true}
+                    // isShowTopBottomArrows={true}
                     width="100%"
                     height="500px"
                     arrowButtonStyle={{width: '3%', cursor: 'pointer'}}/>

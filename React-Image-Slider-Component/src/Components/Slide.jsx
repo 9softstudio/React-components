@@ -3,11 +3,15 @@ import Context from '../slider-context';
 
 export default class Slide extends Component {
     render() {
-        const { imageInfo, index } = this.props;
+        const { imageInfo, style, index } = this.props;
         return (
             <Context.Consumer>{
-                ({ onImageClick, currentSlideIndex }) =>
-                    <img src={imageInfo.url} alt={imageInfo.text} className={`slide${index === currentSlideIndex ? " active" : ""}`} onClick={() => onImageClick(currentSlideIndex)} />
+                ({ onImageClick }) =>
+                    <img src={imageInfo.url}
+                        alt={imageInfo.text}
+                        className="slide"
+                        onClick={() => onImageClick(index)}
+                        style={style} />
             }</Context.Consumer>);
     }
 };
