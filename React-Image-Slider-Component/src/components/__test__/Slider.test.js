@@ -4,13 +4,13 @@ import Slider from '../Slider';
 import Adapter from 'enzyme-adapter-react-16';
 import { shallow, configure } from 'enzyme';
 
-configure({adapter: new Adapter()});
-let images; 
+configure({ adapter: new Adapter() });
+let images;
 
 describe('renders correctly:', () => {
     beforeEach(() => {
-        images = [ { url: "fakeImage1.jpg", text: "fakeImage1" }, { url: "fakeImage2.jpg", text: "fakeImage2" }];
-      });
+        images = [{ url: "fakeImage1.jpg", text: "fakeImage1" }, { url: "fakeImage2.jpg", text: "fakeImage2" }];
+    });
 
     test('render `Slide` for each item in props.images', () => {
         const wrapper = shallow(<Slider images={images}></Slider>);
@@ -38,9 +38,9 @@ describe('renders correctly:', () => {
 describe('default props', () => {
     let wrapper;
     beforeEach(() => {
-        images = [ { url: "fakeImage1.jpg", text: "fakeImage1" }, { url: "fakeImage2.jpg", text: "fakeImage2" }];
+        images = [{ url: "fakeImage1.jpg", text: "fakeImage1" }, { url: "fakeImage2.jpg", text: "fakeImage2" }];
         wrapper = shallow(<Slider images={images}></Slider>);
-      });
+    });
 
     test('autoPlay should be false', () => {
         expect(wrapper.instance().props.autoPlay).not.toBeUndefined();
@@ -66,11 +66,11 @@ describe('props to context:', () => {
 });
 
 describe('arrow methods', () => {
-    const component = new Slider(); 
+    const component = new Slider();
     beforeEach(() => {
         component.decreaseCurrentSlideIndex = jest.fn();
         component.increaseCurrentSlideIndex = jest.fn();
-      });
+    });
 
     const testcases = [
         {
@@ -105,8 +105,8 @@ describe('arrow methods', () => {
 
 describe('trigger method decreaseCurrentSlideIndex ', () => {
     test('when current slide index of state equal zero: setCurrentSlide method should be called with param is index of last image', () => {
-        const images = [ { url: "fakeImage1.jpg", text: "fakeImage1" }, { url: "fakeImage2.jpg", text: "fakeImage2" }, { url: "fakeImage3.jpg", text: "fakeImage3" }]; 
-        const component = new Slider({images}); 
+        const images = [{ url: "fakeImage1.jpg", text: "fakeImage1" }, { url: "fakeImage2.jpg", text: "fakeImage2" }, { url: "fakeImage3.jpg", text: "fakeImage3" }];
+        const component = new Slider({ images });
         component.setCurrentSlide = jest.fn();
 
         component.state.currentSlideIndex = 0;
@@ -116,7 +116,7 @@ describe('trigger method decreaseCurrentSlideIndex ', () => {
     });
 
     test('when current slide index of state not equal zero: setCurrentSlide method should be called with param is current slide index decrease one value', () => {
-        const component = new Slider(); 
+        const component = new Slider();
         component.setCurrentSlide = jest.fn();
 
         component.state.currentSlideIndex = 2;
@@ -127,8 +127,8 @@ describe('trigger method decreaseCurrentSlideIndex ', () => {
 
 describe('trigger method increaseCurrentSlideIndex ', () => {
     test('when current slide index equal index of last image: setCurrentSlide method should be called with param is zero', () => {
-        const images = [ { url: "fakeImage1.jpg", text: "fakeImage1" }, { url: "fakeImage2.jpg", text: "fakeImage2" }, { url: "fakeImage3.jpg", text: "fakeImage3" }]; 
-        const component = new Slider({images});
+        const images = [{ url: "fakeImage1.jpg", text: "fakeImage1" }, { url: "fakeImage2.jpg", text: "fakeImage2" }, { url: "fakeImage3.jpg", text: "fakeImage3" }];
+        const component = new Slider({ images });
         component.setCurrentSlide = jest.fn();
 
         const indexOfLastImage = images.length - 1;
@@ -138,8 +138,8 @@ describe('trigger method increaseCurrentSlideIndex ', () => {
     });
 
     test('when current slide index not equal index of last image: setCurrentSlide method should be called with param is increase one value', () => {
-        const images = [ { url: "fakeImage1.jpg", text: "fakeImage1" }, { url: "fakeImage2.jpg", text: "fakeImage2" }, { url: "fakeImage3.jpg", text: "fakeImage3" }]; 
-        const component = new Slider({images}); 
+        const images = [{ url: "fakeImage1.jpg", text: "fakeImage1" }, { url: "fakeImage2.jpg", text: "fakeImage2" }, { url: "fakeImage3.jpg", text: "fakeImage3" }];
+        const component = new Slider({ images });
         component.setCurrentSlide = jest.fn();
 
         component.state.currentSlideIndex = 1;
@@ -149,14 +149,23 @@ describe('trigger method increaseCurrentSlideIndex ', () => {
 });
 
 describe('trigger method onImageClick ', () => {
-   
+    test('onImageClick method of props should be called with params correctly', () => {
+        const images = [{ url: "fakeImage1.jpg", text: "fakeImage1" }, { url: "fakeImage2.jpg", text: "fakeImage2" }, { url: "fakeImage3.jpg", text: "fakeImage3" }];
+        const component = new Slider({ images, onImageClick: jest.fn() });
+
+        component.onImageClick(1);
+        expect(component.props.onImageClick).toBeCalledWith(1);
+
+        component.onImageClick(999);
+        expect(component.props.onImageClick).toBeCalledWith(999);
+    });
 });
 
 describe('trigger method componentDidMount when autoPlay of props is true', () => {
     jest.useFakeTimers();
 
     test('should update every milliseconds setting by transitionTime', () => {
-        const component = new Slider({autoPlay:true, transitionTime:2000});
+        const component = new Slider({ autoPlay: true, transitionTime: 2000 });
         component.setState = jest.fn();
         component.componentDidMount();
         expect(setInterval).toHaveBeenCalledTimes(1);
@@ -164,9 +173,9 @@ describe('trigger method componentDidMount when autoPlay of props is true', () =
     });
 
     test('should update intervalId ', () => {
-        const component = new Slider({autoPlay:true});
+        const component = new Slider({ autoPlay: true });
         component.setState = jest.fn();
         component.componentDidMount();
-        expect(component.setState).toBeCalledWith({intervalId: 2});
+        expect(component.setState).toBeCalledWith({ intervalId: 2 });
     });
 });

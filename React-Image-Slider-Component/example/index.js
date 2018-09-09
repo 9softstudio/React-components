@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom'
 import { LaSlider } from '../src';
 
 export default class App extends Component {
+    handleImageClick(index){
+        alert(`image ${index + 1}`);
+    }
+
     render() {
         const images = [
             { url: "img/image1.jpg", text: "image1 jpg" },
@@ -18,7 +22,8 @@ export default class App extends Component {
                     // isShowTopBottomArrows={true}
                     width="100%"
                     height="500px"
-                    arrowButtonStyle={{width: '3%', cursor: 'pointer'}}/>
+                    arrowButtonStyle={{width: '3%', cursor: 'pointer'}}
+                    onImageClick={this.handleImageClick}/>
             </div>
         );
     }

@@ -24,7 +24,7 @@ export default class Slider extends Component {
 
     onBottomArrowClick() { this.increaseCurrentSlideIndex(); }
 
-    onImageClick(index) { alert(this.props.images[index].text); }
+    onImageClick(index) { this.props.onImageClick(index) }
 
     decreaseCurrentSlideIndex() {
         if (this.state.currentSlideIndex === 0) {
@@ -130,5 +130,6 @@ Slider.propTypes = {
     isShowTopBottomArrows: PropTypes.bool,
     width: PropTypes.string,
     height: PropTypes.string,
-    arrowButtonStyle: PropTypes.object
+    arrowButtonStyle: PropTypes.object,
+    onImageClick: PropTypes.func
 }
