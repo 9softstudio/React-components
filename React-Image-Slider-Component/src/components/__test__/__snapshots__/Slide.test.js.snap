@@ -5,6 +5,7 @@ exports[`<Slide /> renders correctly 1`] = `
   alt="fake-text"
   className="slide"
   onClick={[Function]}
+  onError={[Function]}
   src="fake-url"
   style="fake-object-style"
 />
