@@ -13,7 +13,7 @@ export default class MonthPicker extends React.Component {
     constructor(props) {
         super(props);
 
-        const { open, selectedDropdownYear, selectedMonth } = this.props;
+        const { open, selectedDropdownYear, selectedMonth, selectedYear } = this.props;
         const now = getCurrentDate();
 
         const initialYear = selectedDropdownYear || now.getFullYear();
@@ -21,7 +21,7 @@ export default class MonthPicker extends React.Component {
         this.state = {
             open,
             selectedDropdownYear: initialYear,
-            selectedYear: initialYear,
+            selectedYear: selectedYear || initialYear,
             selectedMonth: selectedMonth ? selectedMonth - 1 : now.getMonth()
         }
 
@@ -59,6 +59,27 @@ export default class MonthPicker extends React.Component {
 
     componentWillUnmount() {
         document.removeEventListener('click', this.handleClickOutSide, true);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { selectedDropdownYear, selectedMonth, selectedYear } = this.props;
+
+        const newState = {};
+        if (selectedDropdownYear !== prevProps.selectedDropdownYear) {
+            newState.selectedDropdownYear = selectedDropdownYear;
+        }
+
+        if (selectedYear !== prevProps.selectedYear) {
+            newState.selectedYear = selectedDropdownYear;
+        }
+
+        if (selectedMonth !== prevProps.selectedMonth) {
+            newState.selectedMonth = selectedMonth - 1;
+        }
+        
+        if (Object.keys(newState).length > 0) {
+            this.setState(newState);
+        }
     }
 
     toggle = () => {
