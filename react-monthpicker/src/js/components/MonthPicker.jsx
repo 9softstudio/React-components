@@ -64,21 +64,14 @@ export default class MonthPicker extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         const { selectedDropdownYear, selectedMonth, selectedYear } = this.props;
 
-        const newState = {};
-        if (selectedDropdownYear !== prevProps.selectedDropdownYear) {
-            newState.selectedDropdownYear = selectedDropdownYear;
-        }
-
-        if (selectedYear !== prevProps.selectedYear) {
-            newState.selectedYear = selectedDropdownYear;
-        }
-
-        if (selectedMonth !== prevProps.selectedMonth) {
-            newState.selectedMonth = selectedMonth - 1;
-        }
-        
-        if (Object.keys(newState).length > 0) {
-            this.setState(newState);
+        if (selectedMonth !== prevProps.selectedMonth || 
+            selectedYear !== prevProps.selectedYear || 
+            selectedDropdownYear !== prevProps.selectedDropdownYear) {
+            this.setState({
+                selectedYear: selectedDropdownYear,
+                selectedMonth: selectedMonth - 1,
+                selectedDropdownYear
+            });
         }
     }
 

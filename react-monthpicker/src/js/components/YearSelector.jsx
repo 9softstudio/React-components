@@ -50,7 +50,7 @@ export default class YearSelector extends React.Component {
 
         return (
             <div className="mp-header">
-                <select className="mp-select-year" defaultValue={selectedValue} onChange={this.handleSelect}>
+                <select className="mp-select-year" value={selectedValue} onChange={this.handleSelect}>
                     {
                         yearList.map(y => {
                             return (<option key={y} value={y}>{y}</option>);
