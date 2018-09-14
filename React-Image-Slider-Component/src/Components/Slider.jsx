@@ -55,23 +55,23 @@ export default class Slider extends Component {
 
     renderLeftRightArrows() {
         return <React.Fragment>
-            {this.getArrow('left', () => this.onLeftArrowClick())}
-            {this.getArrow('right', () => this.onRightArrowClick())}
+            {this.getArrow('left', '28 0 0 28 27 50', () => this.onLeftArrowClick())}
+            {this.getArrow('right', '25 0 50 25 25 50', () => this.onRightArrowClick())}
         </React.Fragment>
     }
 
     renderTopBottomArrows() {
         return <React.Fragment>
-            {this.getArrow('top', () => this.onTopArrowClick())}
-            {this.getArrow('bottom', () => this.onBottomArrowClick())}
+            {this.getArrow('top', '0 25 25 3 50 25', () => this.onTopArrowClick())}
+            {this.getArrow('bottom', '0 30 25 55 50 30', () => this.onBottomArrowClick())}
         </React.Fragment>
     }
 
-    getArrow(arrowName, eventClick) {
-        return <img src={`img/slider-${arrowName}-arrow.png`}
-                className={`slider-arrow-position ${arrowName}-arrow`}
-                onClick={eventClick}
-                style={this.props.arrowButtonStyle} />
+    getArrow(arrowName, points, eventClick) {
+        const styles = this.props.arrowButtonStyles;
+        return <svg viewBox="0 0 50 58" width={styles.width} height={styles.height} className={`slider-arrow-position ${arrowName}-arrow`} onClick={eventClick} >
+            <polyline fill={styles.fillColor} stroke={styles.stroke} strokeWidth={styles.strokeWidth} points={points} />
+        </svg>
     }
 
     getStylesOfSliderWrapper() {

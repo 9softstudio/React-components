@@ -22,7 +22,7 @@ export default class App extends Component {
                     // isShowTopBottomArrows={true}
                     width="100%"
                     height="500px"
-                    arrowButtonStyle={{width: '3%', cursor: 'pointer'}}
+                    arrowButtonStyles={{width: '100px', height: '100px', stroke: 'blue', strokeWidth: '2px', fillColor: 'none'}}
                     onImageClick={this.handleImageClick}/>
             </div>
         );

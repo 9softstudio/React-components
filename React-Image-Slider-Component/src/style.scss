@@ -1,40 +1,47 @@
 $prefix: ".la-slider";
 
-#{$prefix}{
+#{$prefix} {
     position: relative;
-    overflow: hidden;    
+    overflow: hidden;
     white-space: nowrap;
 
-    .slide{
+    .slide {
         width: 100%;
         height: 100%;
     }
 
-    .slider-arrow-position{
+    .slider-arrow-position {
+        cursor: pointer;
+        opacity: 0.5;
         position: absolute;
+        transition: opacity 0.5 ease-in-out;
 
-        &.left-arrow{
+        &:hover {
+            opacity: 1;
+        }
+
+        &.left-arrow {
             top: 50%;
             left: 0%;
-            transform: translate(0%,-50%);
+            transform: translate(0%, -50%);
         }
 
-        &.right-arrow{
+        &.right-arrow {
             top: 50%;
             right: 0%;
-            transform: translate(0%,-50%);
+            transform: translate(0%, -50%);
         }
 
-        &.top-arrow{
+        &.top-arrow {
             top: 0%;
             left: 50%;
-            transform: translate(-50%,0%);
+            transform: translate(-50%, 0%);
         }
 
-        &.bottom-arrow{
+        &.bottom-arrow {
             bottom: 0%;
             left: 50%;
-            transform: translate(-50%,0%);
+            transform: translate(-50%, 0%);
         }
     }
 }

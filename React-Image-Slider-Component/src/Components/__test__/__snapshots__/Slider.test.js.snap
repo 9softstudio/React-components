@@ -1,0 +1,155 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly: when isShowLeftRightArrows: should be render left and right arrows 1`] = `
+<div
+  className="la-slider"
+  style={
+    Object {
+      "height": "500px",
+      "width": "100%",
+    }
+  }
+>
+  <div
+    className="la-slider-wrapper"
+    style={
+      Object {
+        "height": "100%",
+        "position": "relative",
+        "transform": "translateX(0px)",
+        "transition": "transform 0.8s ease-out 0s",
+      }
+    }
+  >
+    <img
+      alt="fakeImage1"
+      className="slide"
+      onClick={[Function]}
+      onError={[Function]}
+      src="fakeImage1.jpg"
+      style={
+        Object {
+          "display": "inline-block",
+        }
+      }
+    />
+    <img
+      alt="fakeImage2"
+      className="slide"
+      onClick={[Function]}
+      onError={[Function]}
+      src="fakeImage2.jpg"
+      style={
+        Object {
+          "display": "inline-block",
+        }
+      }
+    />
+  </div>
+  <svg
+    className="slider-arrow-position left-arrow"
+    height="50px"
+    onClick={[Function]}
+    viewBox="0 0 50 58"
+    width="50px"
+  >
+    <polyline
+      fill="red"
+      points="28 0 0 28 27 50"
+      stroke="blue"
+      strokeWidth="2px"
+    />
+  </svg>
+  <svg
+    className="slider-arrow-position right-arrow"
+    height="50px"
+    onClick={[Function]}
+    viewBox="0 0 50 58"
+    width="50px"
+  >
+    <polyline
+      fill="red"
+      points="25 0 50 25 25 50"
+      stroke="blue"
+      strokeWidth="2px"
+    />
+  </svg>
+</div>
+`;
+
+exports[`renders correctly: when isShowTopBottomArrows: should be render top and bottom arrows 1`] = `
+<div
+  className="la-slider"
+  style={
+    Object {
+      "height": "500px",
+      "width": "100%",
+    }
+  }
+>
+  <div
+    className="la-slider-wrapper"
+    style={
+      Object {
+        "height": "100%",
+        "position": "relative",
+        "transform": "translateY(0px)",
+        "transition": "transform 0.8s ease-out 0s",
+      }
+    }
+  >
+    <img
+      alt="fakeImage1"
+      className="slide"
+      onClick={[Function]}
+      onError={[Function]}
+      src="fakeImage1.jpg"
+      style={
+        Object {
+          "display": "block",
+        }
+      }
+    />
+    <img
+      alt="fakeImage2"
+      className="slide"
+      onClick={[Function]}
+      onError={[Function]}
+      src="fakeImage2.jpg"
+      style={
+        Object {
+          "display": "block",
+        }
+      }
+    />
+  </div>
+  <svg
+    className="slider-arrow-position top-arrow"
+    height="50px"
+    onClick={[Function]}
+    viewBox="0 0 50 58"
+    width="50px"
+  >
+    <polyline
+      fill="red"
+      points="0 25 25 3 50 25"
+      stroke="blue"
+      strokeWidth="2px"
+    />
+  </svg>
+  <svg
+    className="slider-arrow-position bottom-arrow"
+    height="50px"
+    onClick={[Function]}
+    viewBox="0 0 50 58"
+    width="50px"
+  >
+    <polyline
+      fill="red"
+      points="0 30 25 55 50 30"
+      stroke="blue"
+      strokeWidth="2px"
+    />
+  </svg>
+</div>
+`;

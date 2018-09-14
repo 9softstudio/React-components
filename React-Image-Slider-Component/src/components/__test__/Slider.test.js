@@ -1,6 +1,7 @@
 import React from 'react';
 import Slider from '../Slider';
 
+import renderer from 'react-test-renderer';
 import Adapter from 'enzyme-adapter-react-16';
 import { shallow, configure } from 'enzyme';
 
@@ -23,15 +24,17 @@ describe('renders correctly:', () => {
     });
 
     test('when isShowLeftRightArrows: should be render left and right arrows', () => {
-        const wrapper = shallow(<Slider isShowLeftRightArrows={true} images={images}></Slider>);
-        expect(wrapper.find('.left-arrow')).toHaveLength(1);
-        expect(wrapper.find('.right-arrow')).toHaveLength(1);
+        const arrowButtonStyles={width: '50px', height: '50px', stroke: 'blue', strokeWidth: '2px', fillColor: 'red'};
+        const component = renderer
+                        .create(<Slider arrowButtonStyles={arrowButtonStyles} isShowLeftRightArrows={true} images={images}></Slider>);
+        expect(component.toJSON()).toMatchSnapshot();
     });
 
     test('when isShowTopBottomArrows: should be render top and bottom arrows', () => {
-        const wrapper = shallow(<Slider isShowTopBottomArrows={true} images={images}></Slider>);
-        expect(wrapper.find('.top-arrow')).toHaveLength(1);
-        expect(wrapper.find('.bottom-arrow')).toHaveLength(1);
+        const arrowButtonStyles={width: '50px', height: '50px', stroke: 'blue', strokeWidth: '2px', fillColor: 'red'};
+        const component = renderer
+                        .create(<Slider arrowButtonStyles={arrowButtonStyles} isShowTopBottomArrows={true} images={images}></Slider>);
+        expect(component.toJSON()).toMatchSnapshot();
     });
 });
 
