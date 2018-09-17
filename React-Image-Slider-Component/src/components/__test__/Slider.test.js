@@ -1,4 +1,5 @@
 import React from 'react';
+import Slide from '../Slide';
 import Slider from '../Slider';
 
 import renderer from 'react-test-renderer';
@@ -15,7 +16,7 @@ describe('renders correctly:', () => {
 
     test('render `Slide` for each item in props.images', () => {
         const wrapper = shallow(<Slider images={images}></Slider>);
-        expect(wrapper.find('Slide')).toHaveLength(2);
+        expect(wrapper.find(Slide)).toHaveLength(2);
     });
 
     test('custom class name', () => {
@@ -23,17 +24,10 @@ describe('renders correctly:', () => {
         expect(wrapper.find('div').first().props().className).toBe('test la-slider');
     });
 
-    test('when isShowLeftRightArrows: should be render left and right arrows', () => {
-        const arrowButtonStyles={width: '50px', height: '50px', stroke: 'blue', strokeWidth: '2px', fillColor: 'red'};
+    test('when navPosition not equals `none`: should be render navigate position', () => {
+        const stylesOfNavPosition={width: '50px', height: '50px', stroke: 'blue', strokeWidth: '2px', fillColor: 'red'};
         const component = renderer
-                        .create(<Slider arrowButtonStyles={arrowButtonStyles} isShowLeftRightArrows={true} images={images}></Slider>);
-        expect(component.toJSON()).toMatchSnapshot();
-    });
-
-    test('when isShowTopBottomArrows: should be render top and bottom arrows', () => {
-        const arrowButtonStyles={width: '50px', height: '50px', stroke: 'blue', strokeWidth: '2px', fillColor: 'red'};
-        const component = renderer
-                        .create(<Slider arrowButtonStyles={arrowButtonStyles} isShowTopBottomArrows={true} images={images}></Slider>);
+                        .create(<Slider stylesOfNavPosition={stylesOfNavPosition} navPosition="dummy-nav-position" images={images}></Slider>);
         expect(component.toJSON()).toMatchSnapshot();
     });
 });
@@ -55,9 +49,9 @@ describe('default props', () => {
         expect(wrapper.instance().props.transitionTime).toBe(3000);
     });
 
-    test('value of isShowLeftRightArrows should be false', () => {
-        expect(wrapper.instance().props.isShowLeftRightArrows).not.toBeUndefined();
-        expect(wrapper.instance().props.isShowLeftRightArrows).toBeFalsy();
+    test('value of navPosition should be none', () => {
+        expect(wrapper.instance().props.navPosition).not.toBeUndefined();
+        expect(wrapper.instance().props.navPosition).toBe("none");
     });
 });
 
@@ -68,90 +62,99 @@ describe('props to context:', () => {
     });
 });
 
-describe('arrow methods', () => {
+describe('onNextButtonClick', () => {
     const component = new Slider();
     beforeEach(() => {
-        component.decreaseCurrentSlideIndex = jest.fn();
-        component.increaseCurrentSlideIndex = jest.fn();
+        component.getNextImageIndex = jest.fn();
+        component.setUpAutoPlay = jest.fn();
     });
 
-    const testcases = [
-        {
-            description: 'onLeftArrowClick: decreaseCurrentSlideIndex method shouble be called',
-            action: (component) => component.onLeftArrowClick(),
-            assert: (component) => expect(component.decreaseCurrentSlideIndex).toBeCalled()
-        },
-        {
-            description: 'onRightArrowClick: increaseCurrentSlideIndex method shouble be called',
-            action: (component) => component.onRightArrowClick(),
-            assert: (component) => expect(component.increaseCurrentSlideIndex).toBeCalled()
-        },
-        {
-            description: 'onTopArrowClick: decreaseCurrentSlideIndex method shouble be called',
-            action: (component) => component.onTopArrowClick(),
-            assert: (component) => expect(component.decreaseCurrentSlideIndex).toBeCalled()
-        },
-        {
-            description: 'onBottomArrowClick: increaseCurrentSlideIndex method shouble be called',
-            action: (component) => component.onBottomArrowClick(),
-            assert: (component) => expect(component.increaseCurrentSlideIndex).toBeCalled()
-        }
-    ];
+    test('state of currentSlideIndex shouble be updated', () => {
+        component.setState = jest.fn();
+        const dummyCurrentSlideIndex = 999;
+        component.getNextImageIndex.mockReturnValue(dummyCurrentSlideIndex);
 
-    testcases.forEach(testcase => {
-        test(testcase.description, () => {
-            testcase.action(component);
-            testcase.assert(component);
-        });
+        component.onNextButtonClick();
+
+        expect(component.setState).toBeCalledWith({currentSlideIndex : dummyCurrentSlideIndex});
+    });
+
+    test('setUpAutoPlay method shouble be called', () => {
+        component.onNextButtonClick();
+
+        expect(component.setUpAutoPlay).toBeCalled();
     });
 });
 
-describe('trigger method decreaseCurrentSlideIndex ', () => {
-    test('when current slide index of state equal zero: setCurrentSlide method should be called with param is index of last image', () => {
+describe('onPreviousButtonClick ', () => {
+    const component = new Slider();
+    beforeEach(() => {
+        component.getPrevImageIndex = jest.fn();
+        component.setUpAutoPlay = jest.fn();
+    });
+
+    test('state of currentSlideIndex shouble be updated', () => {
+        component.setState = jest.fn();
+        const dummyCurrentSlideIndex = 999;
+        component.getPrevImageIndex .mockReturnValue(dummyCurrentSlideIndex);
+
+        component.onPreviousButtonClick();
+
+        expect(component.setState).toBeCalledWith({currentSlideIndex : dummyCurrentSlideIndex});
+    });
+
+    test('setUppAutoPlay method shouble be called', () => {
+        component.onPreviousButtonClick();
+
+        expect(component.setUpAutoPlay).toBeCalled();
+    });
+});
+
+describe('getPrevImageIndex ', () => {
+    test('when current slide index of state equal zero: return index of last image', () => {
         const images = [{ url: "fakeImage1.jpg", text: "fakeImage1" }, { url: "fakeImage2.jpg", text: "fakeImage2" }, { url: "fakeImage3.jpg", text: "fakeImage3" }];
         const component = new Slider({ images });
-        component.setCurrentSlide = jest.fn();
-
         component.state.currentSlideIndex = 0;
-        component.decreaseCurrentSlideIndex();
+
+        const actual = component.getPrevImageIndex();
+
         const indexOfLastImage = images.length - 1;
-        expect(component.setCurrentSlide).toBeCalledWith(indexOfLastImage);
+        expect(actual).toBe(indexOfLastImage);
     });
 
-    test('when current slide index of state not equal zero: setCurrentSlide method should be called with param is current slide index decrease one value', () => {
+    test('when current slide index of state not equal zero: return current slide index decrease one value', () => {
         const component = new Slider();
-        component.setCurrentSlide = jest.fn();
-
         component.state.currentSlideIndex = 2;
-        component.decreaseCurrentSlideIndex();
-        expect(component.setCurrentSlide).toBeCalledWith(1);
+
+        const actual = component.getPrevImageIndex();
+        expect(actual).toBe(1);
     });
 });
 
-describe('trigger method increaseCurrentSlideIndex ', () => {
-    test('when current slide index equal index of last image: setCurrentSlide method should be called with param is zero', () => {
+describe('getNextImageIndex ', () => {
+    test('when current slide index equal index of last image: return zero', () => {
         const images = [{ url: "fakeImage1.jpg", text: "fakeImage1" }, { url: "fakeImage2.jpg", text: "fakeImage2" }, { url: "fakeImage3.jpg", text: "fakeImage3" }];
         const component = new Slider({ images });
-        component.setCurrentSlide = jest.fn();
-
         const indexOfLastImage = images.length - 1;
         component.state.currentSlideIndex = indexOfLastImage;
-        component.increaseCurrentSlideIndex();
-        expect(component.setCurrentSlide).toBeCalledWith(0);
+
+        const actual = component.getNextImageIndex();
+
+        expect(actual).toBe(0);
     });
 
-    test('when current slide index not equal index of last image: setCurrentSlide method should be called with param is increase one value', () => {
+    test('when current slide index not equal index of last image: return current slide index increase one value', () => {
         const images = [{ url: "fakeImage1.jpg", text: "fakeImage1" }, { url: "fakeImage2.jpg", text: "fakeImage2" }, { url: "fakeImage3.jpg", text: "fakeImage3" }];
         const component = new Slider({ images });
-        component.setCurrentSlide = jest.fn();
-
         component.state.currentSlideIndex = 1;
-        component.increaseCurrentSlideIndex();
-        expect(component.setCurrentSlide).toBeCalledWith(2);
+
+        const actual = component.getNextImageIndex();
+
+        expect(actual).toBe(2);
     });
 });
 
-describe('trigger method onImageClick ', () => {
+describe('onImageClick ', () => {
     test('onImageClick method of props should be called with params correctly', () => {
         const images = [{ url: "fakeImage1.jpg", text: "fakeImage1" }, { url: "fakeImage2.jpg", text: "fakeImage2" }, { url: "fakeImage3.jpg", text: "fakeImage3" }];
         const component = new Slider({ images, onImageClick: jest.fn() });
@@ -164,21 +167,110 @@ describe('trigger method onImageClick ', () => {
     });
 });
 
-describe('trigger method componentDidMount when autoPlay of props is true', () => {
+describe('setUpAutoPlay when autoPlay of props is true', () => {
+    const component = new Slider({autoPlay: true});
+    beforeEach(() => {
+        component.stopAutoPlay = jest.fn();
+        component.startAutoPlay = jest.fn();
+    });
+
+    test('stopAutoPlay method should be called', () => {
+         // action
+        component.setUpAutoPlay();
+        
+        // assert
+        expect(component.stopAutoPlay).toBeCalled();
+    });
+
+    test('startAutoPlay method should be called', () => {
+        // action
+        component.setUpAutoPlay();
+
+        // assert
+        expect(component.startAutoPlay).toBeCalled();
+    });
+
+    test('should call function in order', () => { 
+        // arrange
+        let excutionOrders = [];
+        component.stopAutoPlay = jest.fn(() => excutionOrders.push(1));
+        component.startAutoPlay = jest.fn(() => excutionOrders.push(2));
+
+        // action
+        component.setUpAutoPlay();
+        
+        // assert
+        expect( excutionOrders ).toEqual([1, 2]);
+    });
+});
+
+describe('startAutoPlay', () => {
     jest.useFakeTimers();
 
-    test('should update every milliseconds setting by transitionTime', () => {
+    test('should update currentSlideIndex every milliseconds setting by transitionTime', () => {
+        // arrange
         const component = new Slider({ autoPlay: true, transitionTime: 2000 });
         component.setState = jest.fn();
-        component.componentDidMount();
+
+        // action
+        component.startAutoPlay();
+
+        // assert
         expect(setInterval).toHaveBeenCalledTimes(1);
         expect(setInterval).toHaveBeenLastCalledWith(expect.any(Function), 2000);
     });
 
-    test('should update intervalId ', () => {
+    test('should update autoplayTimerId ', () => {
+        // arrange
         const component = new Slider({ autoPlay: true });
         component.setState = jest.fn();
+
+        // action
+        component.startAutoPlay();
+
+        // assert
+        expect(component.autoplayTimerId).toBe(2);
+    });
+});
+
+describe('stopAutoPlay', () => {
+    test('when autoplayTimerId is not undefined: clearInterval method should be called with params correctly', () => {
+        // arrange
+        jest.useFakeTimers();
+        const component = new Slider();
+        component.autoplayTimerId = 999;
+
+         // action
+        component.stopAutoPlay();
+
+        // assert
+        expect(clearInterval).toHaveBeenCalledTimes(1);
+        expect(clearInterval).toHaveBeenLastCalledWith(999);
+    });
+
+    test('when autoplayTimerId is undefined: do not call clearInterval method', () => {
+        // arrange
+        const component = new Slider();
+        component.autoplayTimerId = undefined;
+
+        // action
+        component.stopAutoPlay();
+
+        // assert
+        expect(clearInterval).not.toBeCalledWith(undefined);
+    });
+});
+
+describe('componentDidMount when autoPlay of props is true', () => {
+    test('setUpAutoPlay method should be called', () => {
+        // arrange
+        const component = new Slider({ autoPlay: true });
+        component.setUpAutoPlay = jest.fn();
+
+         // action
         component.componentDidMount();
-        expect(component.setState).toBeCalledWith({ intervalId: 2 });
+
+        // assert
+        expect(component.setUpAutoPlay).toBeCalled();
     });
 });
