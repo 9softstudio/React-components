@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly: when navPosition not equals \`none\`: should be render navigate position 1`] = `
+<div
+  className="la-slider"
+  style={
+    Object {
+      "height": "500px",
+      "width": "100%",
+    }
+  }
+>
+  <div
+    className="la-slider-wrapper"
+  >
+    <div
+      className="horizontal current slide"
+      onClick={[Function]}
+    >
+      <img
+        alt="fakeImage1"
+        onError={[Function]}
+        src="fakeImage1.jpg"
+      />
+      <h1>
+        fakeImage1
+      </h1>
+    </div>
+    <div
+      className="horizontal next slide"
+      onClick={[Function]}
+    >
+      <img
+        alt="fakeImage2"
+        onError={[Function]}
+        src="fakeImage2.jpg"
+      />
+      <h1>
+        fakeImage2
+      </h1>
+    </div>
+  </div>
+  <svg
+    className="nav-position dummy-nav-position previousButton"
+    height="50px"
+    onClick={[Function]}
+    viewBox="0 0 50 58"
+    width="50px"
+  >
+    <polyline
+      fill="red"
+      points="25 0 50 25 25 50"
+      stroke="blue"
+      strokeWidth="2px"
+    />
+  </svg>
+  <svg
+    className="nav-position dummy-nav-position nextButton"
+    height="50px"
+    onClick={[Function]}
+    viewBox="0 0 50 58"
+    width="50px"
+  >
+    <polyline
+      fill="red"
+      points="25 0 50 25 25 50"
+      stroke="blue"
+      strokeWidth="2px"
+    />
+  </svg>
+</div>
+`;

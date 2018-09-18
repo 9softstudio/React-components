@@ -1,0 +1,103 @@
+$prefix: ".la-slider";
+
+#{$prefix} {
+    position: relative;
+    overflow: hidden;
+
+    .slide {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        display: none;
+
+        transition: all 1s ease;
+        &.current, &.next, &.previous{
+            display: block;
+            text-align: center;
+        }
+
+        & img {
+            width: 100%;
+            height: 100%;
+        }
+
+        & h1 {
+            transition: all 1s ease;
+            transition-delay: 0.5s;
+            position: absolute;
+            margin: 0 auto;
+            color: #fff;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+        }
+        
+        &.current h1{
+            top: 50%;
+            opacity: 1;
+        }
+
+        &.horizontal{
+            &.previous{
+                left: -100%;
+            }
+            &.current{
+                left: 0;
+            }
+            &.next{
+                left: 100%;
+            }
+        }
+
+        &.vertical{
+            &.previous{
+                top: -100%;
+            }
+            &.current{
+                top: 0;
+            }
+            &.next{
+                top: 100%;
+            }
+        }
+    }
+
+    .nav-position {
+        cursor: pointer;
+        opacity: 0.5;
+        position: absolute;
+        transition: opacity 0.5 ease-in-out;
+
+        &:hover {
+            opacity: 1;
+        }
+
+        &.horizontal {
+            &.previousButton {
+                top: 50%;
+                left: 0%;
+                transform: translate(0%, -50%) rotate(180deg);
+            }
+
+            &.nextButton {
+                top: 53%;
+                right: 0%;
+                transform: translate(0%, -53%);
+            }
+        }
+
+        &.vertical {
+            &.previousButton {
+                top: 0%;
+                left: 50%;
+                transform: translate(-50%, 0%) rotate(-90deg);
+            }
+            &.nextButton {
+                bottom: 0%;
+                left: 50%;
+                transform: translate(-50%, 0%) rotate(90deg);
+            }
+        }
+    }
+}

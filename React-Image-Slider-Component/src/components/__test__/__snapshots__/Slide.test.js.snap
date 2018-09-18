@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Slide /> renders correctly 1`] = `
+<div
+  className="slide"
+  onClick={[Function]}
+>
+  <img
+    alt="fake-text"
+    onError={[Function]}
+    src="fake-url"
+  />
+  <h1>
+    fake-text
+  </h1>
+</div>
+`;
