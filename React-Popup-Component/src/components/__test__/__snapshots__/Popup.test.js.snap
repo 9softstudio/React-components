@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Popup /> renders correctly 1`] = `
+<div
+  className="laPopup"
+>
+  <div
+    className=" laPopup__inner"
+  >
+    <div
+      className="laPopup__title"
+    >
+      this is title
+    </div>
+    <span
+      className="laPopup__close"
+      onClick={[MockFunction]}
+      toggle="close"
+    >
+      ×
+    </span>
+    <div
+      className="laPopup__content"
+    >
+      this is content
+    </div>
+  </div>
+</div>
+`;

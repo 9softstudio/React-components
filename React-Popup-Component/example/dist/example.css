@@ -1,0 +1,58 @@
+.mt200 {
+    margin-top: 200px;
+}
+
+.ml5 {
+    margin-left: 5px;
+}
+
+.w500 {
+    width: 500px;
+}
+
+.wauto {
+    width: auto;
+}
+
+.h180 {
+    height: 180px;
+}
+
+.laBtn {
+    -webkit-transition: all .2s ease 0s;
+    -moz-transition: all .2s ease 0s;
+    transition: all .2s ease 0s;
+    font-size: 12px;
+    margin-right: 3px;
+    cursor: pointer;
+    display: inline-block;
+    box-sizing: border-box;
+    height: 24px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 2px;
+    padding: 0 15px;
+    border: 1px solid transparent;
+    background: none;
+    outline: 0;
+}
+
+.laBtn-dark {
+    color: #fff;
+    border-color: #8c8c8c;
+    background: linear-gradient(#a5a5a5, #949494);
+}
+
+.laBtn-dark:hover {
+    background: linear-gradient(#949494, #a5a5a5);
+}
+
+.laBtn-submit {
+    color: #fff;
+    border-color: #4365ab;
+    background: linear-gradient(#5a81d4, #476bb7);
+}
+
+.laBtn-submit:hover {
+    background: linear-gradient(#476bb7, #5a81d4);
+}
