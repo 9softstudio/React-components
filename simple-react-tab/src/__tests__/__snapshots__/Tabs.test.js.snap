@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render content match with snapshot 1`] = `
+<div
+  className="page-filter-tab"
+>
+  <div
+    className="header-tab"
+  >
+    <div
+      className="content-tab"
+    >
+      <ul
+        className="tabs"
+      >
+        <li
+          className="tab"
+        >
+          <a
+            className=""
+            href="javascript:;"
+            onClick={[Function]}
+          >
+            
+          </a>
+        </li>
+        <li
+          className="tab"
+        >
+          <a
+            className="active"
+            href="javascript:;"
+            onClick={[Function]}
+          >
+            
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div
+    className="tab-panel"
+  >
+    Tab 2 Content
+  </div>
+</div>
+`;
