@@ -13,10 +13,10 @@ export default class App extends Component {
     render() {
         return (
             <Tabs>
-                <Tab isActive={true} label="Tab1">
+                <Tab isActive={false} label="Tab1">
                     <Tab1 />
                 </Tab>
-                <Tab isActive={false} label="Tab2">
+                <Tab isActive={true} label="Tab2">
                     <Tab2 />
                 </Tab>
             </Tabs>

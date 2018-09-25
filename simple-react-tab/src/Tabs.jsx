@@ -14,22 +14,15 @@ export default class Tabs extends Component {
         this.state = {
             tabState: tabState
         }
-
-        this.currentTabIndex = 0;
     }
 
     _renderActiveTabContent() {
         const activeTabIndex = this.state.tabState.findIndex(x => x);
-        this.currentTabIndex = activeTabIndex;
 
         return this.tabComponents[activeTabIndex].props.children;
     }
 
     onTabChange(tabIndex) {
-        if (tabIndex === this.currentTabIndex) {
-            return;
-        }
-
         const newTabState = this.state.tabState.map((item, index) => {
             return index === tabIndex;
         });

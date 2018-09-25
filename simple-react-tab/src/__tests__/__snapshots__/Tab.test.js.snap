@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render content match with snapshot 1`] = `
+<li
+  className="tab"
+>
+  <a
+    className=""
+    href="javascript:;"
+    onClick={undefined}
+  >
+    
+  </a>
+</li>
+`;

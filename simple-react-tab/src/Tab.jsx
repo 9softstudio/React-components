@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 export default class Tab extends Component {
     constructor(props) {
         super(props);
-
     }
 
     static propTypes = {
