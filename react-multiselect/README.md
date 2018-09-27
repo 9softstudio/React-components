@@ -1,5 +1,8 @@
 react multiselect
 =========================
+## Screenshot
+
+<img src="https://raw.githubusercontent.com/9softstudio/React-components/AddReactMultiSelect/react-multiselect/screenshots/ReactMultiselect.jpg" />
 
 ## Usage
 ```javascript
