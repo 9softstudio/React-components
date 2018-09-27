@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MultipleSelectOptionList  rendered content should match with snapshot 1`] = `
+<ul
+  className="multiple-select-options"
+>
+  <li
+    className="multiple-select-item"
+  >
+    <input
+      checked={true}
+      className="option-checkbox"
+      id="1-optionItem-0"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <label
+      className="option-label"
+      htmlFor="1-optionItem-0"
+    >
+      Value 1
+    </label>
+  </li>
+  <li
+    className="multiple-select-item"
+  >
+    <input
+      checked={false}
+      className="option-checkbox"
+      id="1-optionItem-1"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <label
+      className="option-label"
+      htmlFor="1-optionItem-1"
+    >
+      Value 2
+    </label>
+  </li>
+</ul>
+`;

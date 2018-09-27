@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MultipleSelect  render showOptionList = false - render component with "display: none" for dropdown list 1`] = `
+<div
+  className="multiple-select-container"
+  id="multiple-select-23"
+>
+  <button
+    className="multiple-select-default multiple-select-label"
+    onClick={[Function]}
+    type="button"
+  >
+    <span
+      className="text-display"
+      title="Select Options"
+    >
+      Select Options
+    </span>
+    <b
+      className="caret"
+    />
+  </button>
+  <div
+    className="multiple-select-default multiple-select-options-container"
+    style={
+      Object {
+        "display": "none",
+      }
+    }
+  >
+    <ul
+      className="multiple-select-options multiple-select-option-all"
+    >
+      <li
+        className="multiple-select-item"
+      >
+        <input
+          checked={true}
+          className="option-checkbox"
+          id="multiple-select-23-optionItemAll"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <label
+          className="option-label"
+          htmlFor="multiple-select-23-optionItemAll"
+        >
+          (All)
+        </label>
+      </li>
+    </ul>
+    <ul
+      className="multiple-select-options"
+    >
+      <span>
+        No information
+      </span>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`MultipleSelect  render showOptionList = true - render component with "display: block" for dropdown list 1`] = `
+<div
+  className="multiple-select-container"
+  id="multiple-select-24"
+>
+  <button
+    className="multiple-select-default multiple-select-label"
+    onClick={[Function]}
+    type="button"
+  >
+    <span
+      className="text-display"
+      title="Select Options"
+    >
+      Select Options
+    </span>
+    <b
+      className="caret"
+    />
+  </button>
+  <div
+    className="multiple-select-default multiple-select-options-container"
+    style={
+      Object {
+        "display": "block",
+      }
+    }
+  >
+    <ul
+      className="multiple-select-options multiple-select-option-all"
+    >
+      <li
+        className="multiple-select-item"
+      >
+        <input
+          checked={true}
+          className="option-checkbox"
+          id="multiple-select-24-optionItemAll"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <label
+          className="option-label"
+          htmlFor="multiple-select-24-optionItemAll"
+        >
+          (All)
+        </label>
+      </li>
+    </ul>
+    <ul
+      className="multiple-select-options"
+    >
+      <span>
+        No information
+      </span>
+    </ul>
+  </div>
+</div>
+`;
