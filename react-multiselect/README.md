@@ -14,7 +14,7 @@ npm i @9softstudio/react-multiselect
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
-import MultipleSelect from '../src/index'
+import MultipleSelect from '@9softstudio/react-multiselect'
 
 export default class App extends Component {
     constructor(props) {
