@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Option  render - content match with snapshot 1`] = `
+<li
+  className="multiple-select-item"
+>
+  <input
+    checked={true}
+    className="option-checkbox"
+    id="itemId"
+    onChange={[Function]}
+    type="checkbox"
+  />
+  <label
+    className="option-label"
+    htmlFor="itemId"
+  >
+    value
+  </label>
+</li>
+`;

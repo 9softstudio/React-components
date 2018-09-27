@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MultipleSelectLabel  render rendered content should match to snap shot 1`] = `
+<button
+  className="multiple-select-default multiple-select-label"
+  onClick={undefined}
+  type="button"
+>
+  <span
+    className="text-display"
+    title="Select options"
+  >
+    Select options
+  </span>
+  <b
+    className="caret"
+  />
+</button>
+`;
