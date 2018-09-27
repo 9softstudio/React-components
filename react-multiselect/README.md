@@ -1,9 +1,11 @@
 react multiselect
 =========================
 React 16
+## Install
+npm i @9softstudio/react-multiselect
 ## Screenshot
 
-<img src="https://raw.githubusercontent.com/9softstudio/React-components/AddReactMultiSelect/react-multiselect/screenshots/ReactMultiselect.jpg" />
+<img src="https://raw.githubusercontent.com/9softstudio/React-components/master/react-multiselect/screenshots/ReactMultiselect.jpg" />
 
 ## Usage
 ```javascript
