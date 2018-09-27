@@ -1,6 +1,6 @@
 {
     "name": "@9softstudio/react-multiselect",
-    "version": "1.0.0",
+    "version": "1.0.4",
     "description": "React MultiSelect Component",
     "main": "dist/index.js",
     "scripts": {
@@ -44,7 +44,7 @@
     },
     "dependencies": {
         "prop-types": "^15.6.0",
-        "react": "^15.6.1",
-        "react-dom": "^15.6.1"
+        "react": "^16.4.1",
+        "react-dom": "^16.4.1"
     }
 }

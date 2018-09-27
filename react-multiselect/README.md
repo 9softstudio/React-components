@@ -1,5 +1,6 @@
 react multiselect
 =========================
+React 16
 ## Screenshot
 
 <img src="https://raw.githubusercontent.com/9softstudio/React-components/AddReactMultiSelect/react-multiselect/screenshots/ReactMultiselect.jpg" />
