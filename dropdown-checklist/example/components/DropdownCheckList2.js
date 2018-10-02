@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { DropdownCheckList } from '../../dist/index'
+import { DropdownCheckList } from '../../src/index'
 
 export default class DropdownCheckList2 extends Component {
     render() {

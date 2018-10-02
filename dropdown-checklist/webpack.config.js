@@ -18,7 +18,7 @@ var webpackConfig = {
         filename: '[name].js',
         path: path.resolve(__dirname, './'),
         libraryTarget: 'umd',
-        library: 'ReactTab'
+        library: 'ReactDropdownCheckList'
     },
     resolve: {
         extensions: [".js", ".jsx"],
