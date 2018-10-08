@@ -9,12 +9,12 @@ const clientWidth = document.body.clientWidth;
 
 function scrollToTop(element, scrollDuration) {
     var scrollStep = -element.scrollTop / (scrollDuration / 15),
-        scrollInterval = setInterval(function(){
-            if ( element.scrollTop != 0 ) {
-                element.scrollBy( 0, scrollStep );
+        scrollInterval = setInterval(function () {
+            if (element.scrollTop != 0) {
+                element.scrollBy(0, scrollStep);
             }
-            else clearInterval(scrollInterval); 
-        },15);
+            else clearInterval(scrollInterval);
+        }, 15);
 }
 
 function debounce(func, wait) {
@@ -139,9 +139,16 @@ class Table extends Component {
         const colspanCells = [];
         for (let i = fromCellIndex; i <= toCellIndex; i++) {
             const cell = cells[i];
+            const hasNext = i < cells.length;
+            if (!cell && hasNext) {
+                toCellIndex += 1;
+                continue;
+            }
+
             if (cell.props.colSpan) {
                 toCellIndex -= 1;
             }
+
             colspanCells.push(cell);
         }
 
@@ -164,12 +171,11 @@ class Table extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.header != prevProps.header)
-        {
-            this.setState({columnsWidth: this._getColumnsWidth(this.props.header)});
+        if (this.props.header != prevProps.header) {
+            this.setState({ columnsWidth: this._getColumnsWidth(this.props.header) });
         }
 
-        if(prevProps.body != this.props.body){
+        if (prevProps.body != this.props.body) {
             scrollToTop(this.bodyWrapper, 200);
         }
     }
@@ -239,25 +245,25 @@ class Table extends Component {
                     {
                         body &&
                         <Body {...sectionProps} maxHeight={this.state.contentHeight}>
-                        {rowLayout}
-                        {body}
+                            {rowLayout}
+                            {body}
                         </Body>
                     }
                     {
                         footer &&
                         <Footer {...sectionProps}>
-                        {rowLayout}
-                        {footer}
+                            {rowLayout}
+                            {footer}
                         </Footer>
                     }
                 </div>
-                    {
+                {
                     isPaging && pageOption &&
                     <Pager pageOption={pageOption} onPaging={onPaging} />
-                    }
+                }
             </div>
         )
-}
+    }
 }
 
 export default Table;
