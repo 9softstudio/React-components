@@ -1,6 +1,6 @@
 {
     "name": "@9softstudio/react-fixed-table-header",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "React Fixed Table Header",
     "main": "dist/index.js",
     "scripts": {
