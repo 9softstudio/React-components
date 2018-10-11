@@ -1,0 +1,86 @@
+.rtms{
+    &__tree, &__node{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    &__tree{
+        margin-left: 30px;
+    }
+
+    &__node{
+        position: relative;
+
+        &-checkbox{
+            position: relative;
+            padding: 1px 3px;
+            width: 100%;
+            display: block;
+            left: 18px;
+
+            &:hover{
+                background-color: #f0f0f0;
+            }
+
+            &:after{
+                position: absolute;
+                top: 0;
+                left: 2px;
+                font-size: 12px;
+                font-weight: 700;
+            }
+
+            &:before{
+                position: absolute;
+                content: " ";
+                border: 1px solid #000;
+                width: 12px;
+                height: 12px;
+                border-radius: 3px;
+                top: 2px;
+                left: 0;
+            }
+
+            input{
+                visibility: hidden;
+                margin: 0;
+                padding: 0;
+            }
+
+            &.checked:after{
+                content: "✓";
+            }
+            &.indeterminate:after{
+                background-color: #bbb;
+                content: " ";
+                width: 8px;
+                height: 8px;
+                top: 5px;
+                left: 3px;
+            }
+        }
+    }
+    &__toggle {
+        width: 14px;
+        height: 14px;
+        cursor: pointer;
+        position: absolute;
+        transform: rotate(0deg);
+        transition: transform 0.2s;
+        top: 2px;
+
+        &:before{
+            position: absolute;
+            content: " ";
+            border: 4px solid transparent;
+            border-top-color: #000;
+            top: 6px;
+            left: 3px;
+        }
+
+        &.collapsed{
+            transform: rotate(-90deg);
+        }
+    }
+}
