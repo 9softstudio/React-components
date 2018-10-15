@@ -1,6 +1,17 @@
-import React, { Component } from 'react';
+import React, {
+    Component
+} from 'react';
 import ReactDOM from 'react-dom';
-import { Table, Row, Cell } from './dist/fixed-table-header';
+import {
+    Table,
+    Row,
+    Cell
+} from './dist/fixed-table-header';
+import {
+    buildBodyWithCheckbox,
+    buildHeaderWithCheckbox,
+    createDataWithCheckbox
+} from './sampleData';
 
 const totalItem = 30;
 const defaultPagingOption = {
@@ -15,17 +26,44 @@ export default class App extends Component {
         super(props);
 
         this.addMoreCell = true;
+
+        this.state = {
+            data: createDataWithCheckbox(),
+            shouldResetScrollPosition: true,
+            showComponent: true
+        }
     }
 
-    _buildHeader() {
-        return (<Row style={{ height: 32 }}>
-            <Cell colWidth={150} header={true}>Header 1</Cell>
-            <Cell colWidth={150} header={true}>Header 2</Cell>
-            <Cell colWidth={200} header={true}>Header 3</Cell>
-            <Cell colWidth={150} header={true}>Header 4</Cell>
-            {this.addMoreCell ? (<Cell colWidth={150} header={true}>Header 5</Cell>) : null}
-        </Row>);
+    handleChangeChecked = (index, checked) => {
+        const {
+            data
+        } = this.state;
+
+        const newState = data.map((item, i) => {
+            if (i === index) {
+                return Object.assign({}, item, {
+                    checked
+                });
+            }
+
+            return item;
+        })
+
+        this.setState({
+            data: newState,
+            shouldResetScrollPosition: false
+        });
     }
+
+    // _buildHeader() {
+    //     return (<Row style={{ height: 32 }}>
+    //         <Cell colWidth={150} header={true}>Header 1</Cell>
+    //         <Cell colWidth={150} header={true}>Header 2</Cell>
+    //         <Cell colWidth={200} header={true}>Header 3</Cell>
+    //         <Cell colWidth={150} header={true}>Header 4</Cell>
+    //         {this.addMoreCell ? (<Cell colWidth={150} header={true}>Header 5</Cell>) : null}
+    //     </Row>);
+    // }
 
     // _buildHeader() {
     //     const isMainView = false;
@@ -78,73 +116,82 @@ export default class App extends Component {
     //     ];
     // }
 
-    _buildBody() {
-        let rows = [];
-        rows.push(
-            <Row key={`body-rowspan-0`}>
-                <Cell rowSpan="2">Data Rowspan 1</Cell>
-                <Cell>Data 2.0</Cell>
-                <Cell>Data 3.0</Cell>
-                <Cell>Data 4.0</Cell>
-                {this.addMoreCell ? (<Cell>Data 5.0</Cell>) : null}
-            </Row>
-        );
-        rows.push(
-            <Row key={`body-rowspan-0.1`}>
-                <Cell>Data 2.1</Cell>
-                <Cell>Data 3.1</Cell>
-                <Cell>Data 4.1</Cell>
-                {this.addMoreCell ? (<Cell>Data 5.1</Cell>) : null}
-            </Row>
-        );
+    // _buildBody() {
+    //     let rows = [];
+    //     rows.push(
+    //         <Row key={`body-rowspan-0`}>
+    //             <Cell rowSpan="2">Data Rowspan 1</Cell>
+    //             <Cell>Data 2.0</Cell>
+    //             <Cell>Data 3.0</Cell>
+    //             <Cell>Data 4.0</Cell>
+    //             {this.addMoreCell ? (<Cell>Data 5.0</Cell>) : null}
+    //         </Row>
+    //     );
+    //     rows.push(
+    //         <Row key={`body-rowspan-0.1`}>
+    //             <Cell>Data 2.1</Cell>
+    //             <Cell>Data 3.1</Cell>
+    //             <Cell>Data 4.1</Cell>
+    //             {this.addMoreCell ? (<Cell>Data 5.1</Cell>) : null}
+    //         </Row>
+    //     );
 
-        for (let i = 0; i < totalItem; i++) {
-            rows.push(
-                <Row key={`body${i}`}>
-                    <Cell>Data 1</Cell>
-                    <Cell>Data 2</Cell>
-                    <Cell>Data 3</Cell>
-                    <Cell>Data 4</Cell>
-                    {this.addMoreCell ? (<Cell>Data 5</Cell>) : null}
-                </Row>
-            );
-        }
+    //     for (let i = 0; i < totalItem; i++) {
+    //         rows.push(
+    //             <Row key={`body${i}`}>
+    //                 <Cell>Data 1</Cell>
+    //                 <Cell>Data 2</Cell>
+    //                 <Cell>Data 3</Cell>
+    //                 <Cell>Data 4</Cell>
+    //                 {this.addMoreCell ? (<Cell>Data 5</Cell>) : null}
+    //             </Row>
+    //         );
+    //     }
 
-        return rows;
-    }
+    //     return rows;
+    // }
 
     _buildFooter() {
         let rows = [];
         for (let i = 0; i < 3; i++) {
-            rows.push(
-                <Row key={`footer${i}`}>
-                    <Cell>Footer 1</Cell>
-                    <Cell>Footer 2</Cell>
-                    <Cell>Footer 3</Cell>
-                    <Cell>Footer 4</Cell>
-                    {this.addMoreCell ? (<Cell>Footer 5</Cell>) : null}
-                </Row>
-            );
+            rows.push(<Row key={`footer${i}`}>
+                <Cell>Footer 1</Cell>
+                <Cell>Footer 2</Cell>
+                <Cell>Footer 3</Cell>
+            </Row>);
         }
 
         return rows;
     }
 
+    handleToggle = () => {
+        this.setState((prevState) => ({
+            showComponent: !prevState.showComponent
+        }))
+    }
+
     render() {
+        const { data, shouldResetScrollPosition, showComponent } = this.state;
+        const header = buildHeaderWithCheckbox();
+        const body = buildBodyWithCheckbox(data, this.handleChangeChecked);
+
         return (
-            <Table
-                minWidth={600}
-                autoWidth={true}
-                bodyHeight={300}
-                header={this._buildHeader()}
-                body={this._buildBody()}
-                footer={this._buildFooter()}
-                isPaging={true}
-                pageOption={defaultPagingOption}
-                containerPadding={0}
-            />
+            <div>
+                <div><button onClick={this.handleToggle}>Toggle Component</button></div>
+                { showComponent ? (<Table minWidth={600}
+                    autoWidth={true}
+                    bodyHeight={300}
+                    header={header}
+                    body={body}
+                    footer={this._buildFooter()}
+                    isPaging={true}
+                    pageOption={defaultPagingOption}
+                    containerPadding={0}
+                    shouldResetScrollPosition={shouldResetScrollPosition} />) : (<div>Component is hidden</div>)
+                }
+            </div>
         );
     }
 }
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(< App />, document.getElementById("app"));

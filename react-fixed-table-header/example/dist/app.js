@@ -112,6 +112,8 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _fixedTableHeader = __webpack_require__(/*! ./dist/fixed-table-header */ "./example/dist/fixed-table-header.js");
 
+var _sampleData = __webpack_require__(/*! ./sampleData */ "./example/sampleData.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -136,43 +138,57 @@ var App = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
+        _this.handleChangeChecked = function (index, checked) {
+            var data = _this.state.data;
+
+
+            var newState = data.map(function (item, i) {
+                if (i === index) {
+                    return Object.assign({}, item, {
+                        checked: checked
+                    });
+                }
+
+                return item;
+            });
+
+            _this.setState({
+                data: newState,
+                shouldResetScrollPosition: false
+            });
+        };
+
+        _this.handleToggle = function () {
+            _this.setState(function (prevState) {
+                return {
+                    showComponent: !prevState.showComponent
+                };
+            });
+        };
+
         _this.addMoreCell = true;
+
+        _this.state = {
+            data: (0, _sampleData.createDataWithCheckbox)(),
+            shouldResetScrollPosition: true,
+            showComponent: true
+        };
         return _this;
     }
 
     _createClass(App, [{
-        key: '_buildHeader',
-        value: function _buildHeader() {
-            return _react2.default.createElement(
-                _fixedTableHeader.Row,
-                { style: { height: 32 } },
-                _react2.default.createElement(
-                    _fixedTableHeader.Cell,
-                    { colWidth: 150, header: true },
-                    'Header 1'
-                ),
-                _react2.default.createElement(
-                    _fixedTableHeader.Cell,
-                    { colWidth: 150, header: true },
-                    'Header 2'
-                ),
-                _react2.default.createElement(
-                    _fixedTableHeader.Cell,
-                    { colWidth: 200, header: true },
-                    'Header 3'
-                ),
-                _react2.default.createElement(
-                    _fixedTableHeader.Cell,
-                    { colWidth: 150, header: true },
-                    'Header 4'
-                ),
-                this.addMoreCell ? _react2.default.createElement(
-                    _fixedTableHeader.Cell,
-                    { colWidth: 150, header: true },
-                    'Header 5'
-                ) : null
-            );
-        }
+        key: '_buildFooter',
+
+
+        // _buildHeader() {
+        //     return (<Row style={{ height: 32 }}>
+        //         <Cell colWidth={150} header={true}>Header 1</Cell>
+        //         <Cell colWidth={150} header={true}>Header 2</Cell>
+        //         <Cell colWidth={200} header={true}>Header 3</Cell>
+        //         <Cell colWidth={150} header={true}>Header 4</Cell>
+        //         {this.addMoreCell ? (<Cell colWidth={150} header={true}>Header 5</Cell>) : null}
+        //     </Row>);
+        // }
 
         // _buildHeader() {
         //     const isMainView = false;
@@ -225,100 +241,41 @@ var App = function (_Component) {
         //     ];
         // }
 
-    }, {
-        key: '_buildBody',
-        value: function _buildBody() {
-            var rows = [];
-            rows.push(_react2.default.createElement(
-                _fixedTableHeader.Row,
-                { key: 'body-rowspan-0' },
-                _react2.default.createElement(
-                    _fixedTableHeader.Cell,
-                    { rowSpan: '2' },
-                    'Data Rowspan 1'
-                ),
-                _react2.default.createElement(
-                    _fixedTableHeader.Cell,
-                    null,
-                    'Data 2.0'
-                ),
-                _react2.default.createElement(
-                    _fixedTableHeader.Cell,
-                    null,
-                    'Data 3.0'
-                ),
-                _react2.default.createElement(
-                    _fixedTableHeader.Cell,
-                    null,
-                    'Data 4.0'
-                ),
-                this.addMoreCell ? _react2.default.createElement(
-                    _fixedTableHeader.Cell,
-                    null,
-                    'Data 5.0'
-                ) : null
-            ));
-            rows.push(_react2.default.createElement(
-                _fixedTableHeader.Row,
-                { key: 'body-rowspan-0.1' },
-                _react2.default.createElement(
-                    _fixedTableHeader.Cell,
-                    null,
-                    'Data 2.1'
-                ),
-                _react2.default.createElement(
-                    _fixedTableHeader.Cell,
-                    null,
-                    'Data 3.1'
-                ),
-                _react2.default.createElement(
-                    _fixedTableHeader.Cell,
-                    null,
-                    'Data 4.1'
-                ),
-                this.addMoreCell ? _react2.default.createElement(
-                    _fixedTableHeader.Cell,
-                    null,
-                    'Data 5.1'
-                ) : null
-            ));
+        // _buildBody() {
+        //     let rows = [];
+        //     rows.push(
+        //         <Row key={`body-rowspan-0`}>
+        //             <Cell rowSpan="2">Data Rowspan 1</Cell>
+        //             <Cell>Data 2.0</Cell>
+        //             <Cell>Data 3.0</Cell>
+        //             <Cell>Data 4.0</Cell>
+        //             {this.addMoreCell ? (<Cell>Data 5.0</Cell>) : null}
+        //         </Row>
+        //     );
+        //     rows.push(
+        //         <Row key={`body-rowspan-0.1`}>
+        //             <Cell>Data 2.1</Cell>
+        //             <Cell>Data 3.1</Cell>
+        //             <Cell>Data 4.1</Cell>
+        //             {this.addMoreCell ? (<Cell>Data 5.1</Cell>) : null}
+        //         </Row>
+        //     );
 
-            for (var i = 0; i < totalItem; i++) {
-                rows.push(_react2.default.createElement(
-                    _fixedTableHeader.Row,
-                    { key: 'body' + i },
-                    _react2.default.createElement(
-                        _fixedTableHeader.Cell,
-                        null,
-                        'Data 1'
-                    ),
-                    _react2.default.createElement(
-                        _fixedTableHeader.Cell,
-                        null,
-                        'Data 2'
-                    ),
-                    _react2.default.createElement(
-                        _fixedTableHeader.Cell,
-                        null,
-                        'Data 3'
-                    ),
-                    _react2.default.createElement(
-                        _fixedTableHeader.Cell,
-                        null,
-                        'Data 4'
-                    ),
-                    this.addMoreCell ? _react2.default.createElement(
-                        _fixedTableHeader.Cell,
-                        null,
-                        'Data 5'
-                    ) : null
-                ));
-            }
+        //     for (let i = 0; i < totalItem; i++) {
+        //         rows.push(
+        //             <Row key={`body${i}`}>
+        //                 <Cell>Data 1</Cell>
+        //                 <Cell>Data 2</Cell>
+        //                 <Cell>Data 3</Cell>
+        //                 <Cell>Data 4</Cell>
+        //                 {this.addMoreCell ? (<Cell>Data 5</Cell>) : null}
+        //             </Row>
+        //         );
+        //     }
 
-            return rows;
-        }
-    }, {
-        key: '_buildFooter',
+        //     return rows;
+        // }
+
         value: function _buildFooter() {
             var rows = [];
             for (var i = 0; i < 3; i++) {
@@ -339,17 +296,7 @@ var App = function (_Component) {
                         _fixedTableHeader.Cell,
                         null,
                         'Footer 3'
-                    ),
-                    _react2.default.createElement(
-                        _fixedTableHeader.Cell,
-                        null,
-                        'Footer 4'
-                    ),
-                    this.addMoreCell ? _react2.default.createElement(
-                        _fixedTableHeader.Cell,
-                        null,
-                        'Footer 5'
-                    ) : null
+                    )
                 ));
             }
 
@@ -358,17 +305,41 @@ var App = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            return _react2.default.createElement(_fixedTableHeader.Table, {
-                minWidth: 600,
-                autoWidth: true,
-                bodyHeight: 300,
-                header: this._buildHeader(),
-                body: this._buildBody(),
-                footer: this._buildFooter(),
-                isPaging: true,
-                pageOption: defaultPagingOption,
-                containerPadding: 0
-            });
+            var _state = this.state,
+                data = _state.data,
+                shouldResetScrollPosition = _state.shouldResetScrollPosition,
+                showComponent = _state.showComponent;
+
+            var header = (0, _sampleData.buildHeaderWithCheckbox)();
+            var body = (0, _sampleData.buildBodyWithCheckbox)(data, this.handleChangeChecked);
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: this.handleToggle },
+                        'Toggle Component'
+                    )
+                ),
+                showComponent ? _react2.default.createElement(_fixedTableHeader.Table, { minWidth: 600,
+                    autoWidth: true,
+                    bodyHeight: 300,
+                    header: header,
+                    body: body,
+                    footer: this._buildFooter(),
+                    isPaging: true,
+                    pageOption: defaultPagingOption,
+                    containerPadding: 0,
+                    shouldResetScrollPosition: shouldResetScrollPosition }) : _react2.default.createElement(
+                    'div',
+                    null,
+                    'Component is hidden'
+                )
+            );
         }
     }]);
 
@@ -498,18 +469,18 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
               u = o.PageSize,
               l = o.TotalItem,
               c = o.PageList,
-              f = this.state.inputValue,
-              s = isNaN(parseInt(f)),
+              s = this.state.inputValue,
+              f = isNaN(parseInt(s)),
               p = l > c[0],
               d = Math.ceil(l / u);return a.default.createElement("div", { className: "page-container center-align", style: { display: p ? "block" : "none" } }, this._renderPageIcon("page-first", 1 === i, function () {
             return e.goToPage(1, u);
-          }), this._renderPageIcon("page-prev", s || i <= 1 || i > d, function () {
+          }), this._renderPageIcon("page-prev", f || i <= 1 || i > d, function () {
             return e.goToPage(i - 1, u);
-          }), r ? this._renderPageInput(f, d) : this._renderPageLabel(i, d), this._renderPageIcon("page-next", s || i >= d || i < 1, function () {
+          }), r ? this._renderPageInput(s, d) : this._renderPageLabel(i, d), this._renderPageIcon("page-next", f || i >= d || i < 1, function () {
             return e.goToPage(i + 1, u);
           }), this._renderPageIcon("page-last", i === d, function () {
             return e.goToPage(d, u);
-          }), this._renderPageSizeSelection(s, i, u), n && this._renderPageInfo(i, u, l));
+          }), this._renderPageSizeSelection(f, i, u), n && this._renderPageInfo(i, u, l));
         } }]), t;
     }();l.propTypes = { pageOption: i.default.shape({ PageIndex: i.default.number, PageSize: i.default.number, PageList: i.default.arrayOf(i.default.number), TotalItem: i.default.number }), onPaging: i.default.func, isShowPagingInfo: i.default.bool, isAllowInputPageIndex: i.default.bool }, l.defaultProps = { pageOption: { PageIndex: 1, PageSize: 50, PageList: [50, 100, 200], TotalItem: 0 }, isShowPagingInfo: !0, isAllowInputPageIndex: !0 }, t.default = l;
   }, function (e, t, n) {
@@ -543,23 +514,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         u = p(n(6)),
         l = p(n(1)),
         c = p(n(9)),
-        f = n(2),
-        s = p(n(3));function p(e) {
+        s = n(2),
+        f = p(n(3));function p(e) {
       return e && e.__esModule ? e : { default: e };
-    }var d = document.body.clientWidth;function h(e, t) {
-      var n = void 0;return function () {
-        var r = this,
-            o = arguments;clearTimeout(n), n = setTimeout(function () {
-          e.apply(r, o);
-        }, t || f.DEFAULT_MILLISECOND_FOR_WAITING);
-      };
-    }var y = function (e) {
+    }var d = document.body.clientWidth;var h = function (e) {
       function t(e) {
         !function (e, t) {
           if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
         }(this, t);var n = function (e, t) {
           if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" != (typeof t === "undefined" ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
-        }(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, e));b.call(n), n.bodyWrapper = null, n.footerWrapper = null;n.Header = (0, c.default)({ className: "header-content", isHeader: !0 });var r = { className: "body-content", getRef: function getRef(e) {
+        }(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, e));y.call(n), n.bodyWrapper = null, n.footerWrapper = null;n.Header = (0, c.default)({ className: "header-content", isHeader: !0 });var r = { className: "body-content", getRef: function getRef(e) {
             return n.bodyWrapper = e;
           } };n.Body = (0, c.default)(r);var o = { className: "footer-content", getRef: function getRef(e) {
             return n.footerWrapper = e;
@@ -567,7 +531,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             i = a.maxWidth,
             u = a.bodyHeight,
             l = a.adjustedHeight,
-            f = i || d;return n.diffWidth = d - f, n.adjustedHeight = l, n.state = { maxWidth: f, contentHeight: u, columnsWidth: n._getColumnsWidth(e.header) }, n;
+            f = i || d;return n.diffWidth = d - f, n.adjustedHeight = l, n.debounceResizing = function (e, t) {
+          var n = void 0;return function () {
+            var r = this,
+                o = arguments;clearTimeout(n), n = setTimeout(function () {
+              e.apply(r, o);
+            }, t || s.DEFAULT_MILLISECOND_FOR_WAITING);
+          };
+        }(n._handleResize), n.state = { maxWidth: f, contentHeight: u, columnsWidth: n._getColumnsWidth(e.header) }, n;
       }return function (e, t) {
         if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + (typeof t === "undefined" ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
       }(t, a.Component), o(t, [{ key: "_getColumnsWidth", value: function value(e) {
@@ -577,13 +548,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             for (var u = 0; u < a.length; u++) {
               var l = a[u];if (l) {
                 var c = l.props,
-                    s = Number(c.colSpan);if (s && s > 1) {
+                    f = Number(c.colSpan);if (f && f > 1) {
                   var p = i + 1;void 0 === o[p] && (o[p] = 0);var d = o[p],
-                      h = d + s - 1,
+                      h = d + f - 1,
                       y = e[p].props.children,
                       b = t._getNextColspanCells(y, d, h);o[p] += b.length, n(b, p);
                 } else {
-                  var g = c.colWidth ? c.colWidth : f.DEFAULT_COLUMN_WIDTH;r.push(g);
+                  var g = c.colWidth ? c.colWidth : s.DEFAULT_COLUMN_WIDTH;r.push(g);
                 }
               }
             }
@@ -594,11 +565,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 i = o < e.length;a || !i ? (a.props.colSpan && (n -= 1), r.push(a)) : n += 1;
           }return r;
         } }, { key: "componentDidMount", value: function value() {
-          this._handleResize(), window.addEventListener("resize", h(this._handleResize));
+          this._handleResize(), window.addEventListener("resize", this.debounceResizing);
         } }, { key: "componentWillUnmount", value: function value() {
-          window.removeEventListener("resize", h(this._handleResize));
+          window.removeEventListener("resize", this.debounceResizing);
         } }, { key: "componentDidUpdate", value: function value(e, t) {
-          this.props.header != e.header && this.setState({ columnsWidth: this._getColumnsWidth(this.props.header) }), e.body != this.props.body && function (e, t) {
+          this.props.header != e.header && this.setState({ columnsWidth: this._getColumnsWidth(this.props.header) }), this.props.shouldResetScrollPosition && e.body != this.props.body && function (e, t) {
             var n = -e.scrollTop / (t / 15),
                 r = setInterval(function () {
               0 != e.scrollTop ? e.scrollBy(0, n) : clearInterval(r);
@@ -613,7 +584,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
               n = t.width,
               r = t.autoWidth,
               o = t.containerPadding,
-              a = r ? this.state.maxWidth : n;return a = a - o - f.SCROLLBAR_WIDTH, this.columnWidthSum && this.state.columnsWidth.map(function (t) {
+              a = r ? this.state.maxWidth : n;return a = a - o - s.SCROLLBAR_WIDTH, this.columnWidthSum && this.state.columnsWidth.map(function (t) {
             return a / e.columnWidthSum * t;
           });
         } }, { key: "render", value: function value() {
@@ -624,7 +595,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
               a = e.header,
               l = e.body,
               c = e.footer,
-              f = e.isPaging,
+              s = e.isPaging,
               p = e.pageOption,
               d = e.onPaging,
               h = e.containerPadding,
@@ -634,7 +605,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
               v = i.default.createElement(u.default, { columnLayout: g }),
               _ = this.Header,
               O = this.Body,
-              P = this.Footer;return i.default.createElement("div", null, i.default.createElement("div", { className: "table-container", style: { maxWidth: y } }, i.default.createElement(_, m, v, a), l && i.default.createElement(O, r({}, m, { maxHeight: this.state.contentHeight }), v, l), c && i.default.createElement(P, m, v, c)), f && p && i.default.createElement(s.default, { pageOption: p, onPaging: d }));
+              P = this.Footer;return i.default.createElement("div", null, i.default.createElement("div", { className: "table-container", style: { maxWidth: y } }, i.default.createElement(_, m, v, a), l && i.default.createElement(O, r({}, m, { maxHeight: this.state.contentHeight }), v, l), c && i.default.createElement(P, m, v, c)), s && p && i.default.createElement(f.default, { pageOption: p, onPaging: d }));
         } }, { key: "columnWidthSum", get: function get() {
           var e = this.state.columnsWidth;return e && e.length && !e.find(function (e) {
             return "number" != typeof e;
@@ -642,13 +613,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             return e + t;
           }, 0) : null;
         } }]), t;
-    }();y.propTypes = { width: l.default.oneOfType([l.default.number, l.default.string]), maxWidth: l.default.number, minWidth: l.default.number, autoWidth: l.default.bool, bodyHeight: l.default.number, autoHeight: l.default.bool, header: l.default.oneOfType([l.default.object, l.default.arrayOf(l.default.object)]).isRequired, body: l.default.arrayOf(l.default.object), footer: l.default.arrayOf(l.default.object), isPaging: l.default.bool, onPaging: l.default.func, pageOption: l.default.object, adjustedHeight: l.default.number, containerPadding: l.default.number }, y.defaultProps = { width: d, maxWidth: d, autoWidth: !0, isPaging: !1, adjustedHeight: 0, bodyHeight: 0, autoHeight: !0, containerPadding: 30 };var b = function b() {
+    }();h.propTypes = { width: l.default.oneOfType([l.default.number, l.default.string]), maxWidth: l.default.number, minWidth: l.default.number, autoWidth: l.default.bool, bodyHeight: l.default.number, autoHeight: l.default.bool, header: l.default.oneOfType([l.default.object, l.default.arrayOf(l.default.object)]).isRequired, body: l.default.arrayOf(l.default.object), footer: l.default.arrayOf(l.default.object), isPaging: l.default.bool, onPaging: l.default.func, pageOption: l.default.object, adjustedHeight: l.default.number, containerPadding: l.default.number, shouldResetScrollPosition: l.default.bool }, h.defaultProps = { width: d, maxWidth: d, autoWidth: !0, isPaging: !1, adjustedHeight: 0, bodyHeight: 0, autoHeight: !0, containerPadding: 30, shouldResetScrollPosition: !0 };var y = function y() {
       var e = this;this._handleResize = function (t) {
         if (t && t.preventDefault(), e.bodyWrapper && e.props.autoHeight) {
           var n = e._calculateBodyHeight();e.state.contentHeight !== n && e.setState({ contentHeight: n });
         }var r = document.body.clientWidth - e.diffWidth;e.state.maxWidth !== r && e.setState({ maxWidth: r });
       };
-    };t.default = y;
+    };t.default = h;
   }, function (e, t, n) {
     "use strict";
     Object.defineProperty(t, "__esModule", { value: !0 });var r = function () {
@@ -718,7 +689,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         u = c(n(1)),
         l = n(2);function c(e) {
       return e && e.__esModule ? e : { default: e };
-    }function f(e, t) {
+    }function s(e, t) {
       var n = {};for (var r in e) {
         t.indexOf(r) >= 0 || Object.prototype.hasOwnProperty.call(e, r) && (n[r] = e[r]);
       }return n;
@@ -735,10 +706,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }(u, a.Component), o(u, [{ key: "render", value: function value() {
             var n = this.props,
                 o = n.tableClass,
-                a = (n.width, n.autoWidth, n.maxWidth, n.minWidth, n.maxHeight, f(n, ["tableClass", "width", "autoWidth", "maxWidth", "minWidth", "maxHeight"])),
+                a = (n.width, n.autoWidth, n.maxWidth, n.minWidth, n.maxHeight, s(n, ["tableClass", "width", "autoWidth", "maxWidth", "minWidth", "maxHeight"])),
                 u = e.isHeader,
                 l = e.getRef,
-                c = f(e, ["isHeader", "getRef"]);return i.default.createElement("div", r({}, a, { style: this.containerStyle, ref: l }, c), i.default.createElement("div", { className: "table-wrapper" }, i.default.createElement("table", r({ style: this.tableStyle, className: o }, t), u ? i.default.createElement("thead", null, this.props.children) : i.default.createElement("tbody", null, this.props.children))));
+                c = s(e, ["isHeader", "getRef"]);return i.default.createElement("div", r({}, a, { style: this.containerStyle, ref: l }, c), i.default.createElement("div", { className: "table-wrapper" }, i.default.createElement("table", r({ style: this.tableStyle, className: o }, t), u ? i.default.createElement("thead", null, this.props.children) : i.default.createElement("tbody", null, this.props.children))));
           } }, { key: "containerWidth", get: function get() {
             var e = this.props,
                 t = e.autoWidth,
@@ -828,6 +799,102 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   }]);
 });
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
+
+/***/ }),
+
+/***/ "./example/sampleData.js":
+/*!*******************************!*\
+  !*** ./example/sampleData.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.buildBodyWithCheckbox = exports.buildHeaderWithCheckbox = exports.createDataWithCheckbox = undefined;
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _fixedTableHeader = __webpack_require__(/*! ./dist/fixed-table-header */ "./example/dist/fixed-table-header.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var rowCount = 100;
+var createDataWithCheckbox = exports.createDataWithCheckbox = function createDataWithCheckbox() {
+    var data = [];
+    for (var i = 0; i < rowCount; i++) {
+        data.push({
+            checked: false,
+            name: 'name' + i,
+            email: i + '@gmail.com'
+        });
+    }
+
+    return data;
+};
+
+var buildHeaderWithCheckbox = exports.buildHeaderWithCheckbox = function buildHeaderWithCheckbox() {
+    return _react2.default.createElement(
+        _fixedTableHeader.Row,
+        { style: { height: 32 } },
+        _react2.default.createElement(
+            _fixedTableHeader.Cell,
+            { colWidth: 150, header: true },
+            'Header 1'
+        ),
+        _react2.default.createElement(
+            _fixedTableHeader.Cell,
+            { colWidth: 150, header: true },
+            'Header 2'
+        ),
+        _react2.default.createElement(
+            _fixedTableHeader.Cell,
+            { colWidth: 200, header: true },
+            'Header 3'
+        )
+    );
+};
+
+var buildBodyWithCheckbox = exports.buildBodyWithCheckbox = function buildBodyWithCheckbox(data, _onChange) {
+    var dataRowList = [];
+
+    var _loop = function _loop(i) {
+        var item = data[i];
+        dataRowList.push(_react2.default.createElement(
+            _fixedTableHeader.Row,
+            { key: i },
+            _react2.default.createElement(
+                _fixedTableHeader.Cell,
+                null,
+                _react2.default.createElement('input', { type: 'checkbox', checked: item.checked, onChange: function onChange(e) {
+                        return _onChange(i, e.target.checked);
+                    } })
+            ),
+            _react2.default.createElement(
+                _fixedTableHeader.Cell,
+                null,
+                item.name
+            ),
+            _react2.default.createElement(
+                _fixedTableHeader.Cell,
+                null,
+                item.email
+            )
+        ));
+    };
+
+    for (var i = 0; i < rowCount; i++) {
+        _loop(i);
+    }
+
+    return dataRowList;
+};
 
 /***/ }),
 
