@@ -75,7 +75,8 @@ class Table extends Component {
         onPaging: PropTypes.func,
         pageOption: PropTypes.object,
         adjustedHeight: PropTypes.number,
-        containerPadding: PropTypes.number
+        containerPadding: PropTypes.number,
+        shouldResetScrollPosition: PropTypes.bool
     }
 
     static defaultProps = {
@@ -86,7 +87,8 @@ class Table extends Component {
         adjustedHeight: 0,
         bodyHeight: 0,
         autoHeight: true,
-        containerPadding: 30
+        containerPadding: 30,
+        shouldResetScrollPosition: true
     }
 
     _getColumnsWidth(headerRows) {
@@ -175,7 +177,7 @@ class Table extends Component {
             this.setState({ columnsWidth: this._getColumnsWidth(this.props.header) });
         }
 
-        if (prevProps.body != this.props.body) {
+        if (this.props.shouldResetScrollPosition && prevProps.body != this.props.body) {
             scrollToTop(this.bodyWrapper, 200);
         }
     }
