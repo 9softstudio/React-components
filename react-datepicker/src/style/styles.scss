@@ -1,0 +1,245 @@
+$calendar-color: #000000 !default;
+$calendar-background: #ffffff !default;
+$calendar-month-button-background: #bdc3c7 !default;
+$calendar-month-button-icon-color: rgb(52, 73, 94) !default;
+$calendar-day-selected-background: #4eb85e !default;
+$calendar-day-hover-background: rgba(78, 184, 94, 0.4) !default;
+$calendar-day-in-range-background: rgba(78, 184, 94, 0.2) !default;
+$calendar-width: 280px !default;
+$calendar-padding: 10px !default;
+$cell-margin: 0 !default;
+$cell-size: (($calendar-width - $calendar-padding * 2) / 7) - ($cell-margin * 2) - 1 !default;
+$calendar-shadow: rgba($calendar-color, 0.25) 0 0 1em !default;
+
+$disable-background-button: #d2d8dc;
+
+$indexNormal: 1;
+
+.daterange-container {
+    position: relative;
+
+    .icon-calendar {
+        position: absolute;
+        right: 10px;
+        font-size: 15px;
+        cursor: pointer;
+    }
+}
+
+.datepicker {
+    cursor: pointer;
+}
+
+.rdr-Show {
+    display: block;
+}
+
+.rdr-Hide {
+    display: none;
+}
+
+.rdr-DateRange {
+    box-sizing: border-box;
+    white-space: nowrap;
+    border-radius: 2px;
+    background: $calendar-background;
+    box-shadow: $calendar-shadow;
+    position: absolute;
+    z-index: $indexNormal;
+    top: 28px;
+
+    .rdr-Calendar {
+        box-shadow: none;
+    }
+}
+
+.rdr-Calendar {
+    display: inline-block;
+    box-sizing: border-box;
+    width: $calendar-width;
+    padding: $calendar-padding;
+    white-space: normal;
+    letter-spacing: 0;
+    color: $calendar-color;
+    border-radius: 2px;
+    background: $calendar-background;
+    box-shadow: $calendar-shadow;
+}
+
+.rdr-MonthAndYear-innerWrapper {
+    font-size: 12px;
+    line-height: 18px;
+    box-sizing: border-box;
+    height: 40px;
+    padding: 5px 0;
+    text-align: center;
+}
+
+.rdr-MonthAndYear-button {
+    display: block;
+    box-sizing: border-box;
+    width: 25px;
+    height: 25px;
+    margin: 0 10px;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: $calendar-month-button-background;
+    box-shadow: none;
+    background: #ffffff;
+    cursor: pointer;
+
+    &:hover {
+        background: #eeeeee;
+    }
+
+    i {
+        display: block;
+        width: 0;
+        height: 0;
+        padding: 0;
+        text-align: center;
+        border-style: solid;
+    }
+
+    &.prev {
+        float: left;
+
+        i {
+            margin: 0 0 0 3px;
+            border-width: 5px 7px 5px 5px;
+            border-color: transparent $calendar-month-button-icon-color transparent transparent;
+        }
+    }
+
+    &.next {
+        float: right;
+
+        i {
+            margin: 0 0 0 10px;
+            border-width: 5px 5px 5px 7px;
+            border-color: transparent transparent transparent $calendar-month-button-icon-color;
+        }
+    }
+
+    &:disabled {
+        background: transparent !important;
+
+        &.next {
+            i {
+                border-left-color: $disable-background-button;
+            }
+        }
+
+        &.prev {
+            i {
+                border-right-color: $disable-background-button;
+            }
+        }
+    }
+}
+
+.rdr-MonthAndYearSelect {
+    height: 25px;
+    width: 65px;
+}
+
+.rdr-WeekDay {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: $cell-size / 2;
+    display: inline-block;
+    box-sizing: border-box;
+    width: $cell-size;
+    height: $cell-size / 2;
+    margin-bottom: 1px;
+    text-align: center;
+    letter-spacing: initial;
+}
+
+.rdr-Day {
+    font-size: 12px;
+    line-height: $cell-size;
+    display: inline-block;
+    box-sizing: border-box;
+    width: $cell-size;
+    height: $cell-size;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+    text-align: center;
+    letter-spacing: initial;
+
+    &.is-passive {
+        cursor: default;
+        opacity: 0.4;
+    }
+
+    &.is-inRange {
+        background: $calendar-day-in-range-background;
+    }
+
+    &.is-selected {
+        color: $calendar-background;
+        background: $calendar-day-selected-background;
+    }
+
+    &:hover:not(.is-selected) {
+        background: $calendar-day-hover-background;
+    }
+}
+
+.rdr-PredefinedRanges {
+    width: 140px;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
+    margin-top: 10px;
+
+    &Item {
+        display: block;
+        font-size: 12px;
+        color: #2c3e50;
+        padding: 6px 14px;
+        border-radius: 2px;
+        text-decoration: none;
+        margin-bottom: 3px;
+
+        &Active, &:hover {
+            background: #4c6375;
+            color: #fff;
+        }
+    }
+}
+
+.rdr-Button {
+    border: none;
+    border-radius: 2px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    outline: 0;
+    vertical-align: middle;
+    width: 48%;
+    color: #fff;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.rdr-ApplyButton {
+    margin-right: calc(4%);
+    background-color: #f05b1f;
+}
+
+.rdr-CancelButton {
+    background-color: #757985;
+}
+
+.range-button-group {
+    margin-top: 5px;
+}
