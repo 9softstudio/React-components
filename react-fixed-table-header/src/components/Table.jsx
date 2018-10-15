@@ -54,6 +54,8 @@ class Table extends Component {
         this.diffWidth = clientWidth - maxWidthValue;
         this.adjustedHeight = adjustedHeight;
 
+        this.debounceResizing = debounce(this._handleResize);
+
         this.state = {
             maxWidth: maxWidthValue,
             contentHeight: bodyHeight,
@@ -165,11 +167,11 @@ class Table extends Component {
 
     componentDidMount() {
         this._handleResize();
-        window.addEventListener('resize', debounce(this._handleResize));
+        window.addEventListener('resize', this.debounceResizing);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', debounce(this._handleResize))
+        window.removeEventListener('resize', this.debounceResizing);
     }
 
     componentDidUpdate(prevProps, prevState) {
