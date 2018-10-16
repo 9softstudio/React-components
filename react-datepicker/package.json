@@ -1,7 +1,7 @@
 {
-    "name": "@9softstudio/react-fixed-table-header",
+    "name": "@9softstudio/react-datepicker",
     "version": "1.0.3",
-    "description": "React Fixed Table Header",
+    "description": "React Date Picker",
     "main": "dist/index.js",
     "scripts": {
         "start": "node_modules/.bin/webpack-dev-server --config webpack.example.config.js --hot --inline --progress --watch-content-base",
@@ -11,8 +11,8 @@
         "test": "jest --coverage"
     },
     "keywords": [
-        "react-grid",
-        "fixed header"
+        "react-date-picker",
+        "date-range"
     ],
     "repository": {
         "type": "git",

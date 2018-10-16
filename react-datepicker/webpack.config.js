@@ -28,7 +28,7 @@ module.exports = env => {
         stats: { modules: false },
         resolve: { extensions: [".js", ".jsx"] },
         output: {
-            path: path.resolve(__dirname, "./dist"),
+            path: path.resolve(__dirname, "./"),
             filename: "[name].js",
             publicPath: '/dist/',
             libraryTarget: 'umd',
@@ -46,8 +46,11 @@ module.exports = env => {
     // Configuration for client-side bundle suitable for running in browsers
     const clientBundleConfig = merge(sharedConfig(), {
         entry: {
-            'index': './src/js/index.js',
-            'style': './src/style/react-datepicker.scss'
+            'dist/index': './src/js/index.js',
+            'dist/style': './src/style/react-datepicker.scss',
+            'example/dist/index': './src/js/index.js',
+            'example/dist/style': './src/style/react-datepicker.scss',
+            'example/dist/app': './example/app.js',
         },
         module: {
             rules: [{
