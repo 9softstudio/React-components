@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import parseInput from './utils/parseInput.js';
-import DayCell from './DayCell.js';
-import getTheme, { defaultClasses } from './styles.js';
-import { MomentFormat } from './constants';
+import parseInput from './utils/parseInput';
+import DayCell from './DayCell';
+import getTheme, { defaultClasses } from './utils/styles';
+import { MomentFormat } from './utils/constants';
 
 const START_OF_MONTH = 0;
 const END_OF_MONTH = 11;

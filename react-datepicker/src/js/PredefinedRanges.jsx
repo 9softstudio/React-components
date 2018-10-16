@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import classnames from 'classnames';
-import parseInput from './utils/parseInput.js';
-import { defaultClasses } from './styles.js';
-import defaultOptions from './defaultOptions.js';
+import parseInput from './utils/parseInput';
+import { defaultClasses } from './utils/styles';
+import defaultOptions from './utils/defaultOptions';
 
 class PredefinedRanges extends Component {
-
   constructor(props, context) {
     super(props, context);
 
@@ -50,7 +48,7 @@ class PredefinedRanges extends Component {
   }
 
   renderRangeList(classes) {
-    const { ranges, range, onlyClasses } = this.props;
+    const { ranges, onlyClasses } = this.props;
     const { styles } = this;
     let gotActiveRange = false;
 

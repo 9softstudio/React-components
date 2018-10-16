@@ -1,15 +1,13 @@
 ﻿import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import moment from 'moment'
 
-import parseInput from './utils/parseInput.js'
-import defaultOptions from './defaultOptions.js'
-import { MomentFormat } from './constants'
-import { defaultClasses } from './styles.js'
-import joiningClassNames from 'classnames'
+import parseInput from './utils/parseInput'
+import defaultOptions from './utils/defaultOptions'
+import { MomentFormat } from './utils/constants'
+import { defaultClasses } from './utils/styles'
 
-import Overlay from '../Overlay'
-import Calendar from './Calendar.js'
+import Overlay from './Overlay'
+import Calendar from './Calendar'
 
 export default class DatePicker extends Component {
     constructor(props) {
@@ -35,11 +33,13 @@ export default class DatePicker extends Component {
         onChange: PropTypes.func,
         onInit: PropTypes.func,
         locale: PropTypes.object,
-        date: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.string])
+        date: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.string]),
+        iconElement: PropTypes.any
     }
 
     static defaultProps = {
-        format: MomentFormat.default
+        format: MomentFormat.default,
+        iconElement: (<i className="icon icon-calendar"></i>)
     }
 
     get dateText() {
@@ -51,7 +51,7 @@ export default class DatePicker extends Component {
         return "";
     }
 
-    handleSelect(date) {
+    handleSelect = (date) => {
         const { onChange } = this.props;
 
         onChange && onChange(date);
@@ -63,8 +63,12 @@ export default class DatePicker extends Component {
         this.setState({ show: true });
     }
 
+    close = () => {
+        this.setState({ show: false });
+    }
+
     render() {
-        const { format, firstDayOfWeek, minDate, maxDate, classNames } = this.props;
+        const { format, firstDayOfWeek, minDate, maxDate, classNames, iconElement } = this.props;
         const classes = { ...defaultClasses, ...classNames };
         const { show } = this.state;
 
@@ -72,10 +76,10 @@ export default class DatePicker extends Component {
             <div className="daterange-container">
                 <div className="daterange-label" onClick={this.show}>
                     <input readOnly className="input-text datepicker" type="text" autoComplete="off" value={this.dateText} />
-                    <i className="icon icon-calendar"></i>
+                    {iconElement}
                 </div>
 
-                <Overlay isOpening={show}>
+                <Overlay isOpening={show} onClose={this.close}>
                     <div className={classes.dateRange}>
                         <Calendar
                             shownDate={this.state.selectedDate}
@@ -84,7 +88,7 @@ export default class DatePicker extends Component {
                             minDate={minDate}
                             maxDate={maxDate}
                             classNames={classNames}
-                            onChange={this.handleSelect.bind(this)}
+                            onChange={this.handleSelect}
                             locale={this.locale} />
                     </div>
                 </Overlay>

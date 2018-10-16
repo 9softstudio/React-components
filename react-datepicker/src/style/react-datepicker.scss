@@ -10,14 +10,10 @@ $calendar-padding: 10px !default;
 $cell-margin: 0 !default;
 $cell-size: (($calendar-width - $calendar-padding * 2) / 7) - ($cell-margin * 2) - 1 !default;
 $calendar-shadow: rgba($calendar-color, 0.25) 0 0 1em !default;
-
 $disable-background-button: #d2d8dc;
-
 $indexNormal: 1;
-
 .daterange-container {
     position: relative;
-
     .icon-calendar {
         position: absolute;
         right: 10px;
@@ -26,7 +22,7 @@ $indexNormal: 1;
     }
 }
 
-.datepicker {
+.daterange-label {
     cursor: pointer;
 }
 
@@ -47,7 +43,6 @@ $indexNormal: 1;
     position: absolute;
     z-index: $indexNormal;
     top: 28px;
-
     .rdr-Calendar {
         box-shadow: none;
     }
@@ -88,11 +83,9 @@ $indexNormal: 1;
     box-shadow: none;
     background: #ffffff;
     cursor: pointer;
-
     &:hover {
         background: #eeeeee;
     }
-
     i {
         display: block;
         width: 0;
@@ -101,36 +94,29 @@ $indexNormal: 1;
         text-align: center;
         border-style: solid;
     }
-
     &.prev {
         float: left;
-
         i {
             margin: 0 0 0 3px;
             border-width: 5px 7px 5px 5px;
             border-color: transparent $calendar-month-button-icon-color transparent transparent;
         }
     }
-
     &.next {
         float: right;
-
         i {
             margin: 0 0 0 10px;
             border-width: 5px 5px 5px 7px;
             border-color: transparent transparent transparent $calendar-month-button-icon-color;
         }
     }
-
     &:disabled {
         background: transparent !important;
-
         &.next {
             i {
                 border-left-color: $disable-background-button;
             }
         }
-
         &.prev {
             i {
                 border-right-color: $disable-background-button;
@@ -168,21 +154,17 @@ $indexNormal: 1;
     transition: transform 0.1s ease;
     text-align: center;
     letter-spacing: initial;
-
     &.is-passive {
         cursor: default;
         opacity: 0.4;
     }
-
     &.is-inRange {
         background: $calendar-day-in-range-background;
     }
-
     &.is-selected {
         color: $calendar-background;
         background: $calendar-day-selected-background;
     }
-
     &:hover:not(.is-selected) {
         background: $calendar-day-hover-background;
     }
@@ -194,7 +176,6 @@ $indexNormal: 1;
     vertical-align: top;
     margin-left: 10px;
     margin-top: 10px;
-
     &Item {
         display: block;
         font-size: 12px;
@@ -203,8 +184,8 @@ $indexNormal: 1;
         border-radius: 2px;
         text-decoration: none;
         margin-bottom: 3px;
-
-        &Active, &:hover {
+        &Active,
+        &:hover {
             background: #4c6375;
             color: #fff;
         }
@@ -225,7 +206,6 @@ $indexNormal: 1;
     width: 48%;
     color: #fff;
     cursor: pointer;
-
     &:hover {
         opacity: 0.8;
     }

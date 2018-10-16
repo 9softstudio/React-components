@@ -15,7 +15,8 @@ module.exports = env => {
         stats: { modules: false },
         resolve: { extensions: [".js", ".jsx"] },
         entry: {
-            'app': './example/app.js'
+            'app': './example/app.js',
+            'style': './src/style/react-datepicker.scss',
         },
         output: {
             path: path.resolve(__dirname, './example/dist'),

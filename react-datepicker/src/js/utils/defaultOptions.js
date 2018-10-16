@@ -1,10 +1,20 @@
 import moment from 'moment';
-import LangHelper from "../../lib/langHelper";
-import locale from "./utils/locale";
+import locale from "./locale";
 import { MomentFormat } from './constants';
 
+const defaultRangeName = {
+    ["Today"]: "Today",
+    ["Yesterday"]: "Yesterday",
+    ["Currentweek"]: "Current week",
+    ["Lastweek"]: "Last week",
+    ["Currentmonth"]: "Current month",
+    ["Lastmonth"]: "Last month",
+    ["Sincelastmonth"]: "Since last month"
+}
+
 const addRange = (rangeObj, name, start, end) => {
-    rangeObj[LangHelper.getSingleResource(name)] = {
+    const rangeName = defaultRangeName[name] || name;
+    rangeObj[rangeName] = {
         startDate: start,
         endDate: end
     };
@@ -18,7 +28,7 @@ const addOneDay = (rangeObj, name, day, min, max) => {
 
 const addDistanceDays = (rangeObj, name, start, end, min, max) => {
     if (!(max < start || end < min)) {
-        addRange(rangeObj, name, start < min ? min : start, end > max ? max: end);
+        addRange(rangeObj, name, start < min ? min : start, end > max ? max : end);
     }
 };
 
@@ -58,15 +68,15 @@ export default {
         if (limitMonths && limitMonths > 1) {
             const startSincelastmonth = today.clone().subtract(1, 'month').startOf('month');
             const endSincelastmonth = today;
-            addDistanceDays(range, "Sincelastmonth", startSincelastmonth, endSincelastmonth, min, max); 
+            addDistanceDays(range, "Sincelastmonth", startSincelastmonth, endSincelastmonth, min, max);
         }
 
         return range;
     },
 
     locale: {
-        applyLabel: LangHelper.getSingleResource("OK"),
-        cancelLabel: LangHelper.getSingleResource("Cancel"),
+        applyLabel: "OK",
+        cancelLabel: "Cancel",
         ...locale
     }
 }

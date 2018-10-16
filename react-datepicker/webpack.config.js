@@ -28,10 +28,11 @@ module.exports = env => {
         stats: { modules: false },
         resolve: { extensions: [".js", ".jsx"] },
         output: {
+            path: path.resolve(__dirname, "./dist"),
             filename: "[name].js",
             publicPath: '/dist/',
             libraryTarget: 'umd',
-            library: 'ReactFixedTableHeader'
+            library: 'ReactDatePicker'
         },
         module: {
             rules: [{
@@ -45,8 +46,8 @@ module.exports = env => {
     // Configuration for client-side bundle suitable for running in browsers
     const clientBundleConfig = merge(sharedConfig(), {
         entry: {
-            'index': './src/index.jsx',
-            'style': './src/style/_fixed-table-header.scss'
+            'index': './src/js/index.js',
+            'style': './src/style/react-datepicker.scss'
         },
         module: {
             rules: [{
@@ -59,19 +60,24 @@ module.exports = env => {
                 ]
             }]
         },
-        output: { path: path.resolve(__dirname, "./dist") },
         plugins: [
             new MiniCssExtractPlugin({
                 filename: "[name].css"
             })
         ].concat(isDevBuild ? [] : [new OptimizeCSSAssetsPlugin(), new CleanWebpackPlugin(pathsToClean, cleanOptions), ]),
-        devtool: isDevBuild ? "source-map" : undefined,
+        devtool: isDevBuild ? "source-map" : "(none)",
         externals: isDevBuild ? {} : {
             react: {
                 root: 'React',
                 commonjs2: 'react',
                 commonjs: 'react',
                 amd: 'react'
+            },
+            moment: {
+                root: 'moment',
+                commonjs2: 'moment',
+                commonjs: 'moment',
+                amd: 'moment'
             }
         }
     });

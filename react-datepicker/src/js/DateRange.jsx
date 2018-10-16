@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import parseInput from './utils/parseInput.js';
-import Calendar from './Calendar.js';
-import PredefinedRanges from './PredefinedRanges.js';
-import getTheme, { defaultClasses } from './styles.js';
-import joiningClassNames from 'classnames';
-import { MomentFormat } from './constants';
-import defaultOptions from './defaultOptions.js';
-import Overlay from '../Overlay';
+import parseInput from './utils/parseInput';
+import Calendar from './Calendar';
+import PredefinedRanges from './PredefinedRanges';
+import getTheme, { defaultClasses } from './utils/styles';
+import { MomentFormat } from './utils/constants';
+import defaultOptions from './utils/defaultOptions';
+import Overlay from './Overlay';
 
 class DateRange extends Component {
 
@@ -22,7 +20,7 @@ class DateRange extends Component {
     this.styles = getTheme(theme);
     this.calendarSelectionStep = 0;
     this.locale = { ...defaultOptions.locale, ...props.locale };
-    this.ranges = { ...defaultOptions.ranges(props.today, props.minDate, props.maxDate, props.limitedMonthRange), ...props.ranges };
+    this.ranges = props.ranges || defaultOptions.ranges(props.today, props.minDate, props.maxDate, props.limitedMonthRange);
 
     this.isValid = true;
     this.originalRange = { startDate, endDate };
@@ -93,7 +91,7 @@ class DateRange extends Component {
       onChange && onChange(range, true);
   }
 
-  handleCalendarSelect(date) {
+  handleCalendarSelect = (date) => {
     const { startDate, endDate } = this.state.range;
 
     const range = {
@@ -164,7 +162,8 @@ class DateRange extends Component {
       specialDays,
       lang,
       disableDaysBeforeToday,
-      showMonthArrow } = this.props;
+      showMonthArrow,
+      iconElement } = this.props;
 
     const { range, link } = this.state;
     const { styles } = this;
@@ -181,7 +180,7 @@ class DateRange extends Component {
       <div className="daterange-container">
         <div className="daterange-label" onClick={this.show}>
           <input readOnly name="DateRange" id="DateRange" className="input-text datepicker" type="text" autoComplete="off" value={this.dateRangeText} />
-          <i className="icon icon-calendar"></i>
+          {iconElement}
         </div>
 
         <Overlay isOpening={this.state.show} onClose={this.handleCancel}>
@@ -222,7 +221,7 @@ class DateRange extends Component {
                     onlyClasses={onlyClasses}
                     specialDays={specialDays}
                     classNames={classes}
-                    onChange={this.handleCalendarSelect.bind(this)}
+                    onChange={this.handleCalendarSelect}
                     locale={this.locale} />
                 );
               }
@@ -244,7 +243,8 @@ DateRange.defaultProps = {
   classNames: {},
   specialDays: [],
   twoStepChange: false,
-  showRange: true
+  showRange: true,
+  iconElement: (<i className="icon icon-calendar"></i>)
 }
 
 DateRange.propTypes = {
@@ -268,7 +268,8 @@ DateRange.propTypes = {
   onClickApplyButton: PropTypes.func,
   showRange: PropTypes.bool,
   limitedMonthRange: PropTypes.number,
-  today: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.string])
+  today: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.string]),
+  iconElement: PropTypes.any
 }
 
 export default DateRange;
