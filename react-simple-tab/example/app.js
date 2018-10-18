@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
-import { Tabs, Tab } from '../dist/index'
+import { Tabs, Tab } from '../src/index'
 import Tab1 from './components/Tab1'
 import Tab2 from './components/Tab2'
 
