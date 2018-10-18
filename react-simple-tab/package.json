@@ -1,5 +1,5 @@
 {
-    "name": "@9softstudio/simple-react-tab",
+    "name": "@9softstudio/react-simple-tab",
     "version": "1.0.0",
     "description": "Simple React Tab Component",
     "main": "dist/index.js",

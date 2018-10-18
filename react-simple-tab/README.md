@@ -1,4 +1,4 @@
-simple-react-tab
+react-simple-tab
 =========================
 
 ## Usage
