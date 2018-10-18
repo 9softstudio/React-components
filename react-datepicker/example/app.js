@@ -1,12 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { DateRange, DatePicker } from './dist/index';
+import { DateRange, DatePicker } from '../src/js/index';
 
 const iconElement = (<span className="oi oi-calendar"></span>);
 
 export default class App extends React.Component {
     constructor(props) {
         super(props);
+
+        this.inputDateRef = React.createRef();
+        this.now = new Date();
+
+        this.state = {
+            singleDateValue: `${this.now.getMonth() + 1}/${this.now.getDate()}/${this.now.getFullYear()}`,
+            isEnableSingleDate: true
+        }
     }
 
     handleChangeDateRange = (date, isValidMonthRange = true) => {
@@ -17,7 +25,21 @@ export default class App extends React.Component {
         console.log(date)
     }
 
+    handleClickChangeDate = () => {
+        this.setState({ singleDateValue: this.inputDateRef.current.value });
+    }
+
+    handleToggle = () => {
+        this.setState((prevState) => {
+            return {
+                isEnableSingleDate: !prevState.isEnableSingleDate
+            }
+        })
+    }
+
     render() {
+        const { singleDateValue, isEnableSingleDate } = this.state;
+
         return (
             <div>
                 {/* <DateRange startDate={dateRange.fromDate} endDate={dateRange.toDate}
@@ -28,7 +50,10 @@ export default class App extends React.Component {
                 <DateRange onChange={this.handleChangeDateRange} iconElement={iconElement} />
 
                 <div>Single Date Picker:</div>
-                <DatePicker onChange={this.handleChangeDate} iconElement={iconElement} />
+                <DatePicker onChange={this.handleChangeDate} iconElement={iconElement} date={singleDateValue} isEnable={isEnableSingleDate} />
+                <input type="text" defaultValue="" ref={this.inputDateRef} />
+                <button onClick={this.handleClickChangeDate}>Change Date</button>
+                <button onClick={this.handleToggle}>Toggle</button>
             </div>
         )
     }

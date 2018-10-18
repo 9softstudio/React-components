@@ -34,13 +34,23 @@ export default class DatePicker extends Component {
         onInit: PropTypes.func,
         locale: PropTypes.object,
         date: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.string]),
-        iconElement: PropTypes.any
+        iconElement: PropTypes.any,
+        isEnable: PropTypes.bool
     }
 
     static defaultProps = {
         format: MomentFormat.default,
-        iconElement: (<i className="icon icon-calendar"></i>)
+        iconElement: (<i className="icon icon-calendar"></i>),
+        isEnable: true
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { date } = this.props;
+        if (date !== prevProps.date) {
+            this.setState({ selectedDate: parseInput(date, this.props.format, 'startOf') })
+        }
+    }
+
 
     get dateText() {
         const { selectedDate } = this.state;
@@ -60,7 +70,10 @@ export default class DatePicker extends Component {
     }
 
     show = () => {
-        this.setState({ show: true });
+        const { isEnable } = this.props;
+        if (isEnable) {
+            this.setState({ show: true });
+        }
     }
 
     close = () => {
@@ -68,14 +81,14 @@ export default class DatePicker extends Component {
     }
 
     render() {
-        const { format, firstDayOfWeek, minDate, maxDate, classNames, iconElement } = this.props;
+        const { format, firstDayOfWeek, minDate, maxDate, classNames, iconElement, isEnable } = this.props;
         const classes = { ...defaultClasses, ...classNames };
         const { show } = this.state;
 
         return (
             <div className="daterange-container">
                 <div className="daterange-label" onClick={this.show}>
-                    <input readOnly className="input-text datepicker" type="text" autoComplete="off" value={this.dateText} />
+                    <input readOnly className="input-text datepicker" type="text" autoComplete="off" value={this.dateText} disabled={!isEnable} />
                     {iconElement}
                 </div>
 

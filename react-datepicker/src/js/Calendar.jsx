@@ -41,12 +41,10 @@ class Calendar extends Component {
   constructor(props, context) {
     super(props, context);
 
-    const { format, range, theme, offset, firstDayOfWeek, shownDate } = props;
+    const { range, theme, firstDayOfWeek, shownDate } = props;
 
-    const date = parseInput(props.date, format, 'startOf');
-    let showDate = (shownDate || range && range['endDate'] || date).clone();
+    let showDate = (shownDate || range && range['endDate']).clone();
     const state = {
-      date,
       shownDate: showDate,
       firstDayOfWeek: (firstDayOfWeek || moment.localeData().firstDayOfWeek())
     }
@@ -57,23 +55,31 @@ class Calendar extends Component {
 
   componentDidMount() {
     const { onInit } = this.props;
-    onInit && onInit(this.state.date);
+    onInit && onInit(this.state.shownDate);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { shownDate } = this.props;
+    if (shownDate !== prevProps.shownDate) {
+      this.setState({ shownDate: shownDate.clone() });
+    }
+  }
+
+
   get limitedDate() {
-    const { minDate, maxDate } = this.props;
+    const { minDate, maxDate, format } = this.props;
     const m = moment();
     let startDate, endDate;
 
     if (minDate) {
-      startDate = moment.isMoment(minDate) ? minDate : moment(minDate, MomentFormat.default);
+      startDate = moment.isMoment(minDate) ? minDate : moment(minDate, format);
     }
     else {
       startDate = moment([m.year() - DEFAULT_YEAR_RANGE, START_OF_MONTH]);
     }
 
     if (maxDate) {
-      endDate = moment.isMoment(maxDate) ? maxDate : moment(maxDate, MomentFormat.default);
+      endDate = moment.isMoment(maxDate) ? maxDate : moment(maxDate, format);
     }
     else {
       endDate = moment([m.year(), END_OF_MONTH]).endOf("month");
@@ -117,13 +123,13 @@ class Calendar extends Component {
     return shownDate;
   }
 
-  handleSelect(newDate) {
+  handleSelect = (newDate) => {
     const { link, onChange } = this.props;
 
     onChange && onChange(newDate);
 
     if (!link) {
-      this.setState({ date: newDate });
+      this.setState({ shownDate: newDate.clone() });
     }
   }
 
@@ -233,10 +239,8 @@ class Calendar extends Component {
   }
 
   renderMonthAndYear(classes) {
-    const shownDate = this.getShownDate();
-    const year = shownDate.year();
     const { styles } = this;
-    const { minDate, maxDate, onlyClasses, showMonthArrow } = this.props;
+    const { onlyClasses, showMonthArrow } = this.props;
 
     return (
       <div style={onlyClasses ? undefined : styles['MonthAndYear']} className={classes.monthAndYearWrapper}>
@@ -295,19 +299,17 @@ class Calendar extends Component {
     const { range, minDate, maxDate, format, onlyClasses, disableDaysBeforeToday, specialDays } = this.props;
 
     const shownDate = this.getShownDate();
-    const { date, firstDayOfWeek } = this.state;
-    const dateUnix = date.unix();
+    const { firstDayOfWeek } = this.state;
+    const dateUnix = shownDate.unix();
 
     const monthNumber = shownDate.month();
     const dayCount = shownDate.daysInMonth();
     const startOfMonth = shownDate.clone().startOf('month').isoWeekday();
 
     const lastMonth = shownDate.clone().month(monthNumber - 1);
-    const lastMonthNumber = lastMonth.month();
     const lastMonthDayCount = lastMonth.daysInMonth();
 
     const nextMonth = shownDate.clone().month(monthNumber + 1);
-    const nextMonthNumber = nextMonth.month();
 
     const days = [];
 
@@ -354,8 +356,8 @@ class Calendar extends Component {
 
       return (
         <DayCell
-          onSelect={this.handleSelect.bind(this)}
-          { ...data }
+          onSelect={this.handleSelect}
+          {...data}
           theme={styles}
           isStartEdge={isStartEdge}
           isEndEdge={isEndEdge}
