@@ -394,7 +394,7 @@ Calendar.defaultProps = {
   theme: {},
   showMonthArrow: true,
   disableDaysBeforeToday: false,
-  onlyClasses: false,
+  onlyClasses: true,
   classNames: {},
   specialDays: [],
 }
