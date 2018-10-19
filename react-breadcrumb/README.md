@@ -1,6 +1,6 @@
 react-breadcrumb
 =========================
-![react-breadcrumb](https://raw.githubusercontent.com/9softstudio/React-components/ReactBreadcrumb/master/screenshots/react-breadcrumb.jpg)
+![react-breadcrumb](https://raw.githubusercontent.com/9softstudio/React-components/master/react-breadcrumb/screenshots/react-breadcrumb.jpg)
 ## Install
 ```
 npm i @9softstudio/react-breadcrumb
