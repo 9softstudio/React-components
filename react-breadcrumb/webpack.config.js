@@ -4,14 +4,14 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 var webpackConfig = {
     entry: {
-        'dist/index': './src/index.jsx',
-        'dist/style': './src/_tab.scss'
+        'dist/index': './src/index.js',
+        'dist/style': './src/_breadcrumb.scss'
     },
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, './'),
         libraryTarget: 'umd',
-        library: 'ReactTab'
+        library: 'ReactBreadcrumb'
     },
     resolve: {
         extensions: [".js", ".jsx"],

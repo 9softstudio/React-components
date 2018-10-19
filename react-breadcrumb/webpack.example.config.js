@@ -1,17 +1,15 @@
 var path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-var webpackConfig = {
+module.exports = {
+    mode: 'production',
     entry: {
-        'dist/index': './src/index.jsx',
-        'dist/style': './src/_tab.scss'
+        'app': './example/app.js',
+        'style': './example/style.scss'
     },
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, './'),
-        libraryTarget: 'umd',
-        library: 'ReactTab'
+        path: path.resolve(__dirname, './example/dist/')
     },
     resolve: {
         extensions: [".js", ".jsx"],
@@ -33,19 +31,13 @@ var webpackConfig = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(["dist"], {
-            root: process.cwd()
-        }),
         new MiniCssExtractPlugin({ filename: "[name].css", chunkFilename: '[id].css'})
     ],
+    devServer: {
+        contentBase: path.join(__dirname, "./example"),
+        compress: true,
+        port: 9001
+    },
     devtool: "source-map",
     watch: true
 }
-
-// webpack production config.
- if (process.env.NODE_ENV === 'production') {
-     webpackConfig.watch = false;
-     webpackConfig.devtool = undefined;
- }
-
-module.exports = webpackConfig;

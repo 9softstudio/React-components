@@ -1,12 +1,13 @@
 react-simple-tab
 =========================
+
 ## Install
 ```
-npm i @9softstudio/simple-react-tab
+npm i @9softstudio/react-simple-tab
 ```
 ## Usage
 ```javascript
-import { Tabs, Tab } from '@9softstudio/simple-react-tab'
+import { Tabs, Tab } from '@9softstudio/react-simple-tab'
 import Tab1 from './components/Tab1'
 import Tab2 from './components/Tab2'
 

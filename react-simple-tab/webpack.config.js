@@ -11,7 +11,7 @@ var webpackConfig = {
         filename: '[name].js',
         path: path.resolve(__dirname, './'),
         libraryTarget: 'umd',
-        library: 'ReactTab'
+        library: 'ReactSimpleTab'
     },
     resolve: {
         extensions: [".js", ".jsx"],
@@ -20,7 +20,7 @@ var webpackConfig = {
         rules: [{
                 test: /\.(js|jsx)$/,
                 use: 'babel-loader',
-                exclude: /(node_modules|bower_components)/,
+                exclude: /node_modules/,
             },
             {
                 test: /\.(sc|c)ss$/,

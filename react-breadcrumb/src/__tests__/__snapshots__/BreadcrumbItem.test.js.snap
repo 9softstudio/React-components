@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BreadcrumbItem isActive = false - component render correctly 1`] = `
+<a
+  className="breadcrumb-item "
+  href="javascript:;"
+  onClick={undefined}
+>
+  
+</a>
+`;
+
+exports[`BreadcrumbItem isActive = true - component render correctly 1`] = `
+<a
+  className="breadcrumb-item active"
+  href="javascript:;"
+  onClick={undefined}
+>
+  
+</a>
+`;

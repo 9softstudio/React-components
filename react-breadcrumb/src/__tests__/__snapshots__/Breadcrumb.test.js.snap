@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Breadcrumb render active element is first item - component render correctly 1`] = `
+<div
+  className="breadcrumb"
+>
+  <a
+    className="breadcrumb-item "
+    href="javascript:;"
+    onClick={[Function]}
+  >
+    level 1
+  </a>
+  <a
+    className="breadcrumb-item active"
+    href="javascript:;"
+    onClick={[Function]}
+  >
+    level 2
+  </a>
+</div>
+`;
