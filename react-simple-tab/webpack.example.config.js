@@ -29,6 +29,9 @@ module.exports = {
             }
         ]
     },
+    plugins: [
+        new MiniCssExtractPlugin({ filename: "[name].css", chunkFilename: '[id].css'})
+    ],
     devServer: {
         contentBase: path.join(__dirname, "./example"),
         compress: true,
