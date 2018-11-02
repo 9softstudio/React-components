@@ -77,7 +77,10 @@ export default class DatePicker extends Component {
     }
 
     close = () => {
-        this.setState({ show: false });
+        const { date, format } = this.props;
+        const selectedDate = parseInput(date, format, 'startOf');
+
+        this.setState({ show: false, selectedDate });
     }
 
     render() {

@@ -22,6 +22,7 @@ export default class App extends React.Component {
     }
 
     handleChangeDate = (date) => {
+        this.setState({ singleDateValue: date });
         console.log(date)
     }
 
