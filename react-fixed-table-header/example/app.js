@@ -13,7 +13,7 @@ import {
     createDataWithCheckbox
 } from './sampleData';
 
-const totalItem = 30;
+const totalItem = 400;
 const defaultPagingOption = {
     PageIndex: 1,
     PageSize: 10,
@@ -51,7 +51,7 @@ export default class App extends Component {
 
         this.setState({
             data: newState,
-            shouldResetScrollPosition: false
+            shouldResetScrollPosition: true
         });
     }
 

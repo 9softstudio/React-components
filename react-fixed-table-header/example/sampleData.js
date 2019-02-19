@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Cell } from './dist/fixed-table-header';
 
-const rowCount = 100;
+const rowCount = 2000;
 export const createDataWithCheckbox = () => {
     const data = [];
     for(let i = 0; i < rowCount; i++){

@@ -8,13 +8,16 @@ import Pager from './Pager';
 const clientWidth = document.body.clientWidth;
 
 function scrollToTop(element, scrollDuration) {
-    var scrollStep = -element.scrollTop / (scrollDuration / 15),
-        scrollInterval = setInterval(function () {
+    const scrollStep = -element.scrollTop / (scrollDuration / 15);
+    requestAnimationFrame(() => {
+        let scrollInterval = null;
+        scrollInterval = setInterval(() => {
             if (element.scrollTop != 0) {
-                element.scrollBy(0, scrollStep);
+                element.scrollTop += scrollStep;
             }
             else clearInterval(scrollInterval);
         }, 15);
+    })  
 }
 
 function debounce(func, wait) {

@@ -122,7 +122,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var totalItem = 30;
+var totalItem = 400;
 var defaultPagingOption = {
     PageIndex: 1,
     PageSize: 10,
@@ -154,7 +154,7 @@ var App = function (_Component) {
 
             _this.setState({
                 data: newState,
-                shouldResetScrollPosition: false
+                shouldResetScrollPosition: true
             });
         };
 
@@ -570,10 +570,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           window.removeEventListener("resize", this.debounceResizing);
         } }, { key: "componentDidUpdate", value: function value(e, t) {
           this.props.header != e.header && this.setState({ columnsWidth: this._getColumnsWidth(this.props.header) }), this.props.shouldResetScrollPosition && e.body != this.props.body && function (e, t) {
-            var n = -e.scrollTop / (t / 15),
-                r = setInterval(function () {
-              0 != e.scrollTop ? e.scrollBy(0, n) : clearInterval(r);
-            }, 15);
+            var n = -e.scrollTop / (t / 15);requestAnimationFrame(function () {
+              var t = null;t = setInterval(function () {
+                0 != e.scrollTop ? e.scrollTop += n : clearInterval(t);
+              }, 15);
+            });
           }(this.bodyWrapper, 200);
         } }, { key: "_calculateBodyHeight", value: function value() {
           var e = window.innerHeight,
@@ -825,7 +826,7 @@ var _fixedTableHeader = __webpack_require__(/*! ./dist/fixed-table-header */ "./
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var rowCount = 100;
+var rowCount = 2000;
 var createDataWithCheckbox = exports.createDataWithCheckbox = function createDataWithCheckbox() {
     var data = [];
     for (var i = 0; i < rowCount; i++) {
