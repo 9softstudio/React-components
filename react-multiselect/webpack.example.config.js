@@ -1,12 +1,8 @@
 var path = require('path');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const webpack = require('webpack');
-
-const extractSass = new ExtractTextPlugin({
-    filename: "[name].css"
-});
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
+    mode: 'development',
     entry: {
         'app': './example/app.js',
         'style': './src/style.scss'
@@ -25,24 +21,17 @@ module.exports = {
                 exclude: /(node_modules)/,
             },
             {
-                test: /\.scss$/,
-                use: ExtractTextPlugin.extract({
-                    use: [{
-                        loader: "css-loader"
-                    }, {
-                        loader: "sass-loader",
-                        options: {
-                            sourceMap: true
-                        }
-                    }],
-                    // use style-loader in development
-                    fallback: "style-loader"
-                })
+                test: /\.(sc|c)ss$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                      'css-loader?url=false',
+                      'sass-loader',
+                ]
             }
         ]
     },
     plugins: [
-        extractSass
+        new MiniCssExtractPlugin({ filename: "[name].css", chunkFilename: '[id].css'})
     ],
     devServer: {
         contentBase: path.join(__dirname, "./example"),

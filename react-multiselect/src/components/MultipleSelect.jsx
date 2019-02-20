@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 import MultipleSelectLabel from './MultipleSelectLabel'
@@ -154,8 +153,8 @@ export default class MultipleSelect extends Component {
         if (this.props.hasAllOption) {
             const checkedItemCount = this.originalDataSource.filter(x => x.checked).length;
             const checkedAll = checkedItemCount === this.originalDataSource.length;
-            const labelText = `(${this.props.optionAllLabel})`;
-            return (<OptionAll id={this.id} checked={checkedAll} label={labelText} onChange={this.checkAllHandler} />);
+            
+            return (<OptionAll id={this.id} checked={checkedAll} label={this.props.optionAllLabel} onChange={this.checkAllHandler} />);
         }
 
         return null;
