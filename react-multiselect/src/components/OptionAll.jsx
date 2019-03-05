@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Option from './Option'
+import Translation from './translation'
 
-const LABEL = "All";
 const DEFAULT_CHECKED = false;
 
 export default class OptionAll extends Component {
@@ -10,20 +10,21 @@ export default class OptionAll extends Component {
         super(props);
 
         this.itemData = {
-            key: "All",
-            value: props.label
+            key: 'All',
+            value: Translation[this.props.language].All
         }
+        console.log(this.itemData);
     }
 
     static propTypes = {
+        language: PropTypes.string,
         onChange: PropTypes.func,
         id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-        label: PropTypes.string,
         checked: PropTypes.bool
     }
 
     static defaultProps = {
-        label: LABEL,
+        language: 'en-US',
         checked: DEFAULT_CHECKED
     }
 

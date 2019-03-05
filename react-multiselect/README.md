@@ -1,6 +1,8 @@
 react multiselect
 =========================
 React 16
+
+Supported languages: en-US (default), zh-TW, zh-CN, zh-Hans
 ## Install
 ```
 npm i @9softstudio/react-multiselect
@@ -37,12 +39,11 @@ export default class App extends Component {
                 <div style={{width: "400px"}}>
                     <MultipleSelect
                         id="SelectList"
+                        language='en-US'
                         dataSource={this.data}
                         keyField="Id"
                         valueField="Name"
                         statusField="Checked"
-                        optionAllLabel='All'
-                        noneSelectedLabel='Select options'
                         hasSearchBox={true} />
                 </div>
             </div>

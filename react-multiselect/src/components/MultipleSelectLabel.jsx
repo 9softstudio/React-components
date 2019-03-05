@@ -1,38 +1,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Translation from './translation'
 
-const NO_SELECTED_LABEL = "Select options";
 const MAX_SELECTED_ITEM_FOR_DISPLAY = 3;
 
 export default class MultipleSelectLabel extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            noneSelectedLabel: props.noneSelectedLabel
-        }
     }
 
     static propTypes = {
+        language: PropTypes.string,
         selectedItems: PropTypes.arrayOf(PropTypes.object).isRequired,
-        noneSelectedLabel: PropTypes.string,
         maxDisplayItemCount: PropTypes.number
     }
 
     static defaultProps = {
-        noneSelectedLabel: NO_SELECTED_LABEL,
+        language: 'en-US',
         maxDisplayItemCount: MAX_SELECTED_ITEM_FOR_DISPLAY
     }
 
     get selectedItemsString() {
-        const { selectedItems, noneSelectedLabel, maxDisplayItemCount } = this.props;
+        const { selectedItems, maxDisplayItemCount } = this.props;
         const selectedValues = selectedItems.map(item => item.value);
+        const texts = Translation[this.props.language];
 
-        let displayText = noneSelectedLabel;
+        let displayText = texts.SelectOptions;
         const selectedItemCount = selectedValues.length;
 
         if (selectedItemCount >= maxDisplayItemCount) {
-            displayText = `${selectedItemCount} selected`;
+            displayText = texts.SelectedItemCount.replace('#', selectedItemCount);
         }
         else if (selectedItemCount >= 1) {
             displayText = selectedValues.join(", ");

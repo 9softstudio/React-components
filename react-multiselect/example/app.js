@@ -8,7 +8,7 @@ export default class App extends Component {
         super(props);
         this.data = [];
 
-        for(let i = 1; i < 100; i++){
+        for(let i = 1; i < 10; i++){
             this.data.push({
                 Id: i,
                 Name: "Item " + i,
@@ -23,13 +23,12 @@ export default class App extends Component {
                 <h1>Multi Select</h1>
                 <div style={{width: "400px"}}>
                     <MultipleSelect
+                        language='en-US'
                         id="SelectList"
                         dataSource={this.data}
                         keyField="Id"
                         valueField="Name"
                         statusField="Checked"
-                        optionAllLabel='All'
-                        noneSelectedLabel='Select options'
                         hasSearchBox={true} />
                 </div>
             </div>

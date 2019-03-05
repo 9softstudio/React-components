@@ -26,12 +26,11 @@ export default class MultipleSelect extends Component {
     }
 
     static propTypes = {
+        language: PropTypes.string,
         dataSource: PropTypes.arrayOf(PropTypes.object).isRequired,
         keyField: PropTypes.string,
         valueField: PropTypes.string,
         statusField: PropTypes.string,
-        noneSelectedLabel: PropTypes.string,
-        optionAllLabel: PropTypes.string,
         maxDisplayItemCount: PropTypes.number,
         onChange: PropTypes.func,
         hasAllOption: PropTypes.bool,
@@ -39,6 +38,7 @@ export default class MultipleSelect extends Component {
     }
 
     static defaultProps = {
+        language: 'en-US',
         keyField: KEY_NAME,
         valueField: VALUE_NAME,
         statusField: STATUS_NAME,
@@ -154,7 +154,7 @@ export default class MultipleSelect extends Component {
             const checkedItemCount = this.originalDataSource.filter(x => x.checked).length;
             const checkedAll = checkedItemCount === this.originalDataSource.length;
             
-            return (<OptionAll id={this.id} checked={checkedAll} label={this.props.optionAllLabel} onChange={this.checkAllHandler} />);
+            return (<OptionAll id={this.id} checked={checkedAll} language={this.props.language} onChange={this.checkAllHandler} />);
         }
 
         return null;
@@ -187,15 +187,15 @@ export default class MultipleSelect extends Component {
     }
 
     render() {
-        const { noneSelectedLabel, maxDisplayItemCount } = this.props;
+        const { maxDisplayItemCount } = this.props;
     
         return (
             <div className="multiple-select-container" id={this.id} ref={element => this.wrapper = element}>
                  {
                 <MultipleSelectLabel
+                    language={this.props.language}
                     selectedItems={this.selectedItems}
                     onToggle={this.onToggle}
-                    noneSelectedLabel={noneSelectedLabel}
                     maxDisplayItemCount={maxDisplayItemCount} />
                  }
                 <div className="multiple-select-default multiple-select-options-container"
