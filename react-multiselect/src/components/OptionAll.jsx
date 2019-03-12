@@ -13,7 +13,6 @@ export default class OptionAll extends Component {
             key: 'All',
             value: Translation[this.props.language].All
         }
-        console.log(this.itemData);
     }
 
     static propTypes = {
