@@ -10,7 +10,7 @@ const environment = {
     production: 'production'
 }
 
-let pathsToClean = ["dist/*.*"];
+let pathsToClean = ["dist/*.*", "example/dist/*.*"];
 
 let cleanOptions = {
     root: path.resolve(__dirname, "."),
@@ -46,7 +46,9 @@ module.exports = env => {
     const clientBundleConfig = merge(sharedConfig(), {
         entry: {
             'index': './src/index.jsx',
-            'style': './src/style/_fixed-table-header.scss'
+            'style': './src/style/_fixed-table-header.scss',
+            '../example/dist/fixed-table-header': './src/index.jsx',
+            '../example/style': './src/style/_fixed-table-header.scss'
         },
         module: {
             rules: [{
@@ -64,8 +66,8 @@ module.exports = env => {
             new MiniCssExtractPlugin({
                 filename: "[name].css"
             })
-        ].concat(isDevBuild ? [] : [new OptimizeCSSAssetsPlugin(), new CleanWebpackPlugin(pathsToClean, cleanOptions), ]),
-        devtool: isDevBuild ? "source-map" : undefined,
+        ].concat(isDevBuild ? [] : [new OptimizeCSSAssetsPlugin(), new CleanWebpackPlugin(pathsToClean, cleanOptions) ]),
+        devtool: isDevBuild ? "source-map" : "(none)",
         externals: isDevBuild ? {} : {
             react: {
                 root: 'React',

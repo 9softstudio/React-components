@@ -1,13 +1,12 @@
 {
     "name": "@9softstudio/react-fixed-table-header",
-    "version": "1.0.3",
+    "version": "1.0.7",
     "description": "React Fixed Table Header",
     "main": "dist/index.js",
     "scripts": {
-        "start": "node_modules/.bin/webpack-dev-server --config webpack.example.config.js --hot --inline --progress --watch-content-base",
+        "start": "node node_modules/webpack/bin/webpack.js --config webpack.config.js && node node_modules/webpack-dev-server/bin/webpack-dev-server --config webpack.example.config.js --hot --inline --progress --watch-content-base",
         "build:dev": "node node_modules/webpack/bin/webpack.js --config webpack.config.js --watch",
-        "build:pro": "node node_modules/webpack/bin/webpack.js --config webpack.config.js --env=production",
-        "run:example": "node node_modules/webpack/bin/webpack.js --config webpack.config.js && npm run start",
+        "build:pro": "node node_modules/webpack/bin/webpack.js --config webpack.config.js --env=production && node node_modules/webpack/bin/webpack.js --config webpack.example.config.js",
         "test": "jest --coverage"
     },
     "keywords": [
