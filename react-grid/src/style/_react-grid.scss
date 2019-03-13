@@ -74,10 +74,6 @@ $paddingRightContainer: 17px;
             &.sortable {
                 cursor: pointer;
         
-                &.sorting {
-                    text-decoration: underline;
-                }
-        
                 .asc, .desc {
                     display: inline-block;
                     margin-left: 4px;

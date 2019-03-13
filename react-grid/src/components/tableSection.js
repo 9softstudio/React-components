@@ -9,6 +9,7 @@ const createTableSection = (extendedContainerProps, extendedTableProps) => {
         }
 
         static propTypes = {
+            onSort: PropTypes.func,
             tableClass: PropTypes.string,
             width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
             maxWidth: PropTypes.number.isRequired,
@@ -18,6 +19,7 @@ const createTableSection = (extendedContainerProps, extendedTableProps) => {
         };
 
         static defaultProps = {
+            onSort: null,
             tableClass: "table",
             autoWidth: true
         };
@@ -48,8 +50,15 @@ const createTableSection = (extendedContainerProps, extendedTableProps) => {
             }
         }
 
+        _renderHeaderChildren() {
+            const children = this.props.children;
+            const onSort = this.props.onSort;
+            // register onSort event
+            return React.Children.map(children, child => React.cloneElement(child, { onSort: onSort}));
+        }
+
         render() {
-            const { tableClass, width, autoWidth, maxWidth, minWidth, maxHeight, ...rest } = this.props;
+            const { onSort, tableClass, width, autoWidth, maxWidth, minWidth, maxHeight, ...rest } = this.props;
             const { isHeader, getRef, ...restContainerProps } = extendedContainerProps;
 
             return (
@@ -58,7 +67,7 @@ const createTableSection = (extendedContainerProps, extendedTableProps) => {
                         <table style={this.tableStyle} className={tableClass} {...extendedTableProps}>
                             {
                                 isHeader ?
-                                    <thead>{this.props.children}</thead> :
+                                    <thead>{this._renderHeaderChildren()}</thead> :
                                     <tbody>{this.props.children}</tbody>
                             }
                         </table>

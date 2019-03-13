@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Table, Row, Cell } from './dist/react-grid';
+import { Table, Row, Cell } from '../src/index';
 import { buildBodyWithCheckbox, buildHeaderWithCheckbox, createDataWithCheckbox } from './sampleData';
 
 const totalItem = 400;
@@ -160,6 +160,9 @@ export default class App extends Component {
         }))
     }
 
+    onSort(sortBy, sortOrder){
+        alert("Order By " + sortBy + " " + sortOrder);
+    }
     render() {
         const { data, shouldResetScrollPosition, showComponent } = this.state;
         const header = buildHeaderWithCheckbox();
@@ -168,7 +171,7 @@ export default class App extends Component {
         return (
             <div>
                 <div><button onClick={this.handleToggle}>Toggle Component</button></div>
-                { showComponent ? (<Table minWidth={600}
+                { showComponent ? (<Table minWidth={600} onSort={this.onSort}
                     autoWidth={true}
                     bodyHeight={300}
                     header={header}

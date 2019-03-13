@@ -67,6 +67,7 @@ class Table extends Component {
     }
 
     static propTypes = {
+        onSort: PropTypes.func,
         width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
         maxWidth: PropTypes.number,
         minWidth: PropTypes.number,
@@ -85,6 +86,7 @@ class Table extends Component {
     }
 
     static defaultProps = {
+        onSort: null,
         width: clientWidth,
         maxWidth: clientWidth,
         autoWidth: true,
@@ -222,6 +224,7 @@ class Table extends Component {
 
         return newColumnsWidth;
     }
+    
     render() {
         const { width, autoWidth, minWidth, header, body, footer, isPaging, pageOption, onPaging, containerPadding } = this.props;
         const maxWidth = this.state.maxWidth - containerPadding;
@@ -236,6 +239,8 @@ class Table extends Component {
         }
 
         const sectionProps = { width: actualWidth, autoWidth, minWidth, maxWidth };
+        const headerSectionProps = { onSort: this.props.onSort, width: actualWidth, autoWidth, minWidth, maxWidth };
+
         const rowLayout = <RowLayout columnLayout={newColumnLayout} />;
 
         const Header = this.Header;
@@ -245,7 +250,7 @@ class Table extends Component {
         return (
             <div>
                 <div className="table-container" style={{ maxWidth }}>
-                    <Header {...sectionProps}>
+                    <Header {...headerSectionProps }>
                         {rowLayout}
                         {header}
                     </Header>
