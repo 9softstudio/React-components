@@ -1,4 +1,4 @@
-React Fixed Table Header
+React Grid (old name: React Fixed Table Header)
 =========================
 
 ## Usage

@@ -1,7 +1,7 @@
 {
-    "name": "@9softstudio/react-fixed-table-header",
+    "name": "@9softstudio/react-grid",
     "version": "1.0.7",
-    "description": "React Fixed Table Header",
+    "description": "React Grid (old name: 'React Fixed Table Header')",
     "main": "dist/index.js",
     "scripts": {
         "start": "node node_modules/webpack/bin/webpack.js --config webpack.config.js && node node_modules/webpack-dev-server/bin/webpack-dev-server --config webpack.example.config.js --hot --inline --progress --watch-content-base",
