@@ -1,17 +1,7 @@
-import React, {
-    Component
-} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import {
-    Table,
-    Row,
-    Cell
-} from './dist/fixed-table-header';
-import {
-    buildBodyWithCheckbox,
-    buildHeaderWithCheckbox,
-    createDataWithCheckbox
-} from './sampleData';
+import { Table, Row, Cell } from './dist/react-grid';
+import { buildBodyWithCheckbox, buildHeaderWithCheckbox, createDataWithCheckbox } from './sampleData';
 
 const totalItem = 400;
 const defaultPagingOption = {

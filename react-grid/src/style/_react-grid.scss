@@ -71,6 +71,28 @@ $paddingRightContainer: 17px;
         >th {
             border: none;
             border-left: 1px solid #fff;
+            &.sortable {
+                cursor: pointer;
+        
+                &.sorting {
+                    text-decoration: underline;
+                }
+        
+                .asc, .desc {
+                    display: inline-block;
+                    margin-left: 4px;
+                    border-left: 5px solid transparent;
+                    border-right: 5px solid transparent;
+                }
+        
+                .asc {
+                    border-bottom: 5px solid;
+                }
+        
+                .desc {
+                    border-top: 5px solid;
+                }
+            }
         }
         &:nth-child(n + 3) {
             border-top: 1px solid #fff;

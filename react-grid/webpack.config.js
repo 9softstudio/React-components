@@ -1,5 +1,4 @@
 const path = require("path");
-const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const merge = require("webpack-merge");
@@ -31,7 +30,7 @@ module.exports = env => {
             filename: "[name].js",
             publicPath: '/dist/',
             libraryTarget: 'umd',
-            library: 'ReactFixedTableHeader'
+            library: 'ReactGrid'
         },
         module: {
             rules: [{
@@ -46,9 +45,9 @@ module.exports = env => {
     const clientBundleConfig = merge(sharedConfig(), {
         entry: {
             'index': './src/index.jsx',
-            'style': './src/style/_fixed-table-header.scss',
-            '../example/dist/fixed-table-header': './src/index.jsx',
-            '../example/style': './src/style/_fixed-table-header.scss'
+            'style': './src/style/_react-grid.scss',
+            '../example/dist/react-grid': './src/index.jsx',
+            '../example/style': './src/style/_react-grid.scss'
         },
         module: {
             rules: [{

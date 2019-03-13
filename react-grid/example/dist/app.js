@@ -110,7 +110,7 @@ var _reactDom = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/i
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _fixedTableHeader = __webpack_require__(/*! ./dist/fixed-table-header */ "./example/dist/fixed-table-header.js");
+var _reactGrid = __webpack_require__(/*! ./dist/react-grid */ "./example/dist/react-grid.js");
 
 var _sampleData = __webpack_require__(/*! ./sampleData */ "./example/sampleData.js");
 
@@ -280,20 +280,20 @@ var App = function (_Component) {
             var rows = [];
             for (var i = 0; i < 3; i++) {
                 rows.push(_react2.default.createElement(
-                    _fixedTableHeader.Row,
+                    _reactGrid.Row,
                     { key: 'footer' + i },
                     _react2.default.createElement(
-                        _fixedTableHeader.Cell,
+                        _reactGrid.Cell,
                         null,
                         'Footer 1'
                     ),
                     _react2.default.createElement(
-                        _fixedTableHeader.Cell,
+                        _reactGrid.Cell,
                         null,
                         'Footer 2'
                     ),
                     _react2.default.createElement(
-                        _fixedTableHeader.Cell,
+                        _reactGrid.Cell,
                         null,
                         'Footer 3'
                     )
@@ -325,7 +325,7 @@ var App = function (_Component) {
                         'Toggle Component'
                     )
                 ),
-                showComponent ? _react2.default.createElement(_fixedTableHeader.Table, { minWidth: 600,
+                showComponent ? _react2.default.createElement(_reactGrid.Table, { minWidth: 600,
                     autoWidth: true,
                     bodyHeight: 300,
                     header: header,
@@ -353,10 +353,10 @@ _reactDom2.default.render(_react2.default.createElement(App, null), document.get
 
 /***/ }),
 
-/***/ "./example/dist/fixed-table-header.js":
-/*!********************************************!*\
-  !*** ./example/dist/fixed-table-header.js ***!
-  \********************************************/
+/***/ "./example/dist/react-grid.js":
+/*!************************************!*\
+  !*** ./example/dist/react-grid.js ***!
+  \************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -471,26 +471,27 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
               c = o.PageList,
               s = this.state.inputValue,
               f = isNaN(parseInt(s)),
-              p = l > c[0],
-              d = Math.ceil(l / u);return a.default.createElement("div", { className: "page-container center-align", style: { display: p ? "block" : "none" } }, this._renderPageIcon("page-first", 1 === i, function () {
+              d = l > c[0],
+              p = Math.ceil(l / u);return a.default.createElement("div", { className: "page-container center-align", style: { display: d ? "block" : "none" } }, this._renderPageIcon("page-first", 1 === i, function () {
             return e.goToPage(1, u);
-          }), this._renderPageIcon("page-prev", f || i <= 1 || i > d, function () {
+          }), this._renderPageIcon("page-prev", f || i <= 1 || i > p, function () {
             return e.goToPage(i - 1, u);
-          }), r ? this._renderPageInput(s, d) : this._renderPageLabel(i, d), this._renderPageIcon("page-next", f || i >= d || i < 1, function () {
+          }), r ? this._renderPageInput(s, p) : this._renderPageLabel(i, p), this._renderPageIcon("page-next", f || i >= p || i < 1, function () {
             return e.goToPage(i + 1, u);
-          }), this._renderPageIcon("page-last", i === d, function () {
-            return e.goToPage(d, u);
+          }), this._renderPageIcon("page-last", i === p, function () {
+            return e.goToPage(p, u);
           }), this._renderPageSizeSelection(f, i, u), n && this._renderPageInfo(i, u, l));
         } }]), t;
     }();l.propTypes = { pageOption: i.default.shape({ PageIndex: i.default.number, PageSize: i.default.number, PageList: i.default.arrayOf(i.default.number), TotalItem: i.default.number }), onPaging: i.default.func, isShowPagingInfo: i.default.bool, isAllowInputPageIndex: i.default.bool }, l.defaultProps = { pageOption: { PageIndex: 1, PageSize: 50, PageList: [50, 100, 200], TotalItem: 0 }, isShowPagingInfo: !0, isAllowInputPageIndex: !0 }, t.default = l;
   }, function (e, t, n) {
     "use strict";
-    Object.defineProperty(t, "__esModule", { value: !0 }), t.Pager = t.Cell = t.Row = t.Table = void 0;var r = u(n(5)),
-        o = u(n(10)),
-        a = u(n(11)),
-        i = u(n(3));function u(e) {
+    Object.defineProperty(t, "__esModule", { value: !0 }), t.Pager = t.Cell = t.HeaderCell = t.Row = t.Table = void 0;var r = l(n(5)),
+        o = l(n(10)),
+        a = l(n(11)),
+        i = l(n(12)),
+        u = l(n(3));function l(e) {
       return e && e.__esModule ? e : { default: e };
-    }t.Table = r.default, t.Row = o.default, t.Cell = a.default, t.Pager = i.default;
+    }t.Table = r.default, t.Row = o.default, t.HeaderCell = a.default, t.Cell = i.default, t.Pager = u.default;
   }, function (e, t, n) {
     "use strict";
     Object.defineProperty(t, "__esModule", { value: !0 });var r = Object.assign || function (e) {
@@ -510,14 +511,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       };
     }(),
         a = n(0),
-        i = p(a),
-        u = p(n(6)),
-        l = p(n(1)),
-        c = p(n(9)),
+        i = d(a),
+        u = d(n(6)),
+        l = d(n(1)),
+        c = d(n(9)),
         s = n(2),
-        f = p(n(3));function p(e) {
+        f = d(n(3));function d(e) {
       return e && e.__esModule ? e : { default: e };
-    }var d = document.body.clientWidth;var h = function (e) {
+    }var p = document.body.clientWidth;var h = function (e) {
       function t(e) {
         !function (e, t) {
           if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
@@ -531,7 +532,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             i = a.maxWidth,
             u = a.bodyHeight,
             l = a.adjustedHeight,
-            f = i || d;return n.diffWidth = d - f, n.adjustedHeight = l, n.debounceResizing = function (e, t) {
+            f = i || p;return n.diffWidth = p - f, n.adjustedHeight = l, n.debounceResizing = function (e, t) {
           var n = void 0;return function () {
             var r = this,
                 o = arguments;clearTimeout(n), n = setTimeout(function () {
@@ -549,12 +550,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
               var l = a[u];if (l) {
                 var c = l.props,
                     f = Number(c.colSpan);if (f && f > 1) {
-                  var p = i + 1;void 0 === o[p] && (o[p] = 0);var d = o[p],
-                      h = d + f - 1,
-                      y = e[p].props.children,
-                      b = t._getNextColspanCells(y, d, h);o[p] += b.length, n(b, p);
+                  var d = i + 1;void 0 === o[d] && (o[d] = 0);var p = o[d],
+                      h = p + f - 1,
+                      y = e[d].props.children,
+                      g = t._getNextColspanCells(y, p, h);o[d] += g.length, n(g, d);
                 } else {
-                  var g = c.colWidth ? c.colWidth : s.DEFAULT_COLUMN_WIDTH;r.push(g);
+                  var b = c.colWidth ? c.colWidth : s.DEFAULT_COLUMN_WIDTH;r.push(b);
                 }
               }
             }
@@ -597,16 +598,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
               l = e.body,
               c = e.footer,
               s = e.isPaging,
-              p = e.pageOption,
-              d = e.onPaging,
+              d = e.pageOption,
+              p = e.onPaging,
               h = e.containerPadding,
               y = this.state.maxWidth - h,
-              b = t - h,
-              g = this.columnWidthSum && this.columnWidthSum !== b ? this._getUpdatedColumnLayout() : this.state.columnsWidth;if (!g) return null;var m = { width: b, autoWidth: n, minWidth: o, maxWidth: y },
-              v = i.default.createElement(u.default, { columnLayout: g }),
+              g = t - h,
+              b = this.columnWidthSum && this.columnWidthSum !== g ? this._getUpdatedColumnLayout() : this.state.columnsWidth;if (!b) return null;var m = { width: g, autoWidth: n, minWidth: o, maxWidth: y },
+              v = i.default.createElement(u.default, { columnLayout: b }),
               _ = this.Header,
               O = this.Body,
-              P = this.Footer;return i.default.createElement("div", null, i.default.createElement("div", { className: "table-container", style: { maxWidth: y } }, i.default.createElement(_, m, v, a), l && i.default.createElement(O, r({}, m, { maxHeight: this.state.contentHeight }), v, l), c && i.default.createElement(P, m, v, c)), s && p && i.default.createElement(f.default, { pageOption: p, onPaging: d }));
+              P = this.Footer;return i.default.createElement("div", null, i.default.createElement("div", { className: "table-container", style: { maxWidth: y } }, i.default.createElement(_, m, v, a), l && i.default.createElement(O, r({}, m, { maxHeight: this.state.contentHeight }), v, l), c && i.default.createElement(P, m, v, c)), s && d && i.default.createElement(f.default, { pageOption: d, onPaging: p }));
         } }, { key: "columnWidthSum", get: function get() {
           var e = this.state.columnsWidth;return e && e.length && !e.find(function (e) {
             return "number" != typeof e;
@@ -614,7 +615,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             return e + t;
           }, 0) : null;
         } }]), t;
-    }();h.propTypes = { width: l.default.oneOfType([l.default.number, l.default.string]), maxWidth: l.default.number, minWidth: l.default.number, autoWidth: l.default.bool, bodyHeight: l.default.number, autoHeight: l.default.bool, header: l.default.oneOfType([l.default.object, l.default.arrayOf(l.default.object)]).isRequired, body: l.default.arrayOf(l.default.object), footer: l.default.arrayOf(l.default.object), isPaging: l.default.bool, onPaging: l.default.func, pageOption: l.default.object, adjustedHeight: l.default.number, containerPadding: l.default.number, shouldResetScrollPosition: l.default.bool }, h.defaultProps = { width: d, maxWidth: d, autoWidth: !0, isPaging: !1, adjustedHeight: 0, bodyHeight: 0, autoHeight: !0, containerPadding: 30, shouldResetScrollPosition: !0 };var y = function y() {
+    }();h.propTypes = { width: l.default.oneOfType([l.default.number, l.default.string]), maxWidth: l.default.number, minWidth: l.default.number, autoWidth: l.default.bool, bodyHeight: l.default.number, autoHeight: l.default.bool, header: l.default.oneOfType([l.default.object, l.default.arrayOf(l.default.object)]).isRequired, body: l.default.arrayOf(l.default.object), footer: l.default.arrayOf(l.default.object), isPaging: l.default.bool, onPaging: l.default.func, pageOption: l.default.object, adjustedHeight: l.default.number, containerPadding: l.default.number, shouldResetScrollPosition: l.default.bool }, h.defaultProps = { width: p, maxWidth: p, autoWidth: !0, isPaging: !1, adjustedHeight: 0, bodyHeight: 0, autoHeight: !0, containerPadding: 30, shouldResetScrollPosition: !0 };var y = function y() {
       var e = this;this._handleResize = function (t) {
         if (t && t.preventDefault(), e.bodyWrapper && e.props.autoHeight) {
           var n = e._calculateBodyHeight();e.state.contentHeight !== n && e.setState({ contentHeight: n });
@@ -761,42 +762,36 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
       }return e;
     },
-        o = function () {
-      function e(e, t) {
-        for (var n = 0; n < t.length; n++) {
-          var r = t[n];r.enumerable = r.enumerable || !1, r.configurable = !0, "value" in r && (r.writable = !0), Object.defineProperty(e, r.key, r);
-        }
-      }return function (t, n, r) {
-        return n && e(t.prototype, n), r && e(t, r), t;
-      };
-    }(),
-        a = n(0),
-        i = l(a),
-        u = l(n(1));function l(e) {
+        o = i(n(0)),
+        a = i(n(1));function i(e) {
       return e && e.__esModule ? e : { default: e };
-    }var c = function (e) {
-      function t(e) {
-        return function (e, t) {
-          if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
-        }(this, t), function (e, t) {
-          if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" != (typeof t === "undefined" ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
-        }(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, e));
-      }return function (e, t) {
-        if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + (typeof t === "undefined" ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
-      }(t, a.Component), o(t, [{ key: "render", value: function value() {
-          var e = this.props,
-              t = e.header,
-              n = (e.colWidth, e.sortable),
-              o = e.sorting,
-              a = e.asc,
-              u = e.onClick,
-              l = function (e, t) {
-            var n = {};for (var r in e) {
-              t.indexOf(r) >= 0 || Object.prototype.hasOwnProperty.call(e, r) && (n[r] = e[r]);
-            }return n;
-          }(e, ["header", "colWidth", "sortable", "sorting", "asc", "onClick"]);return t ? n ? i.default.createElement("th", r({}, l, { className: "sortable " + (o ? "sorting" : ""), onClick: u }), this.props.children, i.default.createElement("span", { className: o ? a ? "asc" : "desc" : "" })) : i.default.createElement("th", l, this.props.children) : i.default.createElement("td", l, this.props.children);
-        } }]), t;
-    }();c.propTypes = { header: u.default.bool, sortable: u.default.bool, sorting: u.default.bool, asc: u.default.bool, onClick: u.default.func }, c.defaultProps = { header: !1, sortable: !1, sorting: !1, asc: !0, onClick: function onClick() {} }, t.default = c;
+    }var u = function u(e) {
+      e.colWidth;var t = e.sortable,
+          n = e.sorting,
+          a = e.asc,
+          i = e.onClick,
+          u = function (e, t) {
+        var n = {};for (var r in e) {
+          t.indexOf(r) >= 0 || Object.prototype.hasOwnProperty.call(e, r) && (n[r] = e[r]);
+        }return n;
+      }(e, ["colWidth", "sortable", "sorting", "asc", "onClick"]),
+          l = null;if (t) {
+        var c = o.default.createElement("div", { style: { display: "block", color: n && a ? "#111" : "#777" }, className: "asc" }),
+            s = o.default.createElement("div", { style: { display: "block", marginTop: "2px", color: n && !a ? "#111" : "#777" }, className: "desc" });l = o.default.createElement("th", r({}, u, { className: "sortable sorting", onClick: i }), o.default.createElement("span", null, e.children), o.default.createElement("span", { style: { float: "right", marginTop: "5px" } }, c, s));
+      }return t ? l : o.default.createElement("th", u, e.children);
+    };u.propTypes = { sortable: a.default.bool, sorting: a.default.bool, asc: a.default.bool, onClick: a.default.func }, u.defaultProps = { sortable: !1, sorting: !1, asc: !0, onClick: function onClick() {} }, t.default = u;
+  }, function (e, t, n) {
+    "use strict";
+    Object.defineProperty(t, "__esModule", { value: !0 });var r = a(n(0)),
+        o = a(n(1));function a(e) {
+      return e && e.__esModule ? e : { default: e };
+    }var i = function i(e) {
+      e.onClick;var t = function (e, t) {
+        var n = {};for (var r in e) {
+          t.indexOf(r) >= 0 || Object.prototype.hasOwnProperty.call(e, r) && (n[r] = e[r]);
+        }return n;
+      }(e, ["onClick"]);return r.default.createElement("td", t, e.children);
+    };i.propTypes = { onClick: o.default.func }, i.defaultProps = { onClick: function onClick() {} }, t.default = i;
   }]);
 });
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
@@ -822,7 +817,7 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _fixedTableHeader = __webpack_require__(/*! ./dist/fixed-table-header */ "./example/dist/fixed-table-header.js");
+var _reactGrid = __webpack_require__(/*! ./dist/react-grid */ "./example/dist/react-grid.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -842,21 +837,23 @@ var createDataWithCheckbox = exports.createDataWithCheckbox = function createDat
 
 var buildHeaderWithCheckbox = exports.buildHeaderWithCheckbox = function buildHeaderWithCheckbox() {
     return _react2.default.createElement(
-        _fixedTableHeader.Row,
+        _reactGrid.Row,
         { style: { height: 32 } },
         _react2.default.createElement(
-            _fixedTableHeader.Cell,
-            { colWidth: 150, header: true },
+            _reactGrid.HeaderCell,
+            { colWidth: 150 },
             'Header 1'
         ),
         _react2.default.createElement(
-            _fixedTableHeader.Cell,
-            { colWidth: 150, header: true },
+            _reactGrid.HeaderCell,
+            { colWidth: 150, sortable: true, sorting: true, asc: true, onClick: function onClick() {
+                    return alert('Sorted!');
+                } },
             'Header 2'
         ),
         _react2.default.createElement(
-            _fixedTableHeader.Cell,
-            { colWidth: 200, header: true },
+            _reactGrid.HeaderCell,
+            { colWidth: 200 },
             'Header 3'
         )
     );
@@ -868,22 +865,22 @@ var buildBodyWithCheckbox = exports.buildBodyWithCheckbox = function buildBodyWi
     var _loop = function _loop(i) {
         var item = data[i];
         dataRowList.push(_react2.default.createElement(
-            _fixedTableHeader.Row,
+            _reactGrid.Row,
             { key: i },
             _react2.default.createElement(
-                _fixedTableHeader.Cell,
+                _reactGrid.Cell,
                 null,
                 _react2.default.createElement('input', { type: 'checkbox', checked: item.checked, onChange: function onChange(e) {
                         return _onChange(i, e.target.checked);
                     } })
             ),
             _react2.default.createElement(
-                _fixedTableHeader.Cell,
+                _reactGrid.Cell,
                 null,
                 item.name
             ),
             _react2.default.createElement(
-                _fixedTableHeader.Cell,
+                _reactGrid.Cell,
                 null,
                 item.email
             )

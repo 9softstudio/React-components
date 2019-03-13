@@ -3740,4 +3740,4 @@ exports.Pager = _Pager2.default;
 
 /******/ });
 });
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=react-grid.js.map

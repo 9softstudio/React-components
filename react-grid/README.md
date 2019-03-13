@@ -1,6 +1,9 @@
 React Grid (old name: React Fixed Table Header)
 =========================
-
+### Install
+```
+npm i @9softstudio/react-grid
+```
 ## Usage
 ```javascript
 Will provide later
