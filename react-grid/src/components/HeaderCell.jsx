@@ -37,13 +37,13 @@ export default class HeaderCell extends Component {
         if(sortBy) {
             const upArrow = <div style={{display:'block', color: `${sortOrder === 'asc' ? '#111':'#777'}`}} className={'asc'}></div>
             const downArrow = <div style={{display:'block', marginTop:'2px', color: `${sortOrder === 'desc' ? '#111':'#777'}`}} className={'desc'}></div>
-            sortableHeader = (<th {...rest} className={'sortable sorting'} onClick={this.onClick}>                   
-        <span>{this.props.children}</span>
-                                <span style={{float: 'right', marginTop:'5px'}}>
-                                {upArrow}
-                                {downArrow}
-                                </span>
-                            </th>)
+            sortableHeader = (<th {...rest} className={'sortable sorting'} style={{position:'relative'}} onClick={this.onClick}>                   
+                        <div style={{width:'90%'}}>{this.props.children}</div>
+                        <span style={{float: 'right', position:'absolute', top:'40%', right:'2px'}}>
+                            {upArrow}
+                            {downArrow}
+                        </span>
+            </th>)
         }
 
         return sortableHeader || 

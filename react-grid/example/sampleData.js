@@ -18,7 +18,7 @@ export const createDataWithCheckbox = () => {
 export const buildHeaderWithCheckbox = () => {
     return (<HeaderRow style={{ height: 32 }}>
         <HeaderCell colWidth={150} >Header 1</HeaderCell>
-        <HeaderCell colWidth={150} sortBy={'aaa'}>Header 2</HeaderCell>
+        <HeaderCell colWidth={50} sortBy={'aaa'}>Header 2 sdf ád ád ádaaaaaaaa  </HeaderCell>
         <HeaderCell colWidth={200} sortBy={'bbb'}>Header 3</HeaderCell>
     </HeaderRow>);
 }
