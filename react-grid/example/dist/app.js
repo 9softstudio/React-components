@@ -20975,31 +20975,14 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
 var Cell = function Cell(props) {
-    var onClick = props.onClick,
-        rest = _objectWithoutProperties(props, ['onClick']);
-
     return _react2.default.createElement(
         'td',
-        rest,
+        props,
         props.children
     );
-};
-
-Cell.propTypes = {
-    onClick: _propTypes2.default.func
-};
-
-Cell.defaultProps = {
-    onClick: function onClick() {}
 };
 
 exports.default = Cell;
