@@ -49,9 +49,11 @@ export default class App extends Component {
         let rows = [];
         for (let i = 0; i < 3; i++) {
             rows.push(<Row key={`footer${i}`}>
-                <Cell>Footer 1</Cell>
-                <Cell>Footer 2</Cell>
+                <Cell colSpan={2}>Sum</Cell>
                 <Cell>Footer 3</Cell>
+                <Cell>Footer 4</Cell>
+                <Cell>Footer 5</Cell>
+                <Cell>Footer 6</Cell>
             </Row>);
         }
 

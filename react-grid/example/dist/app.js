@@ -186,18 +186,28 @@ var App = function (_Component) {
                     { key: 'footer' + i },
                     _react2.default.createElement(
                         _index.Cell,
-                        null,
-                        'Footer 1'
-                    ),
-                    _react2.default.createElement(
-                        _index.Cell,
-                        null,
-                        'Footer 2'
+                        { colSpan: 2 },
+                        'Sum'
                     ),
                     _react2.default.createElement(
                         _index.Cell,
                         null,
                         'Footer 3'
+                    ),
+                    _react2.default.createElement(
+                        _index.Cell,
+                        null,
+                        'Footer 4'
+                    ),
+                    _react2.default.createElement(
+                        _index.Cell,
+                        null,
+                        'Footer 5'
+                    ),
+                    _react2.default.createElement(
+                        _index.Cell,
+                        null,
+                        'Footer 6'
                     )
                 ));
             }
@@ -315,6 +325,21 @@ var buildHeaderWithCheckbox = exports.buildHeaderWithCheckbox = function buildHe
             _index.HeaderCell,
             { colWidth: 200, sortBy: 'bbb' },
             'Header 3'
+        ),
+        _react2.default.createElement(
+            _index.HeaderCell,
+            { colWidth: 200 },
+            'Header 4'
+        ),
+        _react2.default.createElement(
+            _index.HeaderCell,
+            { colWidth: 200 },
+            'Header 5'
+        ),
+        _react2.default.createElement(
+            _index.HeaderCell,
+            { colWidth: 200 },
+            'Header 6'
         )
     );
 };
@@ -338,6 +363,21 @@ var buildBodyWithCheckbox = exports.buildBodyWithCheckbox = function buildBodyWi
                 _index.Cell,
                 null,
                 item.name
+            ),
+            _react2.default.createElement(
+                _index.Cell,
+                null,
+                item.email
+            ),
+            _react2.default.createElement(
+                _index.Cell,
+                null,
+                item.email
+            ),
+            _react2.default.createElement(
+                _index.Cell,
+                null,
+                item.email
             ),
             _react2.default.createElement(
                 _index.Cell,
@@ -21078,8 +21118,7 @@ var HeaderRow = function (_Component) {
             // register onSort event
 
             return _react2.default.Children.map(children, function (child) {
-
-                return _react2.default.cloneElement(child, { onSort: _this2.onSort, sortOrder: sortBy === child.props.sortBy ? sortOrder : null });
+                return child && _react2.default.cloneElement(child, { onSort: _this2.onSort, sortOrder: sortBy === child.props.sortBy ? sortOrder : null });
             });
         }
     }, {

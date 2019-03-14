@@ -1,6 +1,6 @@
 {
     "name": "@9softstudio/react-grid",
-    "version": "1.0.6",
+    "version": "1.0.8",
     "description": "React Grid (old name: 'React Fixed Table Header')",
     "main": "dist/index.js",
     "scripts": {
