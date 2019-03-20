@@ -208,7 +208,9 @@ export default class MultipleSelect extends Component {
                 <MultipleSelectLabel
                     language={this.props.language}
                     selectedItems={this.selectedItems}
+                    dataSourceSize={this.state.dataSource.length}
                     onToggle={this.onToggle}
+                    texts={this.props.texts}
                     maxDisplayItemCount={maxDisplayItemCount} />
                  }
                 <div className="multiple-select-default multiple-select-options-container"
