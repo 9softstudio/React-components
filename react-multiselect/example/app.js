@@ -45,6 +45,7 @@ export default class App extends Component {
                         valueField="Name"
                         statusField="Checked"
                         texts={{SelectOptions: "Please select", All: "All",  SelectedItemCount: "# selected"}}
+                        isAllTextShown={true}
                         hasSearchBox={true} />
                 </div>
             </div>

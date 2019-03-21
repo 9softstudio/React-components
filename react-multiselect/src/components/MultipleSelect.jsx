@@ -45,7 +45,9 @@ export default class MultipleSelect extends Component {
         maxDisplayItemCount: PropTypes.number,
         onChange: PropTypes.func,
         hasAllOption: PropTypes.bool,
-        hasSearchBox: PropTypes.bool
+        hasSearchBox: PropTypes.bool,
+        isAllTextShown: PropTypes.bool,
+        texts: PropTypes.arrayOf(PropTypes.object)
     }
 
     static defaultProps = {
@@ -211,6 +213,7 @@ export default class MultipleSelect extends Component {
                     dataSourceSize={this.state.dataSource.length}
                     onToggle={this.onToggle}
                     texts={this.props.texts}
+                    isAllTextShown={this.props.isAllTextShown}
                     maxDisplayItemCount={maxDisplayItemCount} />
                  }
                 <div className="multiple-select-default multiple-select-options-container"

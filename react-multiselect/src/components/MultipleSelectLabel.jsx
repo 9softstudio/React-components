@@ -28,7 +28,7 @@ export default class MultipleSelectLabel extends Component {
         let displayText = texts.SelectOptions;
         const selectedItemCount = selectedValues.length;
 
-        if(selectedItemCount == this.props.dataSourceSize){
+        if(this.props.isAllTextShown && selectedItemCount == this.props.dataSourceSize){
             displayText = texts.All;
         }
         else if (selectedItemCount > maxDisplayItemCount) {
