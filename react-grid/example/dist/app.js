@@ -21006,7 +21006,7 @@ var HeaderCell = function (_Component) {
                 var downArrow = _react2.default.createElement('div', { style: { display: 'block', marginTop: '2px', color: '' + (sortOrder === 'desc' ? '#111' : '#777') }, className: 'desc' });
                 sortableHeader = _react2.default.createElement(
                     'th',
-                    _extends({}, rest, { className: 'sortable sorting', style: { position: 'relative' }, onClick: this.onClick }),
+                    _extends({}, rest, { className: 'sortable sorting', style: { position: 'relative', backgroundClip: 'padding-box' }, onClick: this.onClick }),
                     _react2.default.createElement(
                         'div',
                         { style: { width: '90%' } },
