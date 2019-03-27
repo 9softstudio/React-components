@@ -16,14 +16,19 @@ export const createDataWithCheckbox = () => {
 }
 
 export const buildHeaderWithCheckbox = () => {
-    return <HeaderRow style={{ height: 32 }}>
-        <HeaderCell colWidth={150} >Header 1</HeaderCell>
-        <HeaderCell colWidth={50} sortBy={'aaa'}>Header 2 sdf ád ád ádaaaaaaaa  </HeaderCell>
-        <HeaderCell colWidth={200} sortBy={'bbb'}>Header 3</HeaderCell>
-        <HeaderCell colWidth={200} >Header 4</HeaderCell>
-        <HeaderCell colWidth={200} >Header 5</HeaderCell>
-        <HeaderCell colWidth={200} >Header 6</HeaderCell>
-    </HeaderRow>;
+    return [
+        <HeaderRow style={{ height: 32 }} key='HR1'>
+            <HeaderCell colWidth={150} rowSpan='2' >Header 1</HeaderCell>
+            <HeaderCell colWidth={400} colSpan='2' sortBy={'H2'}>Header 2</HeaderCell>
+            <HeaderCell colWidth={200} rowSpan='2' sortBy={'H3'}>Header 3</HeaderCell>
+            <HeaderCell colWidth={200} rowSpan='2' >Header 4</HeaderCell>
+            <HeaderCell colWidth={200} rowSpan='2' >Header 5</HeaderCell>
+        </HeaderRow>,
+        <HeaderRow style={{ height: 32 }} key='HR2'>
+            <HeaderCell colWidth={200} sortBy={'H2a'}>Header 2a</HeaderCell>
+            <HeaderCell colWidth={200} sortBy={'H2b'}>Header 2b</HeaderCell>
+        </HeaderRow>
+    ];
 }
 
 export const buildBodyWithCheckbox = (data, onChange) => {

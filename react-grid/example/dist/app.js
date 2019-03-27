@@ -308,40 +308,48 @@ var createDataWithCheckbox = exports.createDataWithCheckbox = function createDat
 };
 
 var buildHeaderWithCheckbox = exports.buildHeaderWithCheckbox = function buildHeaderWithCheckbox() {
-    return _react2.default.createElement(
+    return [_react2.default.createElement(
         _index.HeaderRow,
-        { style: { height: 32 } },
+        { style: { height: 32 }, key: 'HR1' },
         _react2.default.createElement(
             _index.HeaderCell,
-            { colWidth: 150 },
+            { colWidth: 150, rowSpan: '2' },
             'Header 1'
         ),
         _react2.default.createElement(
             _index.HeaderCell,
-            { colWidth: 50, sortBy: 'aaa' },
-            'Header 2 sdf \xE1d \xE1d \xE1daaaaaaaa  '
+            { colWidth: 400, colSpan: '2', sortBy: 'H2' },
+            'Header 2'
         ),
         _react2.default.createElement(
             _index.HeaderCell,
-            { colWidth: 200, sortBy: 'bbb' },
+            { colWidth: 200, rowSpan: '2', sortBy: 'H3' },
             'Header 3'
         ),
         _react2.default.createElement(
             _index.HeaderCell,
-            { colWidth: 200 },
+            { colWidth: 200, rowSpan: '2' },
             'Header 4'
         ),
         _react2.default.createElement(
             _index.HeaderCell,
-            { colWidth: 200 },
+            { colWidth: 200, rowSpan: '2' },
             'Header 5'
+        )
+    ), _react2.default.createElement(
+        _index.HeaderRow,
+        { style: { height: 32 }, key: 'HR2' },
+        _react2.default.createElement(
+            _index.HeaderCell,
+            { colWidth: 200, sortBy: 'H2a' },
+            'Header 2a'
         ),
         _react2.default.createElement(
             _index.HeaderCell,
-            { colWidth: 200 },
-            'Header 6'
+            { colWidth: 200, sortBy: 'H2b' },
+            'Header 2b'
         )
-    );
+    )];
 };
 
 var buildBodyWithCheckbox = exports.buildBodyWithCheckbox = function buildBodyWithCheckbox(data, _onChange) {
@@ -20998,7 +21006,8 @@ var HeaderCell = function (_Component) {
                 sortBy = _props.sortBy,
                 sortOrder = _props.sortOrder,
                 onSort = _props.onSort,
-                rest = _objectWithoutProperties(_props, ['colWidth', 'sortBy', 'sortOrder', 'onSort']);
+                children = _props.children,
+                rest = _objectWithoutProperties(_props, ['colWidth', 'sortBy', 'sortOrder', 'onSort', 'children']);
 
             var sortableHeader = null;
             if (sortBy) {
@@ -21010,7 +21019,7 @@ var HeaderCell = function (_Component) {
                     _react2.default.createElement(
                         'div',
                         { style: { width: '90%' } },
-                        this.props.children
+                        children
                     ),
                     _react2.default.createElement(
                         'span',
@@ -21024,7 +21033,7 @@ var HeaderCell = function (_Component) {
             return sortableHeader || _react2.default.createElement(
                 'th',
                 rest,
-                this.props.children
+                children
             );
         }
     }]);
@@ -21086,47 +21095,32 @@ var HeaderRow = function (_Component) {
     function HeaderRow(props) {
         _classCallCheck(this, HeaderRow);
 
-        var _this = _possibleConstructorReturn(this, (HeaderRow.__proto__ || Object.getPrototypeOf(HeaderRow)).call(this, props));
-
-        _this.onSort = function (sortBy, sortOrder) {
-            var onSort = _this.props.onSort;
-            _this.setState({
-                sortBy: sortBy,
-                sortOrder: sortOrder
-            }, function () {
-                onSort && onSort(sortBy, sortOrder);
-            });
-        };
-
-        _this.state = {
-            sortBy: null,
-            sortOrder: null
-        };
-        return _this;
+        return _possibleConstructorReturn(this, (HeaderRow.__proto__ || Object.getPrototypeOf(HeaderRow)).call(this, props));
     }
 
     _createClass(HeaderRow, [{
         key: '_renderChildren',
         value: function _renderChildren() {
-            var _this2 = this;
-
-            var children = this.props.children;
-            var _state = this.state,
-                sortBy = _state.sortBy,
-                sortOrder = _state.sortOrder;
+            var _props = this.props,
+                onSort = _props.onSort,
+                children = _props.children,
+                sortBy = _props.sortBy,
+                sortOrder = _props.sortOrder;
 
             // register onSort event
 
             return _react2.default.Children.map(children, function (child) {
-                return child && _react2.default.cloneElement(child, { onSort: _this2.onSort, sortOrder: sortBy === child.props.sortBy ? sortOrder : null });
+                return child && _react2.default.cloneElement(child, { onSort: onSort, sortOrder: sortBy === child.props.sortBy ? sortOrder : null });
             });
         }
     }, {
         key: 'render',
         value: function render() {
-            var _props = this.props,
-                onSort = _props.onSort,
-                rest = _objectWithoutProperties(_props, ['onSort']);
+            var _props2 = this.props,
+                onSort = _props2.onSort,
+                sortBy = _props2.sortBy,
+                sortOrder = _props2.sortOrder,
+                rest = _objectWithoutProperties(_props2, ['onSort', 'sortBy', 'sortOrder']);
 
             return _react2.default.createElement(
                 'tr',
@@ -21921,17 +21915,39 @@ var createTableSection = function createTableSection(extendedContainerProps, ext
         function TableSection(props) {
             _classCallCheck(this, TableSection);
 
-            return _possibleConstructorReturn(this, (TableSection.__proto__ || Object.getPrototypeOf(TableSection)).call(this, props));
+            var _this = _possibleConstructorReturn(this, (TableSection.__proto__ || Object.getPrototypeOf(TableSection)).call(this, props));
+
+            _this.onSort = function (sortBy, sortOrder) {
+                var onSort = _this.props.onSort;
+                _this.setState({
+                    sortBy: sortBy,
+                    sortOrder: sortOrder
+                }, function () {
+                    onSort && onSort(sortBy, sortOrder);
+                });
+            };
+
+            _this.state = {
+                sortBy: null,
+                sortOrder: null
+            };
+            return _this;
         }
 
         _createClass(TableSection, [{
             key: '_renderHeaderChildren',
             value: function _renderHeaderChildren() {
+                var _this2 = this;
+
                 var children = this.props.children;
-                var onSort = this.props.onSort;
+                var _state = this.state,
+                    sortBy = _state.sortBy,
+                    sortOrder = _state.sortOrder;
+
                 // register onSort event
+
                 return _react2.default.Children.map(children, function (child) {
-                    return _react2.default.cloneElement(child, { onSort: onSort });
+                    return _react2.default.cloneElement(child, { onSort: _this2.onSort, sortBy: sortBy, sortOrder: sortOrder });
                 });
             }
         }, {

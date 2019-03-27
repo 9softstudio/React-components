@@ -6,6 +6,10 @@ const createTableSection = (extendedContainerProps, extendedTableProps) => {
     return class TableSection extends Component {
         constructor(props) {
             super(props);
+            this.state = {
+                sortBy: null,
+                sortOrder: null
+            }
         }
 
         static propTypes = {
@@ -52,9 +56,21 @@ const createTableSection = (extendedContainerProps, extendedTableProps) => {
 
         _renderHeaderChildren() {
             const children = this.props.children;
-            const onSort = this.props.onSort;
+            const { sortBy, sortOrder } = this.state;
+
             // register onSort event
-            return React.Children.map(children, child => React.cloneElement(child, { onSort: onSort}));
+            return React.Children.map(children, child => React.cloneElement(child, { onSort: this.onSort, sortBy, sortOrder}));
+        }
+
+        onSort = (sortBy, sortOrder) => {
+            const onSort = this.props.onSort;
+            this.setState({
+                sortBy: sortBy,
+                sortOrder: sortOrder
+            },
+            () => {
+                onSort && onSort(sortBy, sortOrder)
+            })
         }
 
         render() {
