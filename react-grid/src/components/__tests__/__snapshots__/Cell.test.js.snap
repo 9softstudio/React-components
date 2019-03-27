@@ -21,8 +21,9 @@ exports[`Cell component render correctly 1`] = `
 `;
 
 exports[`Cell component render header cell correctly with html attributes 1`] = `
-<th
+<td
   className="cell"
+  header={true}
   style={
     Object {
       "height": 200,
@@ -31,13 +32,16 @@ exports[`Cell component render header cell correctly with html attributes 1`] = 
   }
 >
   Cell Content
-</th>
+</td>
 `;
 
 exports[`Cell component render sortable header cell correctly with html attributes 1`] = `
-<th
-  className="sortable sorting"
-  onClick={[Function]}
+<td
+  asc={true}
+  className="cell"
+  header={true}
+  sortable={true}
+  sorting={true}
   style={
     Object {
       "height": 200,
@@ -46,8 +50,5 @@ exports[`Cell component render sortable header cell correctly with html attribut
   }
 >
   Cell Content
-  <span
-    className="asc"
-  />
-</th>
+</td>
 `;

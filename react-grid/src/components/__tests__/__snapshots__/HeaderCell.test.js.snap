@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`sortable HeaderCell render correctly 1`] = `
+<th
+  anotherProp="test"
+  className="sortable sorting"
+  onClick={[Function]}
+  style={
+    Object {
+      "backgroundClip": "padding-box",
+      "position": "relative",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "width": "90%",
+      }
+    }
+  >
+    Cell 1
+  </div>
+  <span
+    style={
+      Object {
+        "float": "right",
+        "position": "absolute",
+        "right": "2px",
+        "top": "40%",
+      }
+    }
+  >
+    <div
+      className="asc"
+      style={
+        Object {
+          "color": "#111",
+          "display": "block",
+        }
+      }
+    />
+    <div
+      className="desc"
+      style={
+        Object {
+          "color": "#777",
+          "display": "block",
+          "marginTop": "2px",
+        }
+      }
+    />
+  </span>
+</th>
+`;
+
+exports[`unsortable HeaderCell render correctly 1`] = `
+<th
+  anotherProp="test"
+>
+  Cell 1
+</th>
+`;

@@ -6,7 +6,7 @@ exports[`tableSection  render isHeader = false - content should render <tbody> t
     Object {
       "maxHeight": undefined,
       "minWidth": undefined,
-      "width": -30,
+      "width": 1000,
     }
   }
 >
@@ -17,7 +17,7 @@ exports[`tableSection  render isHeader = false - content should render <tbody> t
       className="table"
       style={
         Object {
-          "width": -49,
+          "width": 981,
         }
       }
     >
@@ -40,7 +40,7 @@ exports[`tableSection  render isHeader = true - content should render <thead> ta
     Object {
       "maxHeight": undefined,
       "minWidth": undefined,
-      "width": -30,
+      "width": 1000,
     }
   }
 >
@@ -51,15 +51,23 @@ exports[`tableSection  render isHeader = true - content should render <thead> ta
       className="table"
       style={
         Object {
-          "width": -49,
+          "width": 981,
         }
       }
     >
       <thead>
-        <th>
+        <th
+          onSort={[Function]}
+          sortBy={null}
+          sortOrder={null}
+        >
           Col1
         </th>
-        <th>
+        <th
+          onSort={[Function]}
+          sortBy={null}
+          sortOrder={null}
+        >
           Col2
         </th>
       </thead>

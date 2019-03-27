@@ -6,7 +6,7 @@ exports[`Table  render columnsWidth is not null - return content that match with
     className="table-container"
     style={
       Object {
-        "maxWidth": -30,
+        "maxWidth": 970,
       }
     }
   >
@@ -16,7 +16,7 @@ exports[`Table  render columnsWidth is not null - return content that match with
         Object {
           "maxHeight": undefined,
           "minWidth": undefined,
-          "width": -30,
+          "width": 970,
         }
       }
     >
@@ -27,7 +27,7 @@ exports[`Table  render columnsWidth is not null - return content that match with
           className="table"
           style={
             Object {
-              "width": -49,
+              "width": 951,
             }
           }
         >
@@ -35,7 +35,11 @@ exports[`Table  render columnsWidth is not null - return content that match with
             <tr
               className="first-row"
             />
-            <tr>
+            <tr
+              onSort={[Function]}
+              sortBy={null}
+              sortOrder={null}
+            >
               <td>
                 Header 1
               </td>
@@ -50,7 +54,7 @@ exports[`Table  render columnsWidth is not null - return content that match with
         Object {
           "maxHeight": 696,
           "minWidth": undefined,
-          "width": -30,
+          "width": 970,
         }
       }
     >
@@ -61,7 +65,7 @@ exports[`Table  render columnsWidth is not null - return content that match with
           className="table"
           style={
             Object {
-              "width": -49,
+              "width": 951,
             }
           }
         >
@@ -84,7 +88,7 @@ exports[`Table  render columnsWidth is not null - return content that match with
         Object {
           "maxHeight": undefined,
           "minWidth": undefined,
-          "width": -30,
+          "width": 970,
         }
       }
     >
@@ -95,7 +99,7 @@ exports[`Table  render columnsWidth is not null - return content that match with
           className="table"
           style={
             Object {
-              "width": -49,
+              "width": 951,
             }
           }
         >
@@ -122,7 +126,7 @@ exports[`Table  render isPaging is true - return content with paging that match 
     className="table-container"
     style={
       Object {
-        "maxWidth": -30,
+        "maxWidth": 970,
       }
     }
   >
@@ -132,7 +136,7 @@ exports[`Table  render isPaging is true - return content with paging that match 
         Object {
           "maxHeight": undefined,
           "minWidth": undefined,
-          "width": -30,
+          "width": 970,
         }
       }
     >
@@ -143,7 +147,7 @@ exports[`Table  render isPaging is true - return content with paging that match 
           className="table"
           style={
             Object {
-              "width": -49,
+              "width": 951,
             }
           }
         >
@@ -151,7 +155,11 @@ exports[`Table  render isPaging is true - return content with paging that match 
             <tr
               className="first-row"
             />
-            <tr>
+            <tr
+              onSort={[Function]}
+              sortBy={null}
+              sortOrder={null}
+            >
               <td>
                 Header 1
               </td>
@@ -166,7 +174,7 @@ exports[`Table  render isPaging is true - return content with paging that match 
         Object {
           "maxHeight": 696,
           "minWidth": undefined,
-          "width": -30,
+          "width": 970,
         }
       }
     >
@@ -177,7 +185,7 @@ exports[`Table  render isPaging is true - return content with paging that match 
           className="table"
           style={
             Object {
-              "width": -49,
+              "width": 951,
             }
           }
         >
@@ -200,7 +208,7 @@ exports[`Table  render isPaging is true - return content with paging that match 
         Object {
           "maxHeight": undefined,
           "minWidth": undefined,
-          "width": -30,
+          "width": 970,
         }
       }
     >
@@ -211,7 +219,7 @@ exports[`Table  render isPaging is true - return content with paging that match 
           className="table"
           style={
             Object {
-              "width": -49,
+              "width": 951,
             }
           }
         >

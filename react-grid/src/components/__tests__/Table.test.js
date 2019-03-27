@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer'
 import Table from '../Table'
 import Row from '../Row'
 import Cell from '../Cell'
-import { MAX_WIDTH, DEFAULT_MILLISECOND_FOR_WAITING, DEFAULT_COLUMN_WIDTH, BODY_WIDTH } from '../../constants'
+import { DEFAULT_MILLISECOND_FOR_WAITING, DEFAULT_COLUMN_WIDTH } from '../../constants'
 
 const defaultHeader = [
     <Row>
@@ -27,8 +27,8 @@ const defaultHeader = [
 ]
 
 const defaultProps = {
-    width: MAX_WIDTH,
-    maxWidth: MAX_WIDTH,
+    width: 1000,
+    maxWidth: 1000,
     minWidth: undefined,
     autoWidth: true,
     bodyHeight: undefined,
@@ -46,7 +46,7 @@ describe('Table ', () => {
 
     describe('initial internal state', () => {
         it('diffWidth should be correct value', () => {
-            const expectedResult = BODY_WIDTH - defaultProps.maxWidth;
+            const expectedResult = document.body.clientWidth - defaultProps.maxWidth;
 
             const table = new Table(defaultProps);
 
@@ -178,16 +178,16 @@ describe('Table ', () => {
                 </Row>
             )
 
-            const props = Object.assign({}, defaultProps, { maxWidth: 319, header });
+            const props = Object.assign({}, defaultProps, { maxWidth: 319, header, containerPadding: 0 });
             const table = new Table(props);
 
             const result = table._getUpdatedColumnLayout();
 
-            expect(result).toEqual(expectedResult);
+           expect(result).toEqual(expectedResult);
         })
 
         it('autoWidth = false - sumOfColumnWidth is width - return correct value', () => {
-            const expectedResult = [200, 200];
+            const expectedResult = [185, 185];
             const header = (
                 <Row>
                     <Cell colWidth={100}>Cell 1</Cell>
@@ -195,7 +195,7 @@ describe('Table ', () => {
                 </Row>
             )
 
-            const props = Object.assign({}, defaultProps, { autoWidth: false, width: 419, header });
+            const props = Object.assign({}, defaultProps, { autoWidth: false, width: 419, header, containerPadding: 30 });
             const table = new Table(props);
 
             const result = table._getUpdatedColumnLayout();

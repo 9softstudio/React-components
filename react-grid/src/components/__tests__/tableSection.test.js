@@ -1,13 +1,13 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import { SCROLLBAR_WIDTH, MAX_WIDTH } from '../../constants'
+import { SCROLLBAR_WIDTH } from '../../constants'
 import createTableSection from '../tableSection';
 
 const defaultProps = {
     tableClass: "table",
-    width: MAX_WIDTH,
-    maxWidth: MAX_WIDTH,
+    width: 500,
+    maxWidth: 1000,
     minWidth: undefined,
     autoWidth: true,
     maxHeight: undefined
