@@ -1,0 +1,53 @@
+{
+    "name": "@9softstudio/react-grid",
+    "version": "1.0.10",
+    "description": "React Grid (old name: 'React Fixed Table Header')",
+    "main": "dist/index.js",
+    "scripts": {
+        "start": "node node_modules/webpack/bin/webpack.js --config webpack.config.js && node node_modules/webpack-dev-server/bin/webpack-dev-server --config webpack.example.config.js --hot --inline --progress --watch-content-base",
+        "build:dev": "node node_modules/webpack/bin/webpack.js --config webpack.config.js --watch",
+        "build:pro": "node node_modules/webpack/bin/webpack.js --config webpack.config.js --env=production && node node_modules/webpack/bin/webpack.js --config webpack.example.config.js",
+        "test": "jest --coverage"
+    },
+    "keywords": [
+        "react-grid",
+        "fixed header"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/9softstudio/React-components.git"
+    },
+    "homepage": "https://github.com/9softstudio/React-components",
+    "author": "walter",
+    "license": "MIT",
+    "devDependencies": {
+        "babel-core": "^6.26.3",
+        "babel-jest": "^23.4.2",
+        "babel-loader": "^7.1.5",
+        "babel-preset-es2015": "^6.24.1",
+        "babel-preset-react": "^6.24.1",
+        "babel-preset-stage-0": "^6.24.1",
+        "clean-webpack-plugin": "^0.1.19",
+        "cross-env": "^5.2.0",
+        "css-loader": "^1.0.0",
+        "enzyme": "^3.4.4",
+        "enzyme-adapter-react-15": "^1.0.6",
+        "jest": "^23.5.0",
+        "mini-css-extract-plugin": "^0.4.2",
+        "node-sass": "^4.9.3",
+        "optimize-css-assets-webpack-plugin": "^5.0.0",
+        "react-test-renderer": "^16.4.2",
+        "sass-loader": "^7.1.0",
+        "style-loader": "^0.22.1",
+        "uglifyjs-webpack-plugin": "^1.3.0",
+        "webpack": "^4.17.1",
+        "webpack-cli": "^3.1.0",
+        "webpack-dev-server": "^3.1.5",
+        "webpack-merge": "^4.1.4"
+    },
+    "dependencies": {
+        "prop-types": "^15.6.2",
+        "react": "^16.4.2",
+        "react-dom": "^16.4.2"
+    }
+}

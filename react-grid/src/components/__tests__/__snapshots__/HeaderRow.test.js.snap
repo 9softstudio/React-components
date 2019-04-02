@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeaderRow component render correctly 1`] = `
+<tr>
+  <HeaderCell
+    onSort={null}
+    sortBy="Cell1"
+    sortOrder="asc"
+  >
+    Cell 1
+  </HeaderCell>
+  <HeaderCell
+    onSort={null}
+    sortBy={null}
+    sortOrder={null}
+  >
+    Cell 2
+  </HeaderCell>
+</tr>
+`;

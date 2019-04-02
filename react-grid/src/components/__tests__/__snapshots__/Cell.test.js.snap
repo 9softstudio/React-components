@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Cell component render cell correctly with html attributes 1`] = `
+<td
+  className="cell"
+  style={
+    Object {
+      "height": 200,
+      "width": 100,
+    }
+  }
+>
+  Cell Content
+</td>
+`;
+
+exports[`Cell component render correctly 1`] = `
+<td>
+  Cell Content
+</td>
+`;
+
+exports[`Cell component render header cell correctly with html attributes 1`] = `
+<td
+  className="cell"
+  header={true}
+  style={
+    Object {
+      "height": 200,
+      "width": 100,
+    }
+  }
+>
+  Cell Content
+</td>
+`;
+
+exports[`Cell component render sortable header cell correctly with html attributes 1`] = `
+<td
+  asc={true}
+  className="cell"
+  header={true}
+  sortable={true}
+  sorting={true}
+  style={
+    Object {
+      "height": 200,
+      "width": 100,
+    }
+  }
+>
+  Cell Content
+</td>
+`;
