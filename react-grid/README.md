@@ -12,7 +12,7 @@ p/s: The demo is likely out-of-date.
 
 
 ## Demos
-### [react-grid](https://9softstudio.github.io/React-components/react-fixed-table-header/example/index.html)
+### [react-grid](https://9softstudio.github.io/React-components/react-grid/example/index.html)
 
 ## License
 
