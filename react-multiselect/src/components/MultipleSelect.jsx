@@ -11,17 +11,28 @@ const STATUS_NAME = "checked";
 
 let id = 1;
 
+function convertDataSourceToState({ keyField, valueField, statusField, dataSource }) {
+    return dataSource.map(item => {
+        return {
+            [KEY_NAME]: item[keyField],
+            [VALUE_NAME]: item[valueField],
+            [STATUS_NAME]: item[statusField],
+            visible: true
+        }
+    })
+}
+
 export default class MultipleSelect extends Component {
     constructor(props) {
         super(props);
         this.searchInputBox = null;
         this.id = `multiple-select-${props.id || id++}`;
-        this.originalDataSource = this._convertDataSourceToState(props);
-
+        
         this.state = {
+            originalDataSource: null,
             searchText: '',
             showOptionList: false,
-            dataSource: this.originalDataSource
+            dataSource: []
         }
     }
 
@@ -34,7 +45,9 @@ export default class MultipleSelect extends Component {
         maxDisplayItemCount: PropTypes.number,
         onChange: PropTypes.func,
         hasAllOption: PropTypes.bool,
-        hasSearchBox: PropTypes.bool
+        hasSearchBox: PropTypes.bool,
+        isAllTextShown: PropTypes.bool,
+        texts: PropTypes.arrayOf(PropTypes.object)
     }
 
     static defaultProps = {
@@ -54,8 +67,19 @@ export default class MultipleSelect extends Component {
         document.removeEventListener('click', this._handleDocumentClick)
     }
 
+    static getDerivedStateFromProps(props, state) {
+        if (props.dataSource !== state.originalDataSource) {
+            return {
+                originalDataSource: props.dataSource,
+                dataSource: convertDataSourceToState(props)
+            }
+        }
+
+        return null;
+    }
+
     get selectedItems() {
-        return this.originalDataSource.filter(item => item.checked);
+        return this.state.dataSource.filter(item => item.checked);
     }
 
     onChangeHandler = (item) => {
@@ -86,47 +110,39 @@ export default class MultipleSelect extends Component {
     }
 
     checkAllHandler = (checked) => {
-        this.originalDataSource.forEach((item) => { item.checked = checked });
-
-        const searchText = this.state.searchText;
-        const dataSource = this.originalDataSource.filter(item => item[VALUE_NAME].startsWith(searchText));
-        this.setState({ dataSource: dataSource });
-        this._callBackToParent(null);
+        const dataSource = this.state.dataSource.slice(0);
+        dataSource.forEach(item => item.checked = checked);
+        this.setState({
+            dataSource: dataSource
+        }, () => {
+            this._callBackToParent(null);
+        });
     }
 
     onChangeSearchText = (value) => {
         this.setState((prevState) => {
-            const dataSource = this.originalDataSource.filter(item => item[VALUE_NAME].startsWith(value));
-
+            const dataSource = this.state.dataSource.slice(0);
+            dataSource.forEach(item => item.visible = item[VALUE_NAME].startsWith(value));
+            
             return { 
                 searchText: value,
-                dataSource : dataSource
+                dataSource: dataSource
             }
-        })
+        });
     }
 
     onClearSearch = () => {
-        this.setState({searchText: ''}, () => this.onChangeSearchText(''))
+        this.onChangeSearchText('');
     }
 
     _callBackToParent(selectedItem) {
-        const selectedItemsKey = this._getSelectedItemKey(this.originalDataSource);
+        const selectedItemsKey = this._getSelectedItemKey();
         this.props.onChange && this.props.onChange(selectedItem, selectedItemsKey);
     }
 
-    _convertDataSourceToState({ keyField, valueField, statusField, dataSource }) {
-        return dataSource.map(item => {
-            return {
-                [KEY_NAME]: item[keyField],
-                [VALUE_NAME]: item[valueField],
-                [STATUS_NAME]: item[statusField]
-            }
-        })
-    }
-
-    _getSelectedItemKey(dataSource) {
+    _getSelectedItemKey() {
         const selectedItemKey = [];
-
+        const dataSource = this.state.dataSource;
         for (let i = 0; i < dataSource.length; i++) {
             const item = dataSource[i];
 
@@ -151,9 +167,8 @@ export default class MultipleSelect extends Component {
 
     _renderOptionAll() {
         if (this.props.hasAllOption) {
-            const checkedItemCount = this.originalDataSource.filter(x => x.checked).length;
-            const checkedAll = checkedItemCount === this.originalDataSource.length;
-            
+            const checkedItemCount = this.state.dataSource.filter(x => x.checked).length;
+            const checkedAll = checkedItemCount === this.state.dataSource.length;
             return (<OptionAll id={this.id} checked={checkedAll} language={this.props.language} onChange={this.checkAllHandler} />);
         }
 
@@ -195,7 +210,10 @@ export default class MultipleSelect extends Component {
                 <MultipleSelectLabel
                     language={this.props.language}
                     selectedItems={this.selectedItems}
+                    dataSourceSize={this.state.dataSource.length}
                     onToggle={this.onToggle}
+                    texts={this.props.texts}
+                    isAllTextShown={this.props.isAllTextShown}
                     maxDisplayItemCount={maxDisplayItemCount} />
                  }
                 <div className="multiple-select-default multiple-select-options-container"

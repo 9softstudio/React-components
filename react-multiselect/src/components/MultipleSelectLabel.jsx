@@ -23,12 +23,15 @@ export default class MultipleSelectLabel extends Component {
     get selectedItemsString() {
         const { selectedItems, maxDisplayItemCount } = this.props;
         const selectedValues = selectedItems.map(item => item.value);
-        const texts = Translation[this.props.language];
+        const texts = this.props.texts || Translation[this.props.language];
 
         let displayText = texts.SelectOptions;
         const selectedItemCount = selectedValues.length;
 
-        if (selectedItemCount >= maxDisplayItemCount) {
+        if(this.props.isAllTextShown && selectedItemCount == this.props.dataSourceSize){
+            displayText = texts.All;
+        }
+        else if (selectedItemCount > maxDisplayItemCount) {
             displayText = texts.SelectedItemCount.replace('#', selectedItemCount);
         }
         else if (selectedItemCount >= 1) {

@@ -20,7 +20,7 @@ export default class MultipleSelectOptionList extends Component {
         }
 
         const optionList = dataSource.map((item, index) => {
-            return (
+            return item.visible && (
                 <Option
                     id={`${id}-optionItem-${index}`}
                     key={`${id}optionItem${index}`}
