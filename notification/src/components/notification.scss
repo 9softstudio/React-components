@@ -1,0 +1,56 @@
+.notification{
+    .hidden{
+        display: none;
+    }
+
+    .messageBox {
+        position: fixed;
+        z-index: 3000;
+        top: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        height: 1px;
+        
+        .content {
+            display: inline-block;
+            padding: 10px;
+            font-weight: bold;
+            color: #333;
+            border-radius: 2px;
+            -moz-border-radius: 2px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            border: 1px solid transparent;
+            padding-right: 40px;
+            position: relative;
+            top: 150px;
+            background-color: #d9edf7;
+            border-color: #bce8f1;      
+
+            .info {
+                background: #E6F1C9;
+                border-color: #CFE493;
+            }
+        }
+
+        .close {
+            content: "\d7";
+            position: absolute;
+            cursor: pointer;
+            right: 10px;
+            top: 6px;
+            font-size: 16px;
+            color: #000;
+            opacity: .6;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        .message {
+            text-align: left;
+            max-width: 640px;
+        }
+    }
+}
