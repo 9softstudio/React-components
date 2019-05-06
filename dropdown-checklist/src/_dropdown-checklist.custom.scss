@@ -1,0 +1,47 @@
+﻿.ddci__text {
+    font-weight: normal;
+}
+
+.fdcl {
+    border: 1px solid #bdc7d8;
+    padding: 1px 5px;
+    height: 22px;
+    box-sizing: border-box;
+
+    &.laForm__field {
+        height: 24px;
+    }
+
+    &.field {
+        line-height: 18px;
+    }
+
+    &:hover {
+        box-shadow: 0 0 2px 2px #3b5998;
+    }
+
+    &:after {
+        top: 8px;
+    }
+
+    &.opened:after {
+        top: 3px;
+    }
+
+    &.laForm__field-error {
+        border-color: #FCC;
+
+        &:hover {
+            box-shadow: 0 0 2px 2px #f66;
+            -webkit-box-shadow: 0 0 2px 2px #f66;
+        }
+    }
+}
+
+.mobile-filter .fdcl {
+    font-weight: bold;
+}
+
+.highlight-mobile .level-1 > .ddci .ddci__text {
+    font-weight: bold;
+}
