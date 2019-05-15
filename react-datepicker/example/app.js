@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { DateRange, DatePicker } from '../src/js/index';
 import moment from 'moment';
+
 const iconElement = (<span className="oi oi-calendar"></span>);
 
 export default class App extends React.Component {
@@ -11,18 +12,25 @@ export default class App extends React.Component {
         this.inputDateRef = React.createRef();
         this.now = new Date();
 
+        this.dateInfo = {
+            fromDate:'03/15/2019',
+            toDate: '05/15/2019',
+            minDate:'03/15/2000',
+            maxDate:'12/30/2030',
+            limitedMonthRange:3
+        };
+
         this.state = {
-            fromDate:'',
-            toDate:'',
+            fromDate: this.dateInfo.fromDate,
+            toDate: this.dateInfo.toDate,
             singleDateValue: `${this.now.getMonth() + 1}/${this.now.getDate()}/${this.now.getFullYear()}`,
             isEnableSingleDate: true
         }
     }
 
     handleChangeDateRange = (date, isValidMonthRange = true) => {
-       
         console.log(date, isValidMonthRange);
-         this.setState({fromDate:date.startDate,toDate:date.endDate});
+        this.setState({fromDate:date.startDate,toDate:date.endDate});
     }
 
     handleChangeDate = (date) => {
@@ -44,45 +52,42 @@ export default class App extends React.Component {
 
     render() {
         const { singleDateValue, isEnableSingleDate } = this.state;
-         const dateRange = {
-           fromDate:'03/15/2019',
-             toDate: '05/15/2019',
-             minDate:'03/15/2000',
-             maxDate:'12/30/2030',
-             limitedMonthRange:3
-         };
-        
-        var dayx=moment();
-        const rangesX={
-        ["Today"]:{ 
-         
-            startDate: dayx.clone(),
-            endDate: dayx.clone()
-        },
-        ["Yesterday"]:{ 
-         
-            startDate: dayx.clone().add(-1, 'days'),
-            endDate: dayx.clone().add(-1, 'days')
-        },
-        ["Currentweek"]{ 
-         
-            startDate: dayx.clone().startOf('week'),
-            endDate: dayx.clone()
-        },
-        ["Currentmonth"]:{ 
-         
-            startDate: dayx.clone().startOf('month'),
-            endDate: dayx.clone()
-        }
+
+        const now = moment();
+        const myRanges={
+            ["Today"]:{       
+                startDate: now.clone(),
+                endDate: now.clone()
+            },
+            ["Yesterday"]:{          
+                startDate: now.clone().add(-1, 'days'),
+                endDate: now.clone().add(-1, 'days')
+            },
+            ["Current Week"]:{          
+                startDate: now.clone().startOf('week'),
+                endDate: now.clone()
+            },
+            ["Current Month"]:{          
+                startDate: now.clone().startOf('month'),
+                endDate: now.clone()
+            }
         };
+
+        const dateInfo = this.dateInfo;
+        const {fromDate, toDate} = this.state;
+
         return (
             <div>
-                 <DateRange ranges ={rangesX} startDate={dateRange.fromDate} endDate={dateRange.toDate}
-                    minDate={dateConstraint.minDate} maxDate={dateConstraint.maxDate}
-                    today={dateRange.toDate} limitedMonthRange={RANGE_MONTH_CONSTRAINT}
-                    onChange={this.handleChangeDateRange} /> 
                 <div>Date range: </div>
-               /* <DateRange onChange={this.handleChangeDateRange} iconElement={iconElement} />*/
+                <DateRange onChange={this.handleChangeDateRange} iconElement={iconElement} />
+
+                <div>Date range with customizing range</div>
+                <DateRange startDate={fromDate} endDate={toDate}
+                    minDate={dateInfo.minDate} maxDate={dateInfo.maxDate}
+                    today={dateInfo.toDate} limitedMonthRange={dateInfo.limitedMonthRange}
+                    onChange={this.handleChangeDateRange}
+                    iconElement={iconElement}
+                    ranges={myRanges} />
 
                 <div>Single Date Picker:</div>
                 <DatePicker onChange={this.handleChangeDate} iconElement={iconElement} date={singleDateValue} isEnable={isEnableSingleDate} />
