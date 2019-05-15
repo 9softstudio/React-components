@@ -40,15 +40,16 @@ export default class App extends React.Component {
 
     render() {
         const { singleDateValue, isEnableSingleDate } = this.state;
-
+        const RANGE_MONTH_CONSTRAINT=3;
         return (
             <div>
                 {/* <DateRange startDate={dateRange.fromDate} endDate={dateRange.toDate}
                     minDate={dateConstraint.minDate} maxDate={dateConstraint.maxDate}
                     today={dateRange.toDate} limitedMonthRange={RANGE_MONTH_CONSTRAINT}
                     onChange={this.applyDateRangeHandler} /> */}
+            
                 <div>Date range: </div>
-                <DateRange onChange={this.handleChangeDateRange} iconElement={iconElement} />
+                <DateRange onChange={this.handleChangeDateRange}  limitedMonthRange={RANGE_MONTH_CONSTRAINT} iconElement={iconElement} />
 
                 <div>Single Date Picker:</div>
                 <DatePicker onChange={this.handleChangeDate} iconElement={iconElement} date={singleDateValue} isEnable={isEnableSingleDate} />
