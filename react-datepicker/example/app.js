@@ -53,6 +53,9 @@ export default class App extends React.Component {
     render() {
         const { singleDateValue, isEnableSingleDate } = this.state;
 
+        const RANGE_MONTH_CONSTRAINT=3;
+        return (
+         
         const now = moment();
         const myRanges={
             ["Today"]:{       
@@ -79,7 +82,7 @@ export default class App extends React.Component {
         return (
             <div>
                 <div>Date range: </div>
-                <DateRange onChange={this.handleChangeDateRange} iconElement={iconElement} />
+                <DateRange onChange={this.handleChangeDateRange}  limitedMonthRange={RANGE_MONTH_CONSTRAINT} iconElement={iconElement} />
 
                 <div>Date range with customizing range</div>
                 <DateRange startDate={fromDate} endDate={toDate}
