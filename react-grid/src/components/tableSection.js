@@ -45,12 +45,13 @@ const createTableSection = (extendedContainerProps, extendedTableProps) => {
         }
 
         get tableStyle() {
-            const { minWidth } = this.props;
+            const { minWidth, rowHeight } = this.props;
             const maxWidth = minWidth ? Math.max(this.containerWidth, minWidth) : this.containerWidth;
             const tableWidth = maxWidth - SCROLLBAR_WIDTH;
 
             return {
-                width: tableWidth
+                width: tableWidth,
+                lineHeight: `${rowHeight - 10}px`
             }
         }
 
@@ -74,19 +75,24 @@ const createTableSection = (extendedContainerProps, extendedTableProps) => {
         }
 
         render() {
-            const { onSort, tableClass, width, autoWidth, maxWidth, minWidth, maxHeight, ...rest } = this.props;
-            const { isHeader, getRef, ...restContainerProps } = extendedContainerProps;
+            const { rowHeight, tableHeight, onScroll, spaceHeight, onSort, tableClass, width, autoWidth, maxWidth, minWidth, maxHeight, ...rest } = this.props;
+            const { isBody, isHeader, getRef, ...restContainerProps } = extendedContainerProps;
 
             return (
-                <div {...rest} style={this.containerStyle} ref={getRef} {...restContainerProps}>
-                    <div className="table-wrapper">
-                        <table style={this.tableStyle} className={tableClass} {...extendedTableProps}>
+                <div {...rest} style={this.containerStyle} ref={getRef} {...restContainerProps} onScroll={onScroll}>
+                    <div className="table-wrapper" style={isBody ? { height: tableHeight } : null}>
+                        <div>
                             {
-                                isHeader ?
-                                    <thead>{this._renderHeaderChildren()}</thead> :
-                                    <tbody>{this.props.children}</tbody>
+                                isBody ? <div style={{ height: spaceHeight }}></div> : null
                             }
-                        </table>
+                            <table style={this.tableStyle} className={tableClass} {...extendedTableProps}>
+                                {
+                                    isHeader ?
+                                        <thead>{this._renderHeaderChildren()}</thead> :
+                                        <tbody rowheight={rowHeight}>{this.props.children}</tbody>
+                                }
+                            </table>
+                        </div>
                     </div>
                 </div>
             );

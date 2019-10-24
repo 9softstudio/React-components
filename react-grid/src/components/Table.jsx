@@ -35,6 +35,8 @@ function debounce(func, wait) {
     };
 }
 
+var t0 = 0, t1 = 0;
+
 class Table extends Component {
     constructor(props) {
         super(props);
@@ -45,24 +47,35 @@ class Table extends Component {
         const headerContainerProps = { className: "header-content", isHeader: true };
         this.Header = createTableSection(headerContainerProps);
 
-        const bodyContainerProps = { className: "body-content", getRef: element => this.bodyWrapper = element };
+        const bodyContainerProps = { className: "body-content", isBody: true, getRef: element => this.bodyWrapper = element };
         this.Body = createTableSection(bodyContainerProps);
 
         const footerContainerProps = { className: "footer-content", getRef: element => this.footerWrapper = element };
         this.Footer = createTableSection(footerContainerProps);
 
-        const { maxWidth, bodyHeight, adjustedHeight } = this.props;
+        const { maxWidth, bodyHeight, adjustedHeight, rowHeight, body } = this.props;
         const maxWidthValue = maxWidth || clientWidth;
 
         this.diffWidth = clientWidth - maxWidthValue;
         this.adjustedHeight = adjustedHeight;
 
         this.debounceResizing = debounce(this._handleResize);
+        this.debounceBodyScroll = debounce(this._handleBodyScroll);
+
+        this.tableHeight = rowHeight * body.length;
 
         this.state = {
             maxWidth: maxWidthValue,
             contentHeight: bodyHeight,
-            columnsWidth: this._getColumnsWidth(props.header)
+            columnsWidth: this._getColumnsWidth(props.header),
+            spaceHeight: 0,
+            start: 0,
+            scrollTop: 0,
+            numberVisibleRows: Math.trunc(bodyHeight / rowHeight),
+            end: Math.trunc(bodyHeight / rowHeight),
+            isAllowedScroll: true,
+            isScrolling: false,
+            visibleRows: [],
         }
     }
 
@@ -82,7 +95,8 @@ class Table extends Component {
         pageOption: PropTypes.object,
         adjustedHeight: PropTypes.number,
         containerPadding: PropTypes.number,
-        shouldResetScrollPosition: PropTypes.bool
+        shouldResetScrollPosition: PropTypes.bool,
+        spaceHeight: PropTypes.number,
     }
 
     static defaultProps = {
@@ -95,7 +109,8 @@ class Table extends Component {
         bodyHeight: 0,
         autoHeight: true,
         containerPadding: 30,
-        shouldResetScrollPosition: true
+        shouldResetScrollPosition: true,
+        spaceHeight: 0
     }
 
     _getColumnsWidth(headerRows) {
@@ -187,6 +202,56 @@ class Table extends Component {
         if (this.props.shouldResetScrollPosition && prevProps.body != this.props.body) {
             scrollToTop(this.bodyWrapper, 200);
         }
+
+        if (
+          this.state.isScrolling ||
+          (this.state.spaceHeight !== this.state.scrollTop &&
+            !this.state.isAllowedScroll)
+        )
+        this.setState({ isAllowedScroll: true, isScrolling: false });
+    }
+
+    _handleScroll = () => {
+        this.setState({ isScrolling: true });
+        if (this.state.isAllowedScroll) {
+            this.debounceBodyScroll();
+        }
+    }
+
+    _handleBodyScroll = () => {
+      let scrollTop = this.bodyWrapper.scrollTop;
+      this.setState(
+        { scrollTop: scrollTop, isAllowedScroll: false, spaceHeight: scrollTop },
+        () => this._handleExecuteScroll(scrollTop)
+      );
+    }
+  
+    _handleExecuteScroll = scrollTop => {
+        let currentIndex = Math.trunc(scrollTop / this.props.rowHeight);
+    
+        currentIndex =
+            currentIndex - this.state.numberVisibleRows >= this.props.body.length
+            ? currentIndex - this.state.numberVisibleRows
+            : currentIndex;
+  
+        if (currentIndex !== this.state.start) {
+            this.setState({
+            start: currentIndex,
+            end:
+                currentIndex + this.state.numberVisibleRows >= this.props.body.length
+                ? this.props.body.length - 1
+                : currentIndex + this.state.numberVisibleRows
+            }, () => this._handleRenderVisibleRows());
+        }
+    }
+
+    _handleRenderVisibleRows() {
+        let result = [];
+        for (let i = this.state.start; i < this.state.end + 1; i++) {
+            result.push(this.props.body[i]);
+        }
+    
+        this.setState({ visibleRows: result });
     }
 
     _handleResize = (event) => {
@@ -194,8 +259,9 @@ class Table extends Component {
 
         if (this.bodyWrapper && this.props.autoHeight) {
             const bodyHeight = this._calculateBodyHeight();
+            const numberVisibleRows = Math.trunc(bodyHeight / this.props.rowHeight);
             if (this.state.contentHeight !== bodyHeight) {
-                this.setState({ contentHeight: bodyHeight });
+                this.setState({ contentHeight: bodyHeight, numberVisibleRows: numberVisibleRows, end: numberVisibleRows }, () => this._handleRenderVisibleRows());
             }
         }
 
@@ -224,7 +290,7 @@ class Table extends Component {
 
         return newColumnsWidth;
     }
-    
+
     render() {
         const { width, autoWidth, minWidth, header, body, footer, isPaging, pageOption, onPaging, containerPadding } = this.props;
         const maxWidth = this.state.maxWidth - containerPadding;
@@ -256,9 +322,15 @@ class Table extends Component {
                     </Header>
                     {
                         body &&
-                        <Body {...sectionProps} maxHeight={this.state.contentHeight}>
+                        <Body
+                            {...sectionProps}
+                            maxHeight={this.state.contentHeight}
+                            spaceHeight={this.state.spaceHeight}
+                            onScroll={this._handleScroll}
+                            tableHeight={this.tableHeight}
+                            rowHeight={this.props.rowHeight}>
                             {rowLayout}
-                            {body}
+                            {this.state.visibleRows}
                         </Body>
                     }
                     {

@@ -86,6 +86,7 @@ export default class App extends Component {
                     isPaging={true}
                     pageOption={defaultPagingOption}
                     containerPadding={0}
+                    rowHeight={29}
                     shouldResetScrollPosition={shouldResetScrollPosition} />) : (<div>Component is hidden</div>)
                 }
             </div>
