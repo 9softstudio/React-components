@@ -205,7 +205,7 @@ class Table extends Component {
 
         if (
           this.state.isScrolling ||
-          (this.state.spaceHeight !== this.state.scrollTop &&
+          (this.state.spaceHeight + this.props.rowHeight !== this.state.scrollTop &&
             !this.state.isAllowedScroll)
         )
         this.setState({ isAllowedScroll: true, isScrolling: false });
@@ -221,7 +221,7 @@ class Table extends Component {
     _handleBodyScroll = () => {
       let scrollTop = this.bodyWrapper.scrollTop;
       this.setState(
-        { scrollTop: scrollTop, isAllowedScroll: false, spaceHeight: scrollTop },
+        { scrollTop: scrollTop, isAllowedScroll: false, spaceHeight: scrollTop - this.props.rowHeight },
         () => this._handleExecuteScroll(scrollTop)
       );
     }
@@ -246,8 +246,9 @@ class Table extends Component {
     }
 
     _handleRenderVisibleRows() {
+        let start = this.state.end + 1 === this.props.body.length ? this.state.start - 1 : this.state.start;
         let result = [];
-        for (let i = this.state.start; i < this.state.end + 1; i++) {
+        for (let i = start; i < this.state.end + 2; i++) {
             result.push(this.props.body[i]);
         }
     
