@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { SCROLLBAR_WIDTH } from '../constants'
+import { SCROLLBAR_WIDTH, ROW_PADDING } from '../constants'
 
 const createTableSection = (extendedContainerProps, extendedTableProps) => {
     return class TableSection extends Component {
@@ -51,7 +51,7 @@ const createTableSection = (extendedContainerProps, extendedTableProps) => {
 
             return {
                 width: tableWidth,
-                lineHeight: `${rowHeight - 10}px`
+                lineHeight: `${rowHeight - ROW_PADDING}px`
             }
         }
 

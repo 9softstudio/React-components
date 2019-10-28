@@ -229,11 +229,6 @@ class Table extends Component {
   
     _handleExecuteScroll = scrollTop => {
         let currentIndex = Math.trunc(scrollTop / this.props.rowHeight);
-    
-        currentIndex =
-            currentIndex - this.state.numberVisibleRows >= this.props.body.length
-            ? currentIndex - this.state.numberVisibleRows
-            : currentIndex;
   
         if (currentIndex !== this.state.start) {
             this.setState({
