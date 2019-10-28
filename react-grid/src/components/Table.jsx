@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import RowLayout from './RowLayout';
 import PropTypes from 'prop-types';
 import createTableSection from './tableSection';
-import { DEFAULT_MILLISECOND_FOR_WAITING, DEFAULT_COLUMN_WIDTH, SCROLLBAR_WIDTH } from '../constants';
+import { DEFAULT_MILLISECOND_FOR_WAITING, DEFAULT_COLUMN_WIDTH, SCROLLBAR_WIDTH, DEFAULT_ROW_HEIGHT } from '../constants';
 import Pager from './Pager';
 
 const clientWidth = document.body.clientWidth;
@@ -51,7 +51,7 @@ class Table extends Component {
         const footerContainerProps = { className: "footer-content", getRef: element => this.footerWrapper = element };
         this.Footer = createTableSection(footerContainerProps);
 
-        const { maxWidth, bodyHeight, adjustedHeight, rowHeight, body } = this.props;
+        const { maxWidth, bodyHeight, adjustedHeight, body } = this.props;
         const maxWidthValue = maxWidth || clientWidth;
 
         this.diffWidth = clientWidth - maxWidthValue;
@@ -60,8 +60,6 @@ class Table extends Component {
         this.debounceResizing = debounce(this._handleResize);
         this.debounceBodyScroll = debounce(this._handleBodyScroll);
 
-        this.tableHeight = rowHeight * body.length;
-
         this.state = {
             maxWidth: maxWidthValue,
             contentHeight: bodyHeight,
@@ -69,11 +67,13 @@ class Table extends Component {
             spaceHeight: 0,
             start: 0,
             scrollTop: 0,
-            numberVisibleRows: Math.trunc(bodyHeight / rowHeight),
-            end: Math.trunc(bodyHeight / rowHeight),
+            numberVisibleRows: Math.trunc(bodyHeight / DEFAULT_ROW_HEIGHT),
+            end: Math.trunc(bodyHeight / DEFAULT_ROW_HEIGHT),
             isAllowedScroll: true,
             isScrolling: false,
             visibleRows: [],
+            rowHeight: DEFAULT_ROW_HEIGHT,
+            tableHeight: DEFAULT_ROW_HEIGHT * body.length,
         }
     }
 
@@ -200,10 +200,19 @@ class Table extends Component {
         if (this.props.shouldResetScrollPosition && prevProps.body != this.props.body) {
             scrollToTop(this.bodyWrapper, 200);
         }
+        
+        let temp = document.getElementsByTagName('tbody')[0].childNodes;
+        let rowHeight = temp[1] && temp[1].offsetHeight || DEFAULT_ROW_HEIGHT;
+        if (prevState.rowHeight !== rowHeight) {
+            this.setState({
+                rowHeight: rowHeight,
+                tableHeight: rowHeight * this.props.body.length
+            })
+        }
 
         if (
           this.state.isScrolling ||
-          (this.state.spaceHeight + this.props.rowHeight !== this.state.scrollTop &&
+          (this.state.spaceHeight + this.state.rowHeight !== this.state.scrollTop &&
             !this.state.isAllowedScroll)
         )
         this.setState({ isAllowedScroll: true, isScrolling: false });
@@ -222,13 +231,13 @@ class Table extends Component {
         {
             scrollTop: scrollTop,
             isAllowedScroll: false,
-            spaceHeight: scrollTop > this.props.rowHeight ? scrollTop - this.props.rowHeight : 0 },
+            spaceHeight: scrollTop > this.state.rowHeight ? scrollTop - this.state.rowHeight : 0 },
         () => this._handleExecuteScroll(scrollTop)
       );
     }
   
     _handleExecuteScroll = scrollTop => {
-        let currentIndex = Math.trunc(scrollTop / this.props.rowHeight);
+        let currentIndex = Math.trunc(scrollTop / this.state.rowHeight);
   
         if (currentIndex !== this.state.start) {
             this.setState({
@@ -256,7 +265,7 @@ class Table extends Component {
 
         if (this.bodyWrapper && this.props.autoHeight) {
             const bodyHeight = this._calculateBodyHeight();
-            const numberVisibleRows = Math.trunc(bodyHeight / this.props.rowHeight);
+            const numberVisibleRows = Math.trunc(bodyHeight / this.state.rowHeight);
             if (this.state.contentHeight !== bodyHeight) {
                 this.setState({ contentHeight: bodyHeight, numberVisibleRows: numberVisibleRows, end: numberVisibleRows }, () => this._handleRenderVisibleRows());
             }
@@ -324,8 +333,8 @@ class Table extends Component {
                             maxHeight={this.state.contentHeight}
                             spaceHeight={this.state.spaceHeight}
                             onScroll={this._handleScroll}
-                            tableHeight={this.tableHeight}
-                            rowHeight={this.props.rowHeight}>
+                            tableHeight={this.state.tableHeight}
+                            rowHeight={this.state.rowHeight}>
                             {rowLayout}
                             {this.state.visibleRows}
                         </Body>
