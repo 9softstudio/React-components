@@ -71,9 +71,10 @@ class Table extends Component {
             end: Math.trunc(bodyHeight / DEFAULT_ROW_HEIGHT),
             isAllowedScroll: true,
             isScrolling: false,
-            visibleRows: [],
             rowHeight: DEFAULT_ROW_HEIGHT,
             tableHeight: DEFAULT_ROW_HEIGHT * body.length,
+            isSetRowHeight: true,
+            visibleRows: []
         }
     }
 
@@ -201,20 +202,22 @@ class Table extends Component {
             scrollToTop(this.bodyWrapper, 200);
         }
         
-        let temp = document.getElementsByTagName('tbody')[0].childNodes;
-        let rowHeight = temp[1] && temp[1].offsetHeight || DEFAULT_ROW_HEIGHT;
-        if (prevState.rowHeight !== rowHeight) {
-            this.setState({
-                rowHeight: rowHeight,
-                tableHeight: rowHeight * this.props.body.length
-            })
+        if (this.state.isSetRowHeight) {
+            let temp = document.getElementsByTagName('tbody')[0].childNodes;
+            let rowHeight = temp[1] && temp[1].offsetHeight || DEFAULT_ROW_HEIGHT;
+            if (prevState.rowHeight !== rowHeight) {
+                this.setState({
+                    rowHeight: rowHeight,
+                    tableHeight: rowHeight * this.props.body.length,
+                    numberVisibleRows: Math.trunc(this.state.contentHeight / rowHeight),
+                    isSetRowHeight: false
+                }, this._handleRenderVisibleRows);
+            }
         }
 
-        if (
-          this.state.isScrolling ||
+        if (this.state.isScrolling ||
           (this.state.spaceHeight + this.state.rowHeight !== this.state.scrollTop &&
-            !this.state.isAllowedScroll)
-        )
+            !this.state.isAllowedScroll))
         this.setState({ isAllowedScroll: true, isScrolling: false });
     }
 
@@ -226,18 +229,20 @@ class Table extends Component {
     }
 
     _handleBodyScroll = () => {
-      let scrollTop = this.bodyWrapper.scrollTop;
-      this.setState(
-        {
-            scrollTop: scrollTop,
-            isAllowedScroll: false,
-            spaceHeight: scrollTop > this.state.rowHeight ? scrollTop - this.state.rowHeight : 0 },
-        () => this._handleExecuteScroll(scrollTop)
-      );
+        let scrollTop = this.bodyWrapper.scrollTop;
+        this.setState(
+            {
+                scrollTop: scrollTop,
+                isAllowedScroll: false,
+                spaceHeight: scrollTop > this.state.rowHeight ? scrollTop - this.state.rowHeight : 0 },
+            () => this._handleExecuteScroll(scrollTop)
+        );
     }
   
     _handleExecuteScroll = scrollTop => {
         let currentIndex = Math.trunc(scrollTop / this.state.rowHeight);
+        currentIndex = currentIndex - this.state.numberVisibleRows >= this.props.body.length ?
+            currentIndex - this.state.numberVisibleRows : currentIndex;
   
         if (currentIndex !== this.state.start) {
             this.setState({
@@ -246,7 +251,7 @@ class Table extends Component {
                 currentIndex + this.state.numberVisibleRows >= this.props.body.length
                 ? this.props.body.length - 1
                 : currentIndex + this.state.numberVisibleRows
-            }, () => this._handleRenderVisibleRows());
+            }, this._handleRenderVisibleRows);
         }
     }
 
@@ -267,7 +272,9 @@ class Table extends Component {
             const bodyHeight = this._calculateBodyHeight();
             const numberVisibleRows = Math.trunc(bodyHeight / this.state.rowHeight);
             if (this.state.contentHeight !== bodyHeight) {
-                this.setState({ contentHeight: bodyHeight, numberVisibleRows: numberVisibleRows, end: numberVisibleRows }, () => this._handleRenderVisibleRows());
+                this.setState({
+                    contentHeight: bodyHeight, numberVisibleRows: numberVisibleRows, end: numberVisibleRows
+                }, this._handleRenderVisibleRows);
             }
         }
 
