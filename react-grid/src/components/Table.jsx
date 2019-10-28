@@ -35,8 +35,6 @@ function debounce(func, wait) {
     };
 }
 
-var t0 = 0, t1 = 0;
-
 class Table extends Component {
     constructor(props) {
         super(props);
@@ -221,7 +219,10 @@ class Table extends Component {
     _handleBodyScroll = () => {
       let scrollTop = this.bodyWrapper.scrollTop;
       this.setState(
-        { scrollTop: scrollTop, isAllowedScroll: false, spaceHeight: scrollTop - this.props.rowHeight },
+        {
+            scrollTop: scrollTop,
+            isAllowedScroll: false,
+            spaceHeight: scrollTop > this.props.rowHeight ? scrollTop - this.props.rowHeight : 0 },
         () => this._handleExecuteScroll(scrollTop)
       );
     }
