@@ -11,6 +11,62 @@
     <div id="app"></div>
 
     <script src="app.js"></script>
+    <!-- <script>
+        function createChildren(count, deepSubItemCount, prefix) {
+            const children = [];
+            for (let j = 1; j <= count; j++) {
+                children.push({
+                    key: prefix + 'child' + j,
+                    value: prefix + 'childValue' + j,
+                    subItem: !!deepSubItemCount ? createChildren(deepSubItemCount, 0, prefix + prefix) : []
+                })
+            }
+
+            return children;
+        }
+
+        function createDataList(count, subItemCount) {
+            const result = [];
+            for (let i = 1; i <= count; i++) {
+                const parent = {
+                    key: 'parent' + i,
+                    value: 'parentValue' + i,
+                    subItem: createChildren(subItemCount, 2, 'parent' + i)
+                }
+
+                result.push(parent);
+            }
+
+            return result;
+        }
+        const dataList = createDataList(3, 2);
+
+        const getFlatDataList = (dataSource) => {
+            const list = [];
+            for (let i = 0; i < dataSource.length; i++) {
+                const parent = dataSource[i];
+                list.push({
+                    key: parent.key,
+                    value: parent.value
+                });
+                const children = parent.subItem;
+
+                if (children) {
+                    const itemList = getFlatDataList(children);
+                    list.push(...itemList);
+                }
+            }
+
+            return list;
+        }
+
+        const flatDataList = getFlatDataList(dataList);
+        for (let i = 0; i < flatDataList.length; i++) {
+            const dataItem = flatDataList[i];
+
+            console.log(dataItem.key, dataItem.value);
+        }
+    </script> -->
 </body>
 
 </html>

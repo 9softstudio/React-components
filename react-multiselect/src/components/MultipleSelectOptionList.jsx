@@ -10,11 +10,17 @@ export default class MultipleSelectOptionList extends Component {
     static propTypes = {
         dataSource: PropTypes.arrayOf(PropTypes.object).isRequired,
         id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-        onChange: PropTypes.func
+        onChange: PropTypes.func,
+        treeViewOption: PropTypes.shape({
+            childrenField: PropTypes.string,
+            keyField: PropTypes.string,
+            valueField: PropTypes.string,
+            statusField: PropTypes.string
+        })
     }
 
     _renderOptionList() {
-        const { dataSource, onChange, id } = this.props;
+        const { dataSource, onChange, id, treeViewOption } = this.props;
         if(!dataSource || !dataSource.length){
             return <span>No information</span>
         }
@@ -25,7 +31,8 @@ export default class MultipleSelectOptionList extends Component {
                     id={`${id}-optionItem-${index}`}
                     key={`${id}optionItem${index}`}
                     itemData={item}
-                    onChange={onChange} />
+                    onChange={onChange}
+                    treeViewOption={treeViewOption} />
             )
         });
 

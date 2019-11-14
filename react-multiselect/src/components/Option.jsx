@@ -9,14 +9,20 @@ export default class Option extends Component {
     static propTypes = {
         itemData: PropTypes.object.isRequired,
         id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-        onChange: PropTypes.func
+        onChange: PropTypes.func,
+        treeViewOption: PropTypes.shape({
+            childrenField: PropTypes.string,
+            keyField: PropTypes.string,
+            valueField: PropTypes.string,
+            statusField: PropTypes.string
+        })
     }
 
     onChange = (event) => {
         event.stopPropagation();
-        
+
         const { itemData, onChange } = this.props;
-        
+
         const newItemData = {
             key: itemData.key,
             value: itemData.value,
@@ -26,19 +32,22 @@ export default class Option extends Component {
     }
 
     render() {
-        const { itemData, id } = this.props;
+        const { itemData, id, treeViewOption } = this.props;
+        const { value, checked, level } = itemData;
+        const itemClassName = `multiple-select-item level-${level}`;
+        const itemStyle = treeViewOption ? { paddingLeft: level * treeViewOption.indent } : null;
 
         return (
-            <li className="multiple-select-item">
+            <li className={itemClassName} style={itemStyle}>
                 <input
                     id={id}
                     type="checkbox"
                     className="option-checkbox"
-                    checked={itemData.checked}
+                    checked={checked}
                     onChange={this.onChange}
                 />
                 <label className="option-label" htmlFor={id}>
-                    {itemData.value}
+                    {value}
                 </label>
             </li>
         );
