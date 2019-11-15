@@ -19,9 +19,32 @@ export default class MultipleSelectOptionList extends Component {
         })
     }
 
+    onCollapse = (item, isCollapsed) => {
+        const { dataSource, onCollapse } = this.props;
+        const newDataSource = [...dataSource];
+        const children = dataSource.filter(x => x.parentKey === item.key);
+        
+        const updateVisibilityForChildren = (subList) => {
+            for (let i = 0; i < subList.length; i++) {
+                const itemChild = subList[i];
+                const childIndex = newDataSource.findIndex(x => x.key === itemChild.key);
+                newDataSource[childIndex] = { ...newDataSource[childIndex], visible: !isCollapsed };
+
+                const nestedChildren = newDataSource.filter(x => x.parentKey === itemChild.key);
+                if (nestedChildren.length > 0) {
+                    updateVisibilityForChildren(nestedChildren);
+                }
+            }
+        }
+
+        updateVisibilityForChildren(children);
+
+        onCollapse && onCollapse(newDataSource);
+    }
+
     _renderOptionList() {
         const { dataSource, onChange, id, treeViewOption } = this.props;
-        if(!dataSource || !dataSource.length){
+        if (!dataSource || !dataSource.length) {
             return <span>No information</span>
         }
 
@@ -34,7 +57,8 @@ export default class MultipleSelectOptionList extends Component {
                     itemData={item}
                     onChange={onChange}
                     hasChildren={hasChildren}
-                    treeViewOption={treeViewOption} />
+                    treeViewOption={treeViewOption}
+                    onCollapse={this.onCollapse} />
             )
         });
 

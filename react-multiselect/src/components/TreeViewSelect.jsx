@@ -185,6 +185,10 @@ export default class TreeViewSelect extends Component {
         });
     }
 
+    handleCollapse = (newDataSource) => {
+        this.setState({ dataSource: newDataSource });
+    }
+
     onClearSearch = () => {
         this.onChangeSearchText('');
     }
@@ -280,7 +284,8 @@ export default class TreeViewSelect extends Component {
                     <MultipleSelectOptionList id={this.id}
                         dataSource={this.state.dataSource}
                         onChange={this.onChangeHandler}
-                        treeViewOption={actualTreeViewOption} />
+                        treeViewOption={actualTreeViewOption}
+                        onCollapse={this.handleCollapse} />
                 </div>
             </div>
         )

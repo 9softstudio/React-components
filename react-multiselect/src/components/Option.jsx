@@ -25,7 +25,10 @@ export default class Option extends Component {
     onCollapse = (event) => {
         event.preventDefault();
 
-        this.setState(prevState => ({isCollapse: !prevState.isCollapse}));
+        this.setState(prevState => ({ isCollapse: !prevState.isCollapse }), () => {
+            const { itemData, onCollapse } = this.props;
+            onCollapse && onCollapse(itemData, this.state.isCollapse);
+        });
     }
 
     onChange = (event) => {
@@ -33,7 +36,7 @@ export default class Option extends Component {
 
         const { itemData, onChange } = this.props;
 
-        const newItemData = {...itemData, checked: !itemData.checked };
+        const newItemData = { ...itemData, checked: !itemData.checked };
         onChange && onChange(newItemData);
     }
 
@@ -47,8 +50,8 @@ export default class Option extends Component {
 
         return (
             <li className={itemClassName} style={itemStyle}>
-                { 
-                    !!treeViewOption && hasChildren && 
+                {
+                    !!treeViewOption && hasChildren &&
                     <button className="btnCaretOption" onClick={this.onCollapse}><b className={caretClassName}></b></button>
                 }
                 <input
