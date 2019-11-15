@@ -1,17 +1,5 @@
 import { KEY_NAME, VALUE_NAME, STATUS_NAME, defaultTreeViewOption } from './constans';
 
-export const updateObjectInArray = (array, indexItem, updatedItem) => {
-    return array.map((item, index) => {
-        if (index !== indexItem) {
-            return item;
-        }
-        return {
-            ...item,
-            ...updatedItem
-        };
-    });
-}
-
 export const convertDataSourceToState = ({ keyField, valueField, statusField, dataSource, treeViewOption }, parent, level = 0) => {
     const actualTreeViewOption = treeViewOption && {...defaultTreeViewOption, treeViewOption };
 

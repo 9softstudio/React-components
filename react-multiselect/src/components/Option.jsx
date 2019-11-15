@@ -23,11 +23,7 @@ export default class Option extends Component {
 
         const { itemData, onChange } = this.props;
 
-        const newItemData = {
-            key: itemData.key,
-            value: itemData.value,
-            checked: !itemData.checked
-        }
+        const newItemData = {...itemData, checked: !itemData.checked };
         onChange && onChange(newItemData);
     }
 

@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
-import MultipleSelect from '../src/index'
+import MultipleSelect, {TreeViewSelect} from '../src/index'
 
 const treeViewData = [
     {
         key: 'parent1',
         value: 'parentValue1',
-        checked: true,
+        checked: false,
         subList: [
             {
                 key: 'parent1 - child1',
@@ -29,7 +29,7 @@ const treeViewData = [
     {
         key: 'parent2',
         value: 'parentValue2',
-        checked: true,
+        checked: false,
         subList: [
             {
                 key: 'parent2 - child1',
@@ -51,7 +51,7 @@ const treeViewData = [
     {
         key: 'parent3',
         value: 'parentValue3',
-        checked: true,
+        checked: false,
         subList: [
             {
                 key: 'parent3 - child1',
@@ -131,10 +131,10 @@ export default class App extends Component {
                 </div> */}
 
 
-                <h1>Multi Select With Tree View</h1>
-                <button onClick={this._generateTreeViewData}>Generate Dropdown Data With Tree View</button>
+                <h1>Tree View Select</h1>
+                <button onClick={this._generateTreeViewData}>Generate Dropdown TreeViewSelect Data</button>
                 <div style={{ width: "400px" }}>
-                    <MultipleSelect
+                    <TreeViewSelect
                         language='en-US'
                         id="SelectListTreeView"
                         dataSource={this.state.treeViewDataList}
