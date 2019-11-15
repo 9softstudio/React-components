@@ -12,7 +12,8 @@ export default class MultipleSelectLabel extends Component {
     static propTypes = {
         language: PropTypes.string,
         selectedItems: PropTypes.arrayOf(PropTypes.object).isRequired,
-        maxDisplayItemCount: PropTypes.number
+        maxDisplayItemCount: PropTypes.number,
+        texts: PropTypes.object
     }
 
     static defaultProps = {

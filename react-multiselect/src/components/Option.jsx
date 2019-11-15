@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 export default class Option extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            isCollapse: false
+        }
     }
 
     static propTypes = {
@@ -18,6 +22,12 @@ export default class Option extends Component {
         })
     }
 
+    onCollapse = (event) => {
+        event.preventDefault();
+
+        this.setState(prevState => ({isCollapse: !prevState.isCollapse}));
+    }
+
     onChange = (event) => {
         event.stopPropagation();
 
@@ -28,13 +38,19 @@ export default class Option extends Component {
     }
 
     render() {
-        const { itemData, id, treeViewOption } = this.props;
+        const { itemData, id, treeViewOption, hasChildren } = this.props;
         const { value, checked, level } = itemData;
-        const itemClassName = `multiple-select-item level-${level}`;
+        const itemClassName = `multiple-select-item ${treeViewOption ? 'treeview-select-item' : ''} level-${level}`;
         const itemStyle = treeViewOption ? { paddingLeft: level * treeViewOption.indent } : null;
+
+        const caretClassName = this.state.isCollapse ? 'treeview-caret collapse' : 'treeview-caret';
 
         return (
             <li className={itemClassName} style={itemStyle}>
+                { 
+                    !!treeViewOption && hasChildren && 
+                    <button className="btnCaretOption" onClick={this.onCollapse}><b className={caretClassName}></b></button>
+                }
                 <input
                     id={id}
                     type="checkbox"

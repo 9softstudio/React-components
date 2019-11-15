@@ -5,13 +5,13 @@ import MultipleSelectLabel from './MultipleSelectLabel';
 import MultipleSelectOptionList from './MultipleSelectOptionList';
 import OptionAll from './OptionAll';
 
-import { KEY_NAME, VALUE_NAME, STATUS_NAME, defaultTreeViewOption, UNCHECKED_INDEX } from '../constans';
+import { KEY_NAME, VALUE_NAME, STATUS_NAME, defaultTreeViewOption } from '../constans';
 
 import { convertDataSourceToState } from '../utils';
 
 let id = 1;
 
-export default class MultipleSelect extends Component {
+export default class TreeViewSelect extends Component {
     constructor(props) {
         super(props);
         this.searchInputBox = null;
@@ -25,7 +25,7 @@ export default class MultipleSelect extends Component {
             dataSource
         }
 
-        this.checkedList = this._refreshCheckedList(dataSource);
+        this.indexByKey = this._createIndexByKey(dataSource);
     }
 
     static propTypes = {
@@ -39,7 +39,7 @@ export default class MultipleSelect extends Component {
         hasAllOption: PropTypes.bool,
         hasSearchBox: PropTypes.bool,
         isAllTextShown: PropTypes.bool,
-        texts: PropTypes.arrayOf(PropTypes.object),
+        texts: PropTypes.object,
         treeViewOption: PropTypes.shape({
             childrenField: PropTypes.string,
             keyField: PropTypes.string,
@@ -74,17 +74,16 @@ export default class MultipleSelect extends Component {
             }
 
             this.setState(newState);
-            this.checkedList = this._refreshCheckedList(newState.dataSource);
+            this.indexByKey = this._createIndexByKey(newState.dataSource);
         }
     }
 
-    _refreshCheckedList(dataSource) {
+    _createIndexByKey(dataSource) {
         return dataSource.reduce((result, currentItem, currentIndex) => {
-            const { key, checked } = currentItem;
-            result[key] = checked ? currentIndex : UNCHECKED_INDEX;
+            result[currentItem.key] = currentIndex;
 
             return result;
-        }, {});
+        }, {})
     }
 
     get selectedItems() {
@@ -103,8 +102,8 @@ export default class MultipleSelect extends Component {
         const { dataSource } = this.state;
         const newDataSource = [...dataSource];
 
-        const currentItemIndex = newDataSource.findIndex(x => x.key === item.key);
-        newDataSource[currentItemIndex] = {...item};
+        const currentItemIndex = this.indexByKey[item.key];
+        newDataSource[currentItemIndex] = { ...item };
 
         const hasParent = !!item.parentKey;
         const children = newDataSource.filter(x => x.parentKey === item.key);
@@ -114,7 +113,7 @@ export default class MultipleSelect extends Component {
             const updateChildren = (subList) => {
                 for (let i = 0; i < subList.length; i++) {
                     const itemChild = subList[i];
-                    const childIndex = newDataSource.findIndex(x => x.key === itemChild.key);
+                    const childIndex = this.indexByKey[itemChild.key];
                     newDataSource[childIndex] = { ...newDataSource[childIndex], checked: item.checked };
 
                     const nestedChildren = newDataSource.filter(x => x.parentKey === itemChild.key);
@@ -127,23 +126,23 @@ export default class MultipleSelect extends Component {
             updateChildren(children);
         }
 
-        if(hasParent){
+        if (hasParent) {
             const updateParent = (currentItem) => {
-                const parentIndex = newDataSource.findIndex(x => x.key === currentItem.parentKey);
+                const parentIndex = this.indexByKey[currentItem.parentKey];
                 const parentItem = newDataSource[parentIndex];
-                if(parentItem.checked && !currentItem.checked){
-                    newDataSource[parentIndex] = {...parentItem, checked: false};
+                if (parentItem.checked && !currentItem.checked) {
+                    newDataSource[parentIndex] = { ...parentItem, checked: false };
                 }
-                else if(!parentItem.checked && currentItem.checked){
+                else if (!parentItem.checked && currentItem.checked) {
                     const currentChildren = newDataSource.filter(x => x.parentKey === parentItem.key);
                     const isCheckedParent = currentChildren.filter(x => x.checked).length === currentChildren.length;
-                    if(isCheckedParent){
-                        newDataSource[parentIndex] = {...parentItem, checked: true};
+                    if (isCheckedParent) {
+                        newDataSource[parentIndex] = { ...parentItem, checked: true };
                     }
                 }
 
                 const newParentItem = newDataSource[parentIndex];
-                if(newParentItem.parentKey){
+                if (newParentItem.parentKey) {
                     updateParent(newParentItem);
                 }
             }
@@ -254,16 +253,13 @@ export default class MultipleSelect extends Component {
                     width: "100%", border: "1px solid #ccc", padding: "5px 10px",
                     boxSizing: "border-box",
                 }} />
-            <button onClick={this.onClearSearch} style={clearButtonStyle}>X</button>
+            <button type="button" onClick={this.onClearSearch} style={clearButtonStyle}>X</button>
         </div>)
     }
 
     render() {
         const { maxDisplayItemCount, treeViewOption } = this.props;
-
         const actualTreeViewOption = treeViewOption && { ...defaultTreeViewOption, treeViewOption };
-        console.log(this.state.dataSource);
-        console.log(this.checkedList);
 
         return (
             <div className="multiple-select-container" id={this.id} ref={element => this.wrapper = element}>

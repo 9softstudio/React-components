@@ -26,12 +26,14 @@ export default class MultipleSelectOptionList extends Component {
         }
 
         const optionList = dataSource.map((item, index) => {
+            const hasChildren = dataSource.filter(x => x.parentKey === item.key).length > 0;
             return item.visible && (
                 <Option
                     id={`${id}-optionItem-${index}`}
                     key={`${id}optionItem${index}`}
                     itemData={item}
                     onChange={onChange}
+                    hasChildren={hasChildren}
                     treeViewOption={treeViewOption} />
             )
         });
