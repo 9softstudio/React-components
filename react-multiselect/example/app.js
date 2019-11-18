@@ -71,19 +71,72 @@ const treeViewData = [
     }
 ]
 
+const originalDataSource = [
+    {
+        checked: false,
+        key: "parent1",
+        level: 0,
+        parentKey: null,
+        value: "parentValue1",
+        visible: true,
+    },
+    {
+        key: "parent1 - child1",
+        value: "parent1 - child1 - Value 1",
+        checked: false,
+        visible: true,
+        level: 1,
+        parentKey: "parent1"
+    },
+    {
+        checked: false,
+        key: "parent3",
+        level: 0,
+        parentKey: null,
+        value: "parentValue3",
+        visible: true,
+    },
+    {
+        checked: false,
+        key: "parent3 - child1",
+        level: 1,
+        parentKey: "parent3",
+        value: "parent3 - child1 - Value 1",
+        visible: true
+    },
+    {
+        checked: false,
+        key: "parent3 - child1 - Node 1",
+        level: 2,
+        parentKey: "parent3 - child1",
+        value: "parent3 - child1 - Node 1 - Value 1",
+        visible: true
+    },
+    {
+        checked: false,
+        key: "parent3 - child1 - Node 2",
+        level: 2,
+        parentKey: "parent3 - child1",
+        value: "parent3 - child1 - Node 2 - Value 2",
+        visible: true
+    }
+];
+
 export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             data: [],
             treeViewDataList: [],
-            selectedKeyForTreeView: ''
+            selectedKeyForTreeView: '',
+            treeViewOriginalDataList: []
         };
     }
 
     componentDidMount() {
         this._gererateDropdownData();
         this._generateTreeViewData();
+        this._generateOriginalTreeViewData();
     }
 
     _gererateDropdownData = () => {
@@ -102,7 +155,11 @@ export default class App extends Component {
     }
 
     _generateTreeViewData = () => {
-        this.setState({ treeViewDataList: JSON.parse(JSON.stringify(treeViewData)) });
+        this.setState({ treeViewDataList: JSON.parse(JSON.stringify(treeViewData)), selectedKeyForTreeView: '' });
+    }
+
+    _generateOriginalTreeViewData = () => {
+        this.setState({ treeViewOriginalDataList: JSON.parse(JSON.stringify(originalDataSource)) })
     }
 
     handleChangeTreeView = (selectedItem, selectedItemsKey) => {
@@ -115,8 +172,9 @@ export default class App extends Component {
             keyField: 'key',
             valueField: 'value',
             statusField: 'checked',
-            indent: 50,
-            includeSelectedParentKey: false
+            indent: 30,
+            includeSelectedParentKey: true,
+            useOriginalDataSource: false
         }
 
         console.log(this.state.treeViewDataList);
@@ -161,6 +219,47 @@ export default class App extends Component {
                     </div>
                     <div style={{ minWidth: "400px", display: "inline-block" }}>
                         <p>Selected Item Key: {selectedKeyForTreeView}</p>
+                    </div>
+                </div>
+
+                <div>
+                    <div style={{ minWidth: "400px", display: "inline-block" }}>
+                        <h1>Tree View Select With Original Data Source</h1>
+                        <div>{`[
+                            {
+                                checked: false,
+                                key: "parent1",
+                                level: 0,
+                                parentKey: null,
+                                value: "parentValue1",
+                                visible: true
+                            },
+                            {
+                                key: "parent1 - child1",
+                                value: "parent1 - child1 - Value 1",
+                                checked: false,
+                                visible: true,
+                                level: 1,
+                                parentKey: "parent1"
+                            }, {
+                                checked: false,
+                                key: "parent3",
+                                level: 0,
+                                parentKey: null,
+                                value: "parentValue3",
+                                visible: true
+                            }, ...
+                        ]`}</div>
+                        <div style={{ width: "400px" }}>
+                            <TreeViewSelect
+                                language='en-US'
+                                id="SelectListTreeView2"
+                                dataSource={this.state.treeViewOriginalDataList}
+                                texts={{ SelectOptions: "Please select", All: "All", SelectedItemCount: "# selected" }}
+                                isAllTextShown={false}
+                                hasSearchBox={true}
+                                treeViewOption={{useOriginalDataSource: true}} />
+                        </div>
                     </div>
                 </div>
             </div>

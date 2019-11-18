@@ -6,7 +6,7 @@ import MultipleSelectOptionList from './MultipleSelectOptionList';
 import OptionAll from './OptionAll';
 import SearchBox from './SearchBox';
 
-import { KEY_NAME, VALUE_NAME, STATUS_NAME, defaultTreeViewOption, SUBLIST_NAME } from '../constans';
+import { KEY_NAME, VALUE_NAME, STATUS_NAME, defaultTreeViewOption } from '../constans';
 
 import { convertDataSourceToState } from '../utils';
 
@@ -18,7 +18,7 @@ export default class TreeViewSelect extends Component {
         this.searchInputBox = React.createRef();
         this.id = `multiple-select-${props.id || id++}`;
 
-        const dataSource = convertDataSourceToState(this.props);
+        const dataSource = this._isUseOriginalDataSource() ? this.props.dataSource : convertDataSourceToState(this.props);
         this.state = {
             originalDataSource: this.props.dataSource,
             searchText: '',
@@ -47,7 +47,8 @@ export default class TreeViewSelect extends Component {
             valueField: PropTypes.string,
             statusField: PropTypes.string,
             indent: PropTypes.number,
-            includeSelectedParentKey: PropTypes.bool
+            includeSelectedParentKey: PropTypes.bool,
+            useOriginalDataSource: PropTypes.bool
         })
     }
 
@@ -70,9 +71,10 @@ export default class TreeViewSelect extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (this.props.dataSource !== prevProps.dataSource) {
+            const { dataSource } = this.props;
             const newState = {
-                originalDataSource: this.props.dataSource,
-                dataSource: convertDataSourceToState(this.props)
+                originalDataSource: dataSource,
+                dataSource: this._isUseOriginalDataSource() ? dataSource : convertDataSourceToState(this.props)
             }
 
             this.setState(newState);
@@ -88,8 +90,14 @@ export default class TreeViewSelect extends Component {
         }, {})
     }
 
+    _isUseOriginalDataSource() {
+        const { treeViewOption } = this.props;
+        return !!(treeViewOption && treeViewOption.useOriginalDataSource);
+    }
+
     get selectedItems() {
-        return this.state.dataSource.filter(item => item.checked);
+        const selectedItemKeys = this._getSelectedItemKey().split(',');
+        return this.state.dataSource.filter(item => selectedItemKeys.includes(item.key));
     }
 
     onChangeHandler = (item) => {
@@ -165,8 +173,8 @@ export default class TreeViewSelect extends Component {
 
     checkAllHandler = (checked) => {
         const newDataSource = this.state.dataSource.map(item => {
-            if(item.checked !== checked){
-                return {...item, checked};
+            if (item.checked !== checked) {
+                return { ...item, checked };
             }
 
             return item;
@@ -267,7 +275,7 @@ export default class TreeViewSelect extends Component {
     render() {
         const { maxDisplayItemCount, treeViewOption } = this.props;
         const actualTreeViewOption = (treeViewOption && { ...defaultTreeViewOption, ...treeViewOption }) || { ...defaultTreeViewOption };
-        console.log(actualTreeViewOption);
+        console.log(this.state.dataSource);
 
         return (
             <div className="multiple-select-container" id={this.id} ref={element => this.wrapper = element}>

@@ -9,5 +9,6 @@ export const defaultTreeViewOption = {
     valueField: VALUE_NAME,
     statusField: STATUS_NAME,
     indent: 30,
-    includeSelectedParentKey: true
+    includeSelectedParentKey: true,
+    useOriginalDataSource: false
 }

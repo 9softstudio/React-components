@@ -1,7 +1,7 @@
 import { KEY_NAME, VALUE_NAME, STATUS_NAME, defaultTreeViewOption } from './constans';
 
 export const convertDataSourceToState = ({ keyField, valueField, statusField, dataSource, treeViewOption }, parent, level = 0) => {
-    const actualTreeViewOption = treeViewOption && {...defaultTreeViewOption, treeViewOption };
+    const actualTreeViewOption = (treeViewOption && {...defaultTreeViewOption, treeViewOption }) || {...defaultTreeViewOption };
 
     const result = [];
     for (let i = 0; i < dataSource.length; i++) {
