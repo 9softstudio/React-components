@@ -15,7 +15,9 @@ export default class MultipleSelectOptionList extends Component {
             childrenField: PropTypes.string,
             keyField: PropTypes.string,
             valueField: PropTypes.string,
-            statusField: PropTypes.string
+            statusField: PropTypes.string,
+            indent: PropTypes.number,
+            includeSelectedParentKey: PropTypes.bool
         })
     }
 

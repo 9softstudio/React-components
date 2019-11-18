@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
-import MultipleSelect, {TreeViewSelect} from '../src/index'
+import MultipleSelect, { TreeViewSelect } from '../src/index'
 
 const treeViewData = [
     {
@@ -76,7 +76,8 @@ export default class App extends Component {
         super(props);
         this.state = {
             data: [],
-            treeViewDataList: []
+            treeViewDataList: [],
+            selectedKeyForTreeView: ''
         };
     }
 
@@ -104,18 +105,26 @@ export default class App extends Component {
         this.setState({ treeViewDataList: JSON.parse(JSON.stringify(treeViewData)) });
     }
 
+    handleChangeTreeView = (selectedItem, selectedItemsKey) => {
+        this.setState({ selectedKeyForTreeView: selectedItemsKey });
+    }
+
     render() {
         const treeViewOption = {
             childrenField: 'subList',
             keyField: 'key',
             valueField: 'value',
-            statusField: 'checked'
+            statusField: 'checked',
+            indent: 50,
+            includeSelectedParentKey: false
         }
 
         console.log(this.state.treeViewDataList);
+        const { selectedKeyForTreeView } = this.state;
+
         return (
             <div>
-                {/* <h1>Multi Select</h1>
+                <h1>Multi Select</h1>
                 <button onClick={this._gererateDropdownData}>Generate Dropdown Data</button>
                 <div style={{ width: "400px" }}>
                     <MultipleSelect
@@ -128,23 +137,31 @@ export default class App extends Component {
                         texts={{ SelectOptions: "Please select", All: "All", SelectedItemCount: "# selected" }}
                         isAllTextShown={true}
                         hasSearchBox={true} />
-                </div> */}
+                </div>
 
 
-                <h1>Tree View Select</h1>
-                <button onClick={this._generateTreeViewData}>Generate Dropdown TreeViewSelect Data</button>
-                <div style={{ width: "400px" }}>
-                    <TreeViewSelect
-                        language='en-US'
-                        id="SelectListTreeView"
-                        dataSource={this.state.treeViewDataList}
-                        keyField="key"
-                        valueField="value"
-                        statusField="checked"
-                        texts={{ SelectOptions: "Please select", All: "All", SelectedItemCount: "# selected" }}
-                        isAllTextShown={false}
-                        hasSearchBox={false}
-                        treeViewOption={treeViewOption} />
+                <div>
+                    <div style={{ minWidth: "400px", display: "inline-block" }}>
+                        <h1>Tree View Select</h1>
+                        <button onClick={this._generateTreeViewData}>Generate Dropdown TreeViewSelect Data</button>
+                        <div style={{ width: "400px" }}>
+                            <TreeViewSelect
+                                language='en-US'
+                                id="SelectListTreeView"
+                                dataSource={this.state.treeViewDataList}
+                                keyField="key"
+                                valueField="value"
+                                statusField="checked"
+                                texts={{ SelectOptions: "Please select", All: "All", SelectedItemCount: "# selected" }}
+                                isAllTextShown={false}
+                                hasSearchBox={true}
+                                treeViewOption={treeViewOption}
+                                onChange={this.handleChangeTreeView} />
+                        </div>
+                    </div>
+                    <div style={{ minWidth: "400px", display: "inline-block" }}>
+                        <p>Selected Item Key: {selectedKeyForTreeView}</p>
+                    </div>
                 </div>
             </div>
         );
