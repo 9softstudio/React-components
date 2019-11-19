@@ -165,7 +165,7 @@ export default class TreeViewSelect extends Component {
     onToggle = () => {
         this.setState((prevState) => { return { showOptionList: !prevState.showOptionList } },
             () => {
-                if (this.state.showOptionList) {
+                if (this.searchInputBox.current && this.state.showOptionList) {
                     this.searchInputBox.current.focus();
                 }
             })
@@ -189,12 +189,14 @@ export default class TreeViewSelect extends Component {
 
     onChangeSearchText = (value) => {
         const newDataSource = this.state.dataSource.map(item => {
-            const isVisible = item[VALUE_NAME].startsWith(value);
+            const itemValue = item[VALUE_NAME] && item[VALUE_NAME].toLowerCase();
+            const searchingValue = value && value.toLowerCase();
+            const isVisible = itemValue.indexOf(searchingValue) !== -1;
 
             if (item.visible !== isVisible) {
                 return {
                     ...item,
-                    visible: item[VALUE_NAME].startsWith(value)
+                    visible: isVisible
                 }
             }
 
@@ -217,7 +219,7 @@ export default class TreeViewSelect extends Component {
 
     _callBackToParent(selectedItem) {
         const selectedItemsKey = this._getSelectedItemKey();
-        this.props.onChange && this.props.onChange(selectedItem, selectedItemsKey);
+        this.props.onChange && this.props.onChange(selectedItem, selectedItemsKey, this.state.dataSource);
     }
 
     _getSelectedItemKey() {
@@ -275,7 +277,6 @@ export default class TreeViewSelect extends Component {
     render() {
         const { maxDisplayItemCount, treeViewOption } = this.props;
         const actualTreeViewOption = (treeViewOption && { ...defaultTreeViewOption, ...treeViewOption }) || { ...defaultTreeViewOption };
-        console.log(this.state.dataSource);
 
         return (
             <div className="multiple-select-container" id={this.id} ref={element => this.wrapper = element}>

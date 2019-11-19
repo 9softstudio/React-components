@@ -1,7 +1,7 @@
 import { KEY_NAME, VALUE_NAME, STATUS_NAME, defaultTreeViewOption } from './constans';
 
 export const convertDataSourceToState = ({ keyField, valueField, statusField, dataSource, treeViewOption }, parent, level = 0) => {
-    const actualTreeViewOption = (treeViewOption && {...defaultTreeViewOption, treeViewOption }) || {...defaultTreeViewOption };
+    const actualTreeViewOption = (treeViewOption && {...defaultTreeViewOption, ...treeViewOption }) || {...defaultTreeViewOption };
 
     const result = [];
     for (let i = 0; i < dataSource.length; i++) {
@@ -15,7 +15,7 @@ export const convertDataSourceToState = ({ keyField, valueField, statusField, da
             parentKey: level === 0 ? null : parent && parent[keyField]
         });
 
-        if (actualTreeViewOption && item[treeViewOption.childrenField]) {
+        if (actualTreeViewOption && item[actualTreeViewOption.childrenField]) {
             const children = item[actualTreeViewOption.childrenField];
             const { keyField, valueField, statusField } = actualTreeViewOption;
             const param = {
