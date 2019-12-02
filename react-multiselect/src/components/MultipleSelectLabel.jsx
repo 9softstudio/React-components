@@ -32,7 +32,7 @@ export default class MultipleSelectLabel extends Component {
         if(this.props.isAllTextShown && selectedItemCount == this.props.dataSourceSize){
             displayText = texts.All;
         }
-        else if (selectedItemCount > maxDisplayItemCount) {
+        else if (selectedItemCount >= maxDisplayItemCount) {
             displayText = texts.SelectedItemCount.replace('#', selectedItemCount);
         }
         else if (selectedItemCount >= 1) {

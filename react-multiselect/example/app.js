@@ -171,6 +171,10 @@ export default class App extends Component {
         this.setState({ selectedKeyForTreeView: selectedItemsKey });
     }
 
+    handleChangeMultiSelect = (selectedItem, selectedItemsKey) => {
+        console.log(selectedItemsKey);
+    }
+
     render() {
         const treeViewOption = {
             childrenField: 'children',
@@ -204,12 +208,13 @@ export default class App extends Component {
                         language='en-US'
                         id="SelectList"
                         dataSource={this.state.data}
-                        keyField="Value"
+                        keyField="Id"
                         valueField="Name"
                         statusField="Checked"
                         texts={{ SelectOptions: "Please select", All: "All", SelectedItemCount: "# selected" }}
                         isAllTextShown={true}
-                        hasSearchBox={true} />
+                        hasSearchBox={true}
+                        onChange={this.handleChangeMultiSelect} />
                 </div>
 
 

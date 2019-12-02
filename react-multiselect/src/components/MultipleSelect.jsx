@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import MultipleSelectLabel from './MultipleSelectLabel'
 import MultipleSelectOptionList from './MultipleSelectOptionList'
 import OptionAll from './OptionAll'
+import SearchBox from './SearchBox'
 
 const KEY_NAME = "key";
 const VALUE_NAME = "value";
@@ -25,7 +26,7 @@ function convertDataSourceToState({ keyField, valueField, statusField, dataSourc
 export default class MultipleSelect extends Component {
     constructor(props) {
         super(props);
-        this.searchInputBox = null;
+        this.searchInputBox = React.createRef();
         this.id = `multiple-select-${props.id || id++}`;
         
         this.state = {
@@ -91,43 +92,61 @@ export default class MultipleSelect extends Component {
             [statusField]: item.checked
         }
 
-        const newDataSource = this.state.dataSource.slice(0);
-        const itemToUpdate = newDataSource.find(x => x.key === item.key);
-        itemToUpdate.checked = item.checked;
+        const newDataSource = this.state.dataSource.map(x => {
+            if (x.key === item.key) {
+                return { ...x, checked: item.checked };
+            }
 
-        this._callBackToParent(selectedItem);
+            return x;
+        });
 
-        this.setState({ dataSource: newDataSource });
+        this.setState({ dataSource: newDataSource }, () => this._callBackToParent(selectedItem));
     }
     
     onToggle = () => {
         this.setState((prevState) => { return { showOptionList: !prevState.showOptionList } },
             () => {
-                if(this.searchInputBox && this.state.showOptionList){
-                    this.searchInputBox.focus();
+                if(this.searchInputBox.current && this.state.showOptionList){
+                    this.searchInputBox.current.focus();
                 }
             })
     }
 
     checkAllHandler = (checked) => {
-        const dataSource = this.state.dataSource.slice(0);
-        dataSource.forEach(item => item.checked = checked);
+        const newDataSource = this.state.dataSource.map(item => {
+            if (item.checked !== checked) {
+                return { ...item, checked };
+            }
+
+            return item;
+        });
+
         this.setState({
-            dataSource: dataSource
+            dataSource: newDataSource
         }, () => {
             this._callBackToParent(null);
         });
     }
 
     onChangeSearchText = (value) => {
-        this.setState((prevState) => {
-            const dataSource = this.state.dataSource.slice(0);
-            dataSource.forEach(item => item.visible = item[VALUE_NAME].startsWith(value));
-            
-            return { 
-                searchText: value,
-                dataSource: dataSource
+        const newDataSource = this.state.dataSource.map(item => {
+            const itemValue = item[VALUE_NAME] && item[VALUE_NAME].toLowerCase();
+            const searchingValue = value && value.toLowerCase();
+            const isVisible = itemValue.indexOf(searchingValue) !== -1;
+
+            if (item.visible !== isVisible) {
+                return {
+                    ...item,
+                    visible: isVisible
+                }
             }
+
+            return item;
+        })
+
+        this.setState({ 
+            searchText: value,
+            dataSource: newDataSource
         });
     }
 
@@ -181,24 +200,11 @@ export default class MultipleSelect extends Component {
             return null;
         }
 
-        const clearButtonStyle =  { 
-            position: "absolute",
-            right: "5px",
-            width: "20px",
-            height: "20px",
-            border: 0,
-            margin: "5px",
-            backgroundColor: "transparent",
-            cursor: "pointer"}
-
-        return (<div style={{width:"100%"}}>
-                        <input autoFocus  onChange={(e) => this.onChangeSearchText(e.target.value)} 
-                            ref={element => this.searchInputBox = element}
-                            value={this.state.searchText} type="text" placeholder="Search data" 
-                            style={{width:"100%", border: "1px solid #ccc", padding: "5px 10px", 
-                            boxSizing: "border-box",}} />
-        <button type="button" onClick={this.onClearSearch} style={clearButtonStyle}>X</button>
-        </div>)
+        return <SearchBox
+            onChangeSearchText={this.onChangeSearchText}
+            value={this.state.searchText}
+            onClearSearch={this.onClearSearch}
+            ref={this.searchInputBox} />
     }
 
     render() {
@@ -219,7 +225,7 @@ export default class MultipleSelect extends Component {
                 <div className="multiple-select-default multiple-select-options-container"
                 style={{ display: this.state.showOptionList ? "block" : "none" }}>
                     {this._renderSearchBox()}
-                        {this._renderOptionAll()}
+                    {this._renderOptionAll()}
                     <MultipleSelectOptionList id={this.id}
                         dataSource={this.state.dataSource}
                         onChange={this.onChangeHandler} />
