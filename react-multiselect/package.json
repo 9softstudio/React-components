@@ -1,6 +1,6 @@
 {
     "name": "@9softstudio/react-multiselect",
-    "version": "1.2.2",
+    "version": "1.2.7",
     "description": "React MultiSelect Component",
     "main": "dist/index.js",
     "scripts": {

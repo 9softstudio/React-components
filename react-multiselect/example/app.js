@@ -8,21 +8,21 @@ const treeViewData = [
         key: 'parent1',
         value: 'parentValue1',
         checked: false,
-        subList: [
+        children: [
             {
-                key: 'parent1 - child1',
+                name: 'parent1 - child1',
                 value: 'parent1 - child1 - Value 1',
-                subList: []
+                children: []
             },
             {
-                key: 'parent1 - child2',
+                name: 'parent1 - child2',
                 value: 'parent1 - child2 - Value 2',
-                subList: []
+                children: []
             },
             {
-                key: 'parent1 - child3',
+                name: 'parent1 - child3',
                 value: 'parent1 - child3 - Value 3',
-                subList: []
+                children: []
             }
         ],
     },
@@ -30,21 +30,21 @@ const treeViewData = [
         key: 'parent2',
         value: 'parentValue2',
         checked: false,
-        subList: [
+        children: [
             {
-                key: 'parent2 - child1',
+                name: 'parent2 - child1',
                 value: 'parent2 - child1 - Value 1',
-                subList: []
+                children: []
             },
             {
-                key: 'parent2 - child2',
+                name: 'parent2 - child2',
                 value: 'parent2 - child2 - Value 2',
-                subList: []
+                children: []
             },
             {
-                key: 'parent2 - child3',
+                name: 'parent2 - child3',
                 value: 'parent2 - child3 - Value 3',
-                subList: []
+                children: []
             }
         ],
     },
@@ -52,17 +52,17 @@ const treeViewData = [
         key: 'parent3',
         value: 'parentValue3',
         checked: false,
-        subList: [
+        children: [
             {
-                key: 'parent3 - child1',
+                name: 'parent3 - child1',
                 value: 'parent3 - child1 - Value 1',
-                subList: [
+                children: [
                     {
-                        key: 'parent3 - child1 - Node 1',
+                        name: 'parent3 - child1 - Node 1',
                         value: 'parent3 - child1 - Node 1 - Value 1'
                     },
                     {
-                        key: 'parent3 - child1 - Node 2',
+                        name: 'parent3 - child1 - Node 2',
                         value: 'parent3 - child1 - Node 2 - Value 2'
                     }
                 ]
@@ -122,6 +122,10 @@ const originalDataSource = [
     }
 ];
 
+const _AppData = {
+    subsidiaryList: [{"Name":"Lable 2","ID":0,"Value":"2","Checked":true,"Children":[{"Name":"jflh","ID":0,"Value":"jflh","Checked":true,"Children":null},{"Name":"har6","ID":0,"Value":"har6","Checked":true,"Children":null},{"Name":"har7","ID":0,"Value":"har7","Checked":true,"Children":null}]},{"Name":"Lable 1","ID":0,"Value":"1","Checked":true,"Children":[{"Name":"88ps","ID":0,"Value":"88ps","Checked":true,"Children":null},{"Name":"alib","ID":0,"Value":"alib","Checked":true,"Children":null},{"Name":"har1","ID":0,"Value":"har1","Checked":true,"Children":null},{"Name":"har2","ID":0,"Value":"har2","Checked":true,"Children":null},{"Name":"har3","ID":0,"Value":"har3","Checked":true,"Children":null},{"Name":"har4","ID":0,"Value":"har4","Checked":true,"Children":null},{"Name":"har5","ID":0,"Value":"har5","Checked":true,"Children":null}]},{"Name":"Others","ID":0,"Value":"-2147483648","Checked":true,"Children":[{"Name":"R7","ID":0,"Value":"R7","Checked":true,"Children":null}]}],
+};
+
 export default class App extends Component {
     constructor(props) {
         super(props);
@@ -162,15 +166,16 @@ export default class App extends Component {
         this.setState({ treeViewOriginalDataList: JSON.parse(JSON.stringify(originalDataSource)) })
     }
 
-    handleChangeTreeView = (selectedItem, selectedItemsKey) => {
+    handleChangeTreeView = (selectedItem, selectedItemsKey, treeViewList) => {
+        console.log(treeViewList);
         this.setState({ selectedKeyForTreeView: selectedItemsKey });
     }
 
     render() {
         const treeViewOption = {
-            childrenField: 'subList',
-            keyField: 'key',
-            valueField: 'value',
+            childrenField: 'children',
+            keyField: 'name',
+            valueField: 'name',
             statusField: 'checked',
             indent: 30,
             includeSelectedParentKey: true,
@@ -179,6 +184,16 @@ export default class App extends Component {
 
         console.log(this.state.treeViewDataList);
         const { selectedKeyForTreeView } = this.state;
+
+        const treeViewOption11 = {
+            childrenField: 'Children',
+            keyField: 'Value',
+            valueField: 'Name',
+            statusField: 'Checked',
+            indent: 30,
+            includeSelectedParentKey: false,
+            useOriginalDataSource: false
+        }
 
         return (
             <div>
@@ -189,7 +204,7 @@ export default class App extends Component {
                         language='en-US'
                         id="SelectList"
                         dataSource={this.state.data}
-                        keyField="Id"
+                        keyField="Value"
                         valueField="Name"
                         statusField="Checked"
                         texts={{ SelectOptions: "Please select", All: "All", SelectedItemCount: "# selected" }}
@@ -203,18 +218,30 @@ export default class App extends Component {
                         <h1>Tree View Select</h1>
                         <button onClick={this._generateTreeViewData}>Generate Dropdown TreeViewSelect Data</button>
                         <div style={{ width: "400px" }}>
-                            <TreeViewSelect
+                            {/* <TreeViewSelect
                                 language='en-US'
                                 id="SelectListTreeView"
-                                dataSource={this.state.treeViewDataList}
-                                keyField="key"
-                                valueField="value"
-                                statusField="checked"
+                                dataSource={_AppData.subsidiaryList}
+                                keyField="Value"
+                                valueField="Name"
+                                statusField="Checked"
                                 texts={{ SelectOptions: "Please select", All: "All", SelectedItemCount: "# selected" }}
                                 isAllTextShown={false}
-                                hasSearchBox={true}
-                                treeViewOption={treeViewOption}
-                                onChange={this.handleChangeTreeView} />
+                                hasSearchBox={false}
+                                treeViewOption={treeViewOption11}
+                                onChange={this.handleChangeTreeView} /> */}
+                                <TreeViewSelect
+                                    language={'en-US'}
+                                    id="SubsidiaryTreeView"
+                                    dataSource={_AppData.subsidiaryList}
+                                    keyField="Value"
+                                    valueField="Name"
+                                    statusField="Checked"
+                                    texts={{ SelectOptions: "Please select", All: "All", SelectedItemCount: "# selected" }}
+                                    isAllTextShown={false}
+                                    hasSearchBox={false}
+                                    treeViewOption={treeViewOption11}
+                                    onChange={this.handleChangeTreeView} />
                         </div>
                     </div>
                     <div style={{ minWidth: "400px", display: "inline-block" }}>
