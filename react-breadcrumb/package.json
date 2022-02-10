@@ -31,7 +31,7 @@
         "cross-env": "^5.1.1",
         "css-loader": "^0.28.7",
         "mini-css-extract-plugin": "^0.4.4",
-        "node-sass": "^4.9.3",
+        "node-sass": "^7.0.0",
         "react-test-renderer": "^16.5.2",
         "sass-loader": "^6.0.6",
         "style-loader": "^0.19.0",
